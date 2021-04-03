@@ -1,0 +1,50 @@
+<Ui
+	xmlns="http://www.blizzard.com/wow/ui/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Button name="DMinstrelButton" inherits="UIMenuButtonStretchTemplate" virtual="true">
+        <Size x="140" y="32"/>
+        <NormalFont style="GameFontHighlightLeft"/>
+        <Anchors>
+            <Anchor point="TOP" x="0" y="0"/>
+        </Anchors>
+        <Layers>
+        	<Layer>
+                <Texture parentKey="icon" file="Interface/GOSSIPFRAME/ChatBubbleGossipIcon" >
+                    <Size x="28" y="28"/>
+                    <Anchors>
+                        <Anchor point="LEFT" relativePoint="LEFT" x="10" y="0"/>
+                    </Anchors>
+                </Texture>
+                <FontString parentKey="Text" inherits="GameFontNormalMed1" justifyH="LEFT" justifyV="MIDDLE" wordwrap="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="50" y="-2"/>
+                        <Anchor point="BOTTOMRIGHT" x="-5" y="2"/>
+                    </Anchors>
+                </FontString>
+        	</Layer>
+        </Layers>
+        <Scripts>
+        	<OnClick>
+				DMinstrel:SendMinstrelMessage(DMinstrel.Commands[tonumber(self:GetID())]);
+        	</OnClick>
+			<OnEnter>
+	        	GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+			    GameTooltip:AddLine("Meow");
+			    GameTooltip:AddLine(" ");
+			    GameTooltip:AddLine("Purr", 1,1,1, true);
+			    GameTooltip:Show();
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+        </Scripts>
+
+		<HighlightTexture file="Interface\Buttons\UI-Silver-Button-Highlight" alphaMode="ADD">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="30" y="3"/>
+                <Anchor point="BOTTOMRIGHT" x="10" y="-3"/>
+            </Anchors>
+			<TexCoords left="0" right="1.0" top="0.03" bottom="0.7175"/>
+		</HighlightTexture>
+    </Button>
+</Ui>

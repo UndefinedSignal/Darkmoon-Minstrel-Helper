@@ -1,0 +1,434 @@
+<Ui
+	xmlns="http://www.blizzard.com/wow/ui/"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Button name="DMResizeButton" virtual="true">
+		<Size x="24" y="24"/>
+		<NormalTexture file="Interface\Buttons\UI-Panel-SmallerButton-Up">
+			<TexCoords left="1" right="0" top="0" bottom="1"/>
+		</NormalTexture>
+		<PushedTexture file="Interface\Buttons\UI-Panel-SmallerButton-Down">
+			<TexCoords left="1" right="0" top="0" bottom="1"/>
+		</PushedTexture>
+		<HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD"/>
+	</Button>
+
+	<Frame name="DMinstrelUI" parent="UIParent" movable="true" hidden="false" clampedToScreen="true">
+		<Size x="320" y="380"/>
+		<Anchors>
+			<Anchor point="CENTER" x="0" y="-50"/>
+		</Anchors>
+		<Scripts>
+			<OnLoad>
+				tinsert(UISpecialFrames, self:GetName());
+				self:Show();
+				self:RegisterForDrag("LeftButton");
+			</OnLoad>
+			<OnDragStart>self:StartMoving();</OnDragStart>
+			<OnDragStop>self:StopMovingOrSizing();</OnDragStop>
+		</Scripts>
+		<Backdrop edgeFile="Interface\GLUES\COMMON\TextPanel-Border" tile="true">
+			<EdgeSize>
+				<AbsValue val="16"/>
+			</EdgeSize>
+			<BackgroundInsets>
+				<AbsInset left="3" right="3" top="3" bottom="3"/>
+			</BackgroundInsets>
+		</Backdrop>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="bg" atlas="auctionhouse-background-index">
+					<Anchors>
+						<Anchor point="TOPLEFT" realtiveTo="$parent" relativePoint="TOPLEFT" x="3" y="0"/>
+						<Anchor point="BOTTOMRIGHT" realtiveTo="$parent" relativePoint="BOTTOMRIGHT" x="0" y="3"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<!-- RESIZING BUTTON -->
+			<Button parentKey="Resize" inherits="DMResizeButton">
+				<Size x="24" y="24"/>
+				<KeyValues>
+					<KeyValue key="minWidth" value="320" type="number"/>
+					<KeyValue key="minHeight" value="380" type="number"/>
+				</KeyValues>
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" x="3" y="-3"/>
+				</Anchors>
+				<Scripts>
+					<OnLoad>
+						DMinstrel:InitResize(self);
+					</OnLoad>
+				</Scripts>
+			</Button>
+			<Button parentKey="DMClose">
+				<Size x="32" y="32"/>
+				<Anchors>
+					<Anchor relativeTo="DMinstrelUI" relativePoint="TOP" x="-14" y="13"/>
+				</Anchors>
+				<NormalTexture file="Interface\AddOns\DMinstrel\Resources\IMG\darkmoon"/>
+				<Scripts>
+					<OnEnter>
+						self:SetNormalTexture("Interface/AddOns/DMinstrel/Resources/IMG/darkmoon-closed");
+		                GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+		                GameTooltip:AddLine("|cFFFFFFFFDarkmoon Minstrel Addon|r");
+
+                        GameTooltip:AddDoubleLine("Created by:", "TestUnit", 1, 1, 1, 1, 0.96, 0.41);
+                        GameTooltip:AddLine(" ");
+                        GameTooltip:AddDoubleLine("Версия:", "0.92 BFA", 1, 1, 1, 1, 0.96, 0.41);
+                        GameTooltip:AddDoubleLine("Ролевой сервер Darkmoon:", "rp-wow.ru", 1, 1, 1, 1, 0.96, 0.41);
+		                GameTooltip:Show();
+					</OnEnter>
+					<OnLeave>
+						self:SetNormalTexture("Interface/AddOns/DMinstrel/Resources/IMG/darkmoon");
+						GameTooltip:Hide();
+					</OnLeave>
+					<OnClick>
+						DMinstrelUI:Hide();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<!-- CLOSE BUTTON -->
+			<Button parentKey="Close" inherits="UIPanelCloseButton">
+				<Size x="24" y="24"/>
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="3" y="3"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():Hide();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Frame name="$parentBottom">
+				<Anchors>
+					<Anchor relativeTo="$parent" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="8" y="46"/>
+					<Anchor relativeTo="$parent" point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-8" y="12"/>
+				</Anchors>
+				<Frames>
+					<Button parentKey="Commands" inherits="UIPanelButtonTemplate" text="Команды">
+						<Anchors>
+							<Anchor point="TOPLEFT" realtiveTo="$parent" relativePoint="TOPLEFT" x="2" y="-2"/>
+							<Anchor point="BOTTOMRIGHT" realtiveTo="$parent" relativePoint="BOTTOMLEFT" x="80" y="2"/>
+						</Anchors>
+					</Button>
+					<Button parentKey="Models" inherits="UIPanelButtonTemplate" text="Модели">
+						<Anchors>
+							<Anchor point="TOPLEFT" realtiveTo="$parent" relativePoint="TOP" x="-40" y="-2"/>
+							<Anchor point="BOTTOMRIGHT" realtiveTo="$parent" relativePoint="BOTTOM" x="40" y="2"/>
+						</Anchors>
+					</Button>
+					<Button parentKey="NPC" inherits="UIPanelButtonTemplate" text="НПС">
+						<Anchors>
+							<Anchor point="TOPLEFT" realtiveTo="$parent" relativePoint="TOPRIGHT" x="-80" y="-2"/>
+							<Anchor point="BOTTOMRIGHT" realtiveTo="$parent" relativePoint="BOTTOMRIGHT" x="-2" y="2"/>
+						</Anchors>
+					</Button>
+				</Frames>
+			</Frame>
+
+			<Frame name="$parentContent">
+				<Anchors>
+					<Anchor relativeTo="$parent" point="TOPLEFT" relativePoint="TOPLEFT" x="8" y="-12"/>
+					<Anchor relativeTo="$parentBottom" point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="0" y="6"/>
+				</Anchors>
+				<Frames>
+					<Frame name="$parentCon">
+						<Anchors>
+							<Anchor point="TOPLEFT" x="0" y="0" />
+							<Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+						</Anchors>
+						<Frames>
+							<ScrollFrame name="$parentSlider1" inherits="UIPanelScrollFrameTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" x="0" y="-8" />
+									<Anchor point="BOTTOMRIGHT" x="-20" y="0"/>
+								</Anchors>
+
+								<ScrollChild>
+									<Frame name="$parentChild">
+										<Size x="280" y="300"/>
+										<Anchors>
+											<Anchor relativeTo="$parent" point="TOPLEFT" relativePoint="TOPLEFT" x="7" y="0" />
+											<Anchor relativeTo="$parent" point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="0" />
+										</Anchors>
+										<Frames>
+											<Button name="$parentbtn1" inherits="DMinstrelButton" id="1">
+												<Anchors>
+													<Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="7" y="0"/>
+													<Anchor point="TOPRIGHT" relativePoint="CENTER" x="7" y="0"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Огонь");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn2" inherits="DMinstrelButton" id="2">
+												<Anchors>
+													<Anchor relativeTo="$parent" point="TOPRIGHT" relativePoint="TOPRIGHT" x="0" y="0"/>
+													<Anchor relativeTo="$parent" point="TOPLEFT" relativePoint="TOP" x="7" y="0"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Кровь");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn3" inherits="DMinstrelButton" id="3">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn1" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn1" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Вселиться");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn4" inherits="DMinstrelButton" id="4">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn2" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn2" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Выселиться");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn5" inherits="DMinstrelButton" id="5">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn3" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn3" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("К ноге");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn6" inherits="DMinstrelButton" id="6">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn4" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn4" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Остановить");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn7" inherits="DMinstrelButton" id="7">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn5" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn5" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Бить");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn8" inherits="DMinstrelButton" id="8">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn6" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn6" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Умереть");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn9" inherits="DMinstrelButton" id="9">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn7" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn7" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Оглушение");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn10" inherits="DMinstrelButton" id="10">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn8" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn8" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Красться");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn11" inherits="DMinstrelButton" id="11">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn9" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn9" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("К бою");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn12" inherits="DMinstrelButton" id="12">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn10" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn10" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Сдаться");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn13" inherits="DMinstrelButton" id="13">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn11" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn11" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Сидеть");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn14" inherits="DMinstrelButton" id="14">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn12" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn12" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Связать");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn15" inherits="DMinstrelButton" id="15">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn13" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn13" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Кастовать");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn16" inherits="DMinstrelButton" id="16">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn14" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn14" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Прицелиться");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn17" inherits="DMinstrelButton" id="17">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn15" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn15" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Что-то ещё");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn18" inherits="DMinstrelButton" id="18">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn16" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn16" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Что-то ещё");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn19" inherits="DMinstrelButton" id="19">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn17" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn17" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Что-то ещё");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn20" inherits="DMinstrelButton" id="20">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn18" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn18" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Что-то ещё");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn21" inherits="DMinstrelButton" id="21">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn19" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn19" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Что-то ещё");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn22" inherits="DMinstrelButton" id="22">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn20" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn20" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Что-то ещё");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn23" inherits="DMinstrelButton" id="23">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn21" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn21" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Что-то ещё");
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn24" inherits="DMinstrelButton" id="24">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn22" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn22" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText("Что-то ещё");
+													</OnLoad>
+												</Scripts>
+											</Button>
+										</Frames>
+									</Frame>
+								</ScrollChild>
+								<Scripts>
+									ScrollFrame_OnLoad(self);
+									ScrollFrame_OnScrollRangeChanged(self);
+								</Scripts>
+							</ScrollFrame>
+						</Frames>
+					</Frame>
+				</Frames>
+			</Frame>
+		</Frames>
+	</Frame>
+</Ui>
