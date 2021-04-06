@@ -25,7 +25,7 @@
         </Layers>
         <Scripts>
         	<OnClick>
-				DMinstrel:SendMinstrelMessage(DMinstrel.Commands[tonumber(self:GetID())]);
+				DMinstrel:SendMinstrelMessage(DMinstrel.Commands[tonumber(self:GetID())][2]);
         	</OnClick>
 			<OnEnter>
 	        	GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
@@ -62,5 +62,10 @@
             </Anchors>
         </PushedTexture>
         <HighlightTexture atlas="BossBanner-RedFlash" alphaMode="ADD"/>
+        <Scripts>
+            <OnClick>
+                print(DMinstrel.Macros[self:GetID()]);
+            </OnClick>
+        </Scripts>
     </Button>
 </Ui>

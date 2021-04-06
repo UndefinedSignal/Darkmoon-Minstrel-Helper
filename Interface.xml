@@ -101,49 +101,49 @@
 				</Scripts>
 			</Button>
 
-			<Button parentKey="One" inherits="DMinstrelMacrosButton">
+			<Button parentKey="One" inherits="DMinstrelMacrosButton" id="1">
 				<Anchors>
 					<Anchor point="TOPLEFT" x="15" y="15"/>
 				</Anchors>
 			</Button>
 
-			<Button parentKey="Two" inherits="DMinstrelMacrosButton">
+			<Button parentKey="Two" inherits="DMinstrelMacrosButton" id="2">
 				<Anchors>
 					<Anchor relativeKey="$parent.One" point="LEFT" relativePoint="RIGHT" x="0" y="0"/>
 				</Anchors>
 			</Button>
 
-			<Button parentKey="Three" inherits="DMinstrelMacrosButton">
+			<Button parentKey="Three" inherits="DMinstrelMacrosButton" id="3">
 				<Anchors>
 					<Anchor relativeKey="$parent.Two" point="LEFT" relativePoint="RIGHT" x="0" y="0"/>
 				</Anchors>
 			</Button>
 
-			<Button parentKey="Four" inherits="DMinstrelMacrosButton">
+			<Button parentKey="Four" inherits="DMinstrelMacrosButton" id="4">
 				<Anchors>
 					<Anchor relativeKey="$parent.Three" point="LEFT" relativePoint="RIGHT" x="0" y="0"/>
 				</Anchors>
 			</Button>
 
-			<Button parentKey="Five" inherits="DMinstrelMacrosButton">
+			<Button parentKey="Five" inherits="DMinstrelMacrosButton" id="5">
 				<Anchors>
 					<Anchor point="TOPRIGHT" x="-15" y="15"/>
 				</Anchors>
 			</Button>
 
-			<Button parentKey="Six" inherits="DMinstrelMacrosButton">
+			<Button parentKey="Six" inherits="DMinstrelMacrosButton" id="6">
 				<Anchors>
 					<Anchor relativeKey="$parent.Five" point="RIGHT" relativePoint="LEFT" x="0" y="0"/>
 				</Anchors>
 			</Button>
 
-			<Button parentKey="Seven" inherits="DMinstrelMacrosButton">
+			<Button parentKey="Seven" inherits="DMinstrelMacrosButton" id="7">
 				<Anchors>
 					<Anchor relativeKey="$parent.Six" point="RIGHT" relativePoint="LEFT" x="0" y="0"/>
 				</Anchors>
 			</Button>
 
-			<Button parentKey="Eight" inherits="DMinstrelMacrosButton">
+			<Button parentKey="Eight" inherits="DMinstrelMacrosButton" id="8">
 				<Anchors>
 					<Anchor relativeKey="$parent.Seven" point="RIGHT" relativePoint="LEFT" x="0" y="0"/>
 				</Anchors>
@@ -160,18 +160,47 @@
 							<Anchor point="TOPLEFT" realtiveTo="$parent" relativePoint="TOPLEFT" x="2" y="-2"/>
 							<Anchor point="BOTTOMRIGHT" realtiveTo="$parent" relativePoint="BOTTOMLEFT" x="80" y="2"/>
 						</Anchors>
+						<Scripts>
+							<OnLoad>
+								self:LockHighlight();
+							</OnLoad>
+							<OnClick>
+								DMinstrel:ChangeContent("Commands");
+							</OnClick>
+						</Scripts>
 					</Button>
 					<Button parentKey="Models" inherits="UIPanelButtonTemplate" text="Модели">
 						<Anchors>
-							<Anchor point="TOPLEFT" realtiveTo="$parent" relativePoint="TOP" x="-40" y="-2"/>
-							<Anchor point="BOTTOMRIGHT" realtiveTo="$parent" relativePoint="BOTTOM" x="40" y="2"/>
+							<Anchor point="TOPLEFT" realtiveTo="$parent" relativePoint="TOP" x="0" y="-2"/>
+							<Anchor point="BOTTOMRIGHT" realtiveTo="$parent" relativePoint="BOTTOM" x="75" y="2"/>
 						</Anchors>
+						<Scripts>
+							<OnClick>
+								DMinstrel:ChangeContent("Models");
+							</OnClick>
+						</Scripts>
+					</Button>
+					<Button parentKey="GObject" inherits="UIPanelButtonTemplate" text="Объекты">
+						<Anchors>
+							<Anchor point="TOPLEFT" realtiveTo="$parent" relativePoint="TOP" x="-75" y="-2"/>
+							<Anchor point="BOTTOMRIGHT" realtiveTo="$parent" relativePoint="BOTTOM" x="5" y="2"/>
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								DMinstrel:ChangeContent("GObject");
+							</OnClick>
+						</Scripts>
 					</Button>
 					<Button parentKey="NPC" inherits="UIPanelButtonTemplate" text="НПС">
 						<Anchors>
 							<Anchor point="TOPLEFT" realtiveTo="$parent" relativePoint="TOPRIGHT" x="-80" y="-2"/>
 							<Anchor point="BOTTOMRIGHT" realtiveTo="$parent" relativePoint="BOTTOMRIGHT" x="-2" y="2"/>
 						</Anchors>
+						<Scripts>
+							<OnClick>
+								DMinstrel:ChangeContent("NPC");
+							</OnClick>
+						</Scripts>
 					</Button>
 				</Frames>
 			</Frame>
@@ -182,7 +211,7 @@
 					<Anchor relativeTo="$parentBottom" point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="0" y="6"/>
 				</Anchors>
 				<Frames>
-					<Frame name="$parentCon">
+					<Frame name="$parentCommands">
 						<Anchors>
 							<Anchor point="TOPLEFT" x="0" y="0" />
 							<Anchor point="BOTTOMRIGHT" x="0" y="0"/>
@@ -209,7 +238,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Огонь");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -220,7 +249,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Кровь");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -231,7 +260,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Вселиться");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -242,7 +271,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Выселиться");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -253,7 +282,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("К ноге");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -264,7 +293,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Остановить");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -275,7 +304,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Бить");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -286,7 +315,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Умереть");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -297,7 +326,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Оглушение");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -308,7 +337,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Красться");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -319,7 +348,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("К бою");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -330,7 +359,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Сдаться");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -341,7 +370,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Сидеть");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -352,7 +381,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Связать");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -363,7 +392,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Кастовать");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -374,7 +403,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Прицелиться");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -385,7 +414,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Что-то ещё");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -396,7 +425,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Что-то ещё");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -407,7 +436,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Что-то ещё");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -418,7 +447,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Что-то ещё");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -429,7 +458,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Что-то ещё");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -440,7 +469,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Что-то ещё");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -451,7 +480,7 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Что-то ещё");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
@@ -462,7 +491,593 @@
 												</Anchors>
 												<Scripts>
 													<OnLoad>
-														self.Text:SetText("Что-то ещё");
+														self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+										</Frames>
+									</Frame>
+								</ScrollChild>
+								<Scripts>
+									ScrollFrame_OnLoad(self);
+									ScrollFrame_OnScrollRangeChanged(self);
+								</Scripts>
+							</ScrollFrame>
+						</Frames>
+					</Frame>
+					<Frame name="$parentNPC" hidden="true">
+						<Anchors>
+							<Anchor point="TOPLEFT" x="0" y="0" />
+							<Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+						</Anchors>
+						<Frames>
+							<ScrollFrame name="$parentSlider1" inherits="UIPanelScrollFrameTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" x="0" y="-8" />
+									<Anchor point="BOTTOMRIGHT" x="-20" y="0"/>
+								</Anchors>
+								<ScrollChild>
+									<Frame name="$parentChild">
+										<Size x="280" y="300"/>
+										<Anchors>
+											<Anchor relativeTo="$parent" point="TOPLEFT" relativePoint="TOPLEFT" x="7" y="0" />
+											<Anchor relativeTo="$parent" point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="0" />
+										</Anchors>
+										<Frames>
+											<Button name="$parentbtn1" inherits="DMinstrelButton" id="1">
+												<Anchors>
+													<Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="7" y="0"/>
+													<Anchor point="TOPRIGHT" relativePoint="CENTER" x="7" y="0"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn2" inherits="DMinstrelButton" id="2">
+												<Anchors>
+													<Anchor relativeTo="$parent" point="TOPRIGHT" relativePoint="TOPRIGHT" x="0" y="0"/>
+													<Anchor relativeTo="$parent" point="TOPLEFT" relativePoint="TOP" x="7" y="0"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn3" inherits="DMinstrelButton" id="3">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn1" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn1" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn4" inherits="DMinstrelButton" id="4">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn2" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn2" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn5" inherits="DMinstrelButton" id="5">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn3" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn3" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn6" inherits="DMinstrelButton" id="6">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn4" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn4" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn7" inherits="DMinstrelButton" id="7">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn5" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn5" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn8" inherits="DMinstrelButton" id="8">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn6" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn6" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn9" inherits="DMinstrelButton" id="9">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn7" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn7" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn10" inherits="DMinstrelButton" id="10">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn8" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn8" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn11" inherits="DMinstrelButton" id="11">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn9" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn9" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn12" inherits="DMinstrelButton" id="12">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn10" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn10" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn13" inherits="DMinstrelButton" id="13">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn11" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn11" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn14" inherits="DMinstrelButton" id="14">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn12" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn12" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn15" inherits="DMinstrelButton" id="15">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn13" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn13" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn16" inherits="DMinstrelButton" id="16">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn14" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn14" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn17" inherits="DMinstrelButton" id="17">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn15" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn15" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn18" inherits="DMinstrelButton" id="18">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn16" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn16" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn19" inherits="DMinstrelButton" id="19">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn17" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn17" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn20" inherits="DMinstrelButton" id="20">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn18" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn18" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn21" inherits="DMinstrelButton" id="21">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn19" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn19" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn22" inherits="DMinstrelButton" id="22">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn20" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn20" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn23" inherits="DMinstrelButton" id="23">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn21" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn21" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn24" inherits="DMinstrelButton" id="24">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn22" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn22" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+										</Frames>
+									</Frame>
+								</ScrollChild>
+								<Scripts>
+									ScrollFrame_OnLoad(self);
+									ScrollFrame_OnScrollRangeChanged(self);
+								</Scripts>
+							</ScrollFrame>
+						</Frames>
+					</Frame>
+					<Frame name="$parentGObject" hidden="true">
+						<Anchors>
+							<Anchor point="TOPLEFT" x="0" y="0" />
+							<Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+						</Anchors>
+						<Frames>
+							<ScrollFrame name="$parentSlider1" inherits="UIPanelScrollFrameTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" x="0" y="-8" />
+									<Anchor point="BOTTOMRIGHT" x="-20" y="0"/>
+								</Anchors>
+								<ScrollChild>
+									<Frame name="$parentChild">
+										<Size x="280" y="300"/>
+										<Anchors>
+											<Anchor relativeTo="$parent" point="TOPLEFT" relativePoint="TOPLEFT" x="7" y="0" />
+											<Anchor relativeTo="$parent" point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="0" />
+										</Anchors>
+										<Frames>
+											<Button name="$parentbtn1" inherits="DMinstrelButton" id="1">
+												<Anchors>
+													<Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="7" y="0"/>
+													<Anchor point="TOPRIGHT" relativePoint="CENTER" x="7" y="0"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn2" inherits="DMinstrelButton" id="2">
+												<Anchors>
+													<Anchor relativeTo="$parent" point="TOPRIGHT" relativePoint="TOPRIGHT" x="0" y="0"/>
+													<Anchor relativeTo="$parent" point="TOPLEFT" relativePoint="TOP" x="7" y="0"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn3" inherits="DMinstrelButton" id="3">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn1" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn1" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn4" inherits="DMinstrelButton" id="4">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn2" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn2" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn5" inherits="DMinstrelButton" id="5">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn3" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn3" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn6" inherits="DMinstrelButton" id="6">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn4" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn4" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn7" inherits="DMinstrelButton" id="7">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn5" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn5" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn8" inherits="DMinstrelButton" id="8">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn6" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn6" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn9" inherits="DMinstrelButton" id="9">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn7" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn7" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn10" inherits="DMinstrelButton" id="10">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn8" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn8" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn11" inherits="DMinstrelButton" id="11">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn9" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn9" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn12" inherits="DMinstrelButton" id="12">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn10" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn10" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn13" inherits="DMinstrelButton" id="13">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn11" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn11" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn14" inherits="DMinstrelButton" id="14">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn12" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn12" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn15" inherits="DMinstrelButton" id="15">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn13" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn13" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn16" inherits="DMinstrelButton" id="16">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn14" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn14" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn17" inherits="DMinstrelButton" id="17">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn15" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn15" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn18" inherits="DMinstrelButton" id="18">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn16" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn16" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn19" inherits="DMinstrelButton" id="19">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn17" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn17" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn20" inherits="DMinstrelButton" id="20">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn18" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn18" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn21" inherits="DMinstrelButton" id="21">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn19" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn19" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn22" inherits="DMinstrelButton" id="22">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn20" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn20" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn23" inherits="DMinstrelButton" id="23">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn21" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn21" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+													</OnLoad>
+												</Scripts>
+											</Button>
+											<Button name="$parentbtn24" inherits="DMinstrelButton" id="24">
+												<Anchors>
+													<Anchor relativeTo="$parentbtn22" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn22" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+												<Scripts>
+													<OnLoad>
+														self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
 													</OnLoad>
 												</Scripts>
 											</Button>
