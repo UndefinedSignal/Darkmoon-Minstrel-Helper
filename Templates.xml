@@ -47,4 +47,20 @@
 			<TexCoords left="0" right="1.0" top="0.03" bottom="0.7175"/>
 		</HighlightTexture>
     </Button>
+
+    <Button name="DMinstrelMacrosButton" virtual="true">
+        <Size x="30" y="30"/>
+        <NormalTexture atlas="BfAMission-Icon-HUB"/>
+        <PushedTexture atlas="BfAMission-Icon-HUB">
+            <Size x="30" y="30"/>
+            <Anchors>
+                <Anchor point="CENTER">
+                    <Offset>
+                        <AbsDimension x="-1" y="-1"/>
+                    </Offset>
+                </Anchor>
+            </Anchors>
+        </PushedTexture>
+        <HighlightTexture atlas="BossBanner-RedFlash" alphaMode="ADD"/>
+    </Button>
 </Ui>

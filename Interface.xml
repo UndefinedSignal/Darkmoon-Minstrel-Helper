@@ -100,6 +100,55 @@
 					</OnClick>
 				</Scripts>
 			</Button>
+
+			<Button parentKey="One" inherits="DMinstrelMacrosButton">
+				<Anchors>
+					<Anchor point="TOPLEFT" x="15" y="15"/>
+				</Anchors>
+			</Button>
+
+			<Button parentKey="Two" inherits="DMinstrelMacrosButton">
+				<Anchors>
+					<Anchor relativeKey="$parent.One" point="LEFT" relativePoint="RIGHT" x="0" y="0"/>
+				</Anchors>
+			</Button>
+
+			<Button parentKey="Three" inherits="DMinstrelMacrosButton">
+				<Anchors>
+					<Anchor relativeKey="$parent.Two" point="LEFT" relativePoint="RIGHT" x="0" y="0"/>
+				</Anchors>
+			</Button>
+
+			<Button parentKey="Four" inherits="DMinstrelMacrosButton">
+				<Anchors>
+					<Anchor relativeKey="$parent.Three" point="LEFT" relativePoint="RIGHT" x="0" y="0"/>
+				</Anchors>
+			</Button>
+
+			<Button parentKey="Five" inherits="DMinstrelMacrosButton">
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="-15" y="15"/>
+				</Anchors>
+			</Button>
+
+			<Button parentKey="Six" inherits="DMinstrelMacrosButton">
+				<Anchors>
+					<Anchor relativeKey="$parent.Five" point="RIGHT" relativePoint="LEFT" x="0" y="0"/>
+				</Anchors>
+			</Button>
+
+			<Button parentKey="Seven" inherits="DMinstrelMacrosButton">
+				<Anchors>
+					<Anchor relativeKey="$parent.Six" point="RIGHT" relativePoint="LEFT" x="0" y="0"/>
+				</Anchors>
+			</Button>
+
+			<Button parentKey="Eight" inherits="DMinstrelMacrosButton">
+				<Anchors>
+					<Anchor relativeKey="$parent.Seven" point="RIGHT" relativePoint="LEFT" x="0" y="0"/>
+				</Anchors>
+			</Button>
+
 			<Frame name="$parentBottom">
 				<Anchors>
 					<Anchor relativeTo="$parent" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="8" y="46"/>
