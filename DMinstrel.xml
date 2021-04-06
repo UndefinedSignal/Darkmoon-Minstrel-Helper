@@ -43,4 +43,5 @@
   <Script file="DMinstrel.lua" />
 	<Include file="Interface.xml"/>
 
+  <!-- <Include file="trinity-linkifer\trinity-linkifer.xml"/> -->
 </Ui>

@@ -24,9 +24,6 @@
         	</Layer>
         </Layers>
         <Scripts>
-        	<OnClick>
-				DMinstrel:SendMinstrelMessage(DMinstrel.Commands[tonumber(self:GetID())][2]);
-        	</OnClick>
 			<OnEnter>
 	        	GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
 			    GameTooltip:AddLine("Meow");
@@ -46,6 +43,45 @@
             </Anchors>
 			<TexCoords left="0" right="1.0" top="0.03" bottom="0.7175"/>
 		</HighlightTexture>
+    </Button>
+
+    <Button name="DMinstrelButtonCommands" inherits="DMinstrelButton" virtual="true">
+        <Size x="140" y="32"/>
+        <NormalFont style="GameFontHighlightLeft"/>
+        <Scripts>
+            <OnLoad>
+                self.Text:SetText(DMinstrel.Commands[tonumber(self:GetID())][1]);
+            </OnLoad>
+            <OnClick>
+                DMinstrel:SendMinstrelMessage(DMinstrel.Commands[tonumber(self:GetID())][2]);
+            </OnClick>
+        </Scripts>
+    </Button>
+
+    <Button name="DMinstrelButtonNPC" inherits="DMinstrelButton" virtual="true">
+        <Size x="140" y="32"/>
+        <NormalFont style="GameFontHighlightLeft"/>
+        <Scripts>
+            <OnLoad>
+                self.Text:SetText(DMinstrel.NPC[tonumber(self:GetID())][1]);
+            </OnLoad>
+            <OnClick>
+                DMinstrel:SendMinstrelMessage(DMinstrel.NPC[tonumber(self:GetID())][2]);
+            </OnClick>
+        </Scripts>
+    </Button>
+
+    <Button name="DMinstrelButtonGObject" inherits="DMinstrelButton" virtual="true">
+        <Size x="140" y="32"/>
+        <NormalFont style="GameFontHighlightLeft"/>
+        <Scripts>
+            <OnLoad>
+                self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+            </OnLoad>
+            <OnClick>
+                DMinstrel:SendMinstrelMessage(DMinstrel.GObject[tonumber(self:GetID())][2]);
+            </OnClick>
+        </Scripts>
     </Button>
 
     <Button name="DMinstrelMacrosButton" virtual="true">
