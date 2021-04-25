@@ -28,6 +28,9 @@
 DMinstrel = LibStub("AceAddon-3.0"):NewAddon(CreateFrame("Frame"), "DMinstrel", "AceConsole-3.0", "AceEvent-3.0", "AceHook-3.0");
 DMinstrel.Prefix = "DRPS";
 DMinstrel.Linkifier = DMinstrel;
+DMinstrel.User = {};
+DMinstrel.Debug = false;
+DMinstrel.Timers = {};
 C_ChatInfo.RegisterAddonMessagePrefix(DMinstrel.Prefix)
 DMinstrel.Commands = {};
 DMinstrel.Commands[1] = {"Невидимость", ".min m 11686"};
