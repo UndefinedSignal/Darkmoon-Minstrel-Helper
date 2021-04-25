@@ -1,38 +1,36 @@
 --[[
-───────────▒▒▒▒▒▒▒▒
-─────────▒▒▒──────▒▒▒
-────────▒▒───▒▒▒▒──▒░▒
-───────▒▒───▒▒──▒▒──▒░▒
-──────▒▒░▒──────▒▒──▒░▒
-───────▒▒░▒────▒▒──▒░▒
-─────────▒▒▒▒▒▒▒───▒▒
-─────────────────▒▒▒
-─────▒▒▒▒────────▒▒
-───▒▒▒░░▒▒▒─────▒▒──▓▓▓▓▓▓▓▓
-──▒▒─────▒▒▒────▒▒▓▓▓▓▓░░░░░▓▓──▓▓▓▓
-─▒───▒▒────▒▒─▓▓▒░░░░░░░░░█▓▒▓▓▓▓░░▓▓▓
-▒▒──▒─▒▒───▓▒▒░░▒░░░░░████▓▓▒▒▓░░░░░░▓▓
-░▒▒───▒──▓▓▓░▒░░░░░░█████▓▓▒▒▒▒▓▓▓▓▓░░▓▓
-──▒▒▒▒──▓▓░░░░░░███████▓▓▓▒▒▒▒▒▓───▓▓░▓▓
-──────▓▓░░░░░░███████▓▓▓▒▒▒▒▒▒▒▓───▓░░▓▓
-─────▓▓░░░░░███████▓▓▓▒▒▒▒▒▒▒▒▒▓▓▓▓░░▓▓
-────▓▓░░░░██████▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▓░░░░▓▓
-────▓▓▓░████▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▓▓
-─────▓▓▓▓▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓
-─────▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓
-──────▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓
-───────▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓
-─────────▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓
-───────────▓▓▓▓▓▓▒▒▒▒▒▓▓▓▓
-───────────────▓▓▓▓▓▓▓▓
--- Made by TestUnit
+ _________________________
+< TestUnit Minstrel Addon >
+ -------------------------
+       \
+        \
+                  =/;;/-
+                 +:    //
+                /;      /;
+               -X        H.
+ .//;;;:;;-,   X=        :+   .-;:=;:;%;.
+ M-       ,=;;;#:,      ,:#;;:=,       ,@
+ :%           :%.=/++++/=.$=           %=
+  ,%;         %/:+/;,,/++:+/         ;+.
+    ,+/.    ,;@+,        ,%H;,    ,/+,
+       ;+;;/= @.  .H##X   -X :///+;
+       ;+=;;;.@,  .XM@$.  =X.//;=%/.
+    ,;:      :@%=        =$H:     .+%-
+  ,%=         %;-///==///-//         =%,
+ ;+           :%-;;;:;;;;-X-           +:
+ @-      .-;;;;M-        =M/;;;-.      -X
+  :;;::;;-.    %-        :+    ,-;;-;:==
+               ,X        H.
+                ;/      %=
+                 //    +;
+                  ,////,
 --]]
 DMinstrel = LibStub("AceAddon-3.0"):NewAddon(CreateFrame("Frame"), "DMinstrel", "AceConsole-3.0", "AceEvent-3.0", "AceHook-3.0");
 DMinstrel.Prefix = "DRPS";
 DMinstrel.Linkifier = DMinstrel;
 C_ChatInfo.RegisterAddonMessagePrefix(DMinstrel.Prefix)
 DMinstrel.Commands = {};
-DMinstrel.Commands[1] = {"Невидимость", ".m m 11686"};
+DMinstrel.Commands[1] = {"Невидимость", ".min m 11686"};
 DMinstrel.Commands[2] = {"ДеМорф", ".min demorph"};
 DMinstrel.Commands[3] = {"Вселиться", ".min posses"};
 DMinstrel.Commands[4] = {"Выселиться", ".min unposses"};
@@ -110,17 +108,28 @@ DMinstrel.GObject[23] = {"Что-то ещё 19", ""};
 DMinstrel.GObject[24] = {"Что-то ещё 20", ""};
 
 DMinstrel.Macros = {};
-DMinstrel.Macros[1] = "1";
-DMinstrel.Macros[2] = "2";
-DMinstrel.Macros[3] = "3";
-DMinstrel.Macros[4] = "4";
-DMinstrel.Macros[5] = "5";
-DMinstrel.Macros[6] = "6";
-DMinstrel.Macros[7] = "7";
-DMinstrel.Macros[8] = "8";
+DMinstrel.Macros[1] = {".minstrel npc say — Я слежу за тобой!", ""};
+DMinstrel.Macros[2] = {".minstrel morph 11686", ""};
+DMinstrel.Macros[3] = {".minstrel demorph", ""};
+DMinstrel.Macros[4] = {".minstre gobject target", ""};
+DMinstrel.Macros[5] = {".minstrel unpossess", ""};
+DMinstrel.Macros[6] = {".minstrel possess", ""};
+DMinstrel.Macros[7] = {".minstrel set emote 592", ""};
+DMinstrel.Macros[8] = {".minstrel npc come", ""};
+
+DMinstrel.ActiveMacros = 0;
 
 --- TRP3 Code
 local resizeFrame = DMinstrelResizeFrame;
+
+function DMinstrel:MacrosWindow()
+	if DMinstrelMacrosEdit:IsShown() then
+		DMinstrelMacrosEdit:Hide();
+		return false
+	end
+	DMinstrelMacrosEdit:Show();
+	return true;
+end
 
 function DMinstrel:InitResize(resizeButton)
 	resizeButton.resizableFrame = resizeButton.resizableFrame or resizeButton:GetParent();
@@ -167,6 +176,13 @@ function DMinstrel:InitResize(resizeButton)
 end
 
 function DMinstrel:ChangeContent(window)
+
+	if window == "Models" then
+		DMinstrelUI:Hide();
+		DMinstrelMacrosEdit:Hide();
+		DMinstrel:ProcessDMinstrelMorph();
+		return
+	end
 	DMinstrelUIContentCommands:Hide();
 	DMinstrelUIContentNPC:Hide();
 	DMinstrelUIContentGObject:Hide();
@@ -174,9 +190,7 @@ function DMinstrel:ChangeContent(window)
 	DMinstrelUIBottom.Commands:UnlockHighlight();
 	DMinstrelUIBottom.GObject:UnlockHighlight();
 	DMinstrelUIBottom.NPC:UnlockHighlight();
-	if window == "Models" then
-		print(window);
-	elseif window == "Commands" then
+	if window == "Commands" then
 		DMinstrelUIBottom.Commands:LockHighlight();
 		DMinstrelUIContentCommands:Show();
 	elseif window == "NPC" then

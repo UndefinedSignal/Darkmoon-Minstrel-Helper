@@ -12,6 +12,61 @@
 		<HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD"/>
 	</Button>
 
+	<Frame name="DMinstrelMacrosEdit" movable="true" clampedToScreen="true" hidden="false" parent="UIParent">
+		<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border">
+			<EdgeSize val="12"/>
+		</Backdrop>
+		<Size x="200" y="200"/>
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<Frames>
+			<Button parentKey="Close" inherits="UIPanelCloseButton">
+				<Size x="24" y="24"/>
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="2" y="2"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():Hide();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Frame name="$parentContent">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="15" y="-15"/>
+					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-15" y="15"/>
+				</Anchors>
+				<Frames>
+					<SimpleHTML name="$parentText">
+						<Size x="120" y="190"/>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="15" y="-15"/>
+							<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-15" y="15"/>
+						</Anchors>
+					</SimpleHTML>
+
+					<Frame name="$parentTextMacros" inherits="MIN_TextArea">
+						<Size x="120" y="190"/>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
+							<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
+						</Anchors>
+					</Frame>
+				</Frames>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				tinsert(UISpecialFrames, self:GetName());
+				self:Show();
+				self:RegisterForDrag("LeftButton");
+			</OnLoad>
+			<OnDragStart>self:StartMoving();</OnDragStart>
+			<OnDragStop>self:StopMovingOrSizing();</OnDragStop>
+		</Scripts>
+	</Frame>
+
 	<Frame name="DMinstrelUI" parent="UIParent" movable="true" hidden="false" clampedToScreen="true">
 		<Size x="320" y="380"/>
 		<Anchors>

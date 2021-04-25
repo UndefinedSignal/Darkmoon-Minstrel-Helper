@@ -30,12 +30,14 @@ function MangLinkifier_Decompose(chatstring)
     ----------====~~GO Target Command Match Text ~~====----------
     for guid in string.gmatch(chatstring, Strings["lfer_GOtargid1"]) do --TARGET ID
       chatstring = string.gsub (chatstring, Strings["lfer_GOtargid2"], MangLinkifier_Link(Strings["lfer_GOtargid3"], "%2", "targid"))
+      DMA:ProcessDMAGOBTargetGUIDID(chatstring);
     end
     for guid in string.gmatch(chatstring, Strings["lfer_GOtargguid1"]) do --TARGET GUID
       chatstring = string.gsub (chatstring, Strings["lfer_GOtargguid1"], MangLinkifier_Link(Strings["lfer_GOtargguid3"], "%1", "targguid"))
     end
     for guid in string.gmatch(chatstring, Strings["lfer_GOtargxyz1"]) do --TARGET XYZ
       chatstring = string.gsub(chatstring, Strings["lfer_GOtargxyz2"], MangLinkifier_Link(Strings["lfer_GOtargxyz3"], "%1 %2 %3 %4", "targxyz"))
+      DMA:ProcessDMAGOBTargetXYZ(chatstring);
     end
     ----------====~~ NPC Info Command Match Text ~~====----------
     for guid in string.gmatch(chatstring, Strings["lfer_NPCInfoguid1"]) do --NPCINFO GUID
@@ -59,20 +61,77 @@ function MangLinkifier_Decompose(chatstring)
     end
     for guid in string.gmatch(chatstring, Strings["lfer_AddGoxyz1"]) do --ADDGO XYZ
       chatstring = string.gsub (chatstring, Strings["lfer_AddGoxyz2"], MangLinkifier_Link(Strings["lfer_AddGoxyz3"], "%1 %2 %3", "addgoxyz"))
-      --DMA:ProcessDMAGOBSpawn(chatstring)
+      DMA:ProcessDMAGOBSpawn(chatstring)
+    end
+    ----------====~~ PINFO Command Match Text ~~====----------
+    for guid in string.gmatch(chatstring, Strings["lfer_pinfo1"]) do --PINFO Account
+      chatstring = string.gsub(chatstring, Strings["lfer_pinfo2"], MangLinkifier_Link(Strings["lfer_pinfo3"], "%1", "pinfoacc"))
+    end
+    ----------====~~ Повороты Command Match Text ~~====----------
+    for guid in string.gmatch(chatstring, Strings["lfer_rotate1"]) do --PINFO Account
+      DMAUserVars["LastGOB-OZ"], DMAUserVars["LastGOB-OY"], DMAUserVars["LastGOB-OX"] = string.match(chatstring, "Рысканье .oZ.: ([0-9 -]+.%d+) Тангаж .oY.: ([0-9 -]+.%d+) Крен .oX.: ([0-9 -]+.%d+)");
+      DMA:UpdateAngles();
+    end
+    ----------====~~ GPS Command Match Text ~~====----------
+    for guid in string.gmatch(chatstring, Strings["lfer_GPSxyz1"]) do --GPS XYZ
+      chatstring = string.gsub(chatstring, Strings["lfer_GPSxyz2"], MangLinkifier_Link(Strings["lfer_GPSxyz3"], "%1 %2 %3", "gpsxyz"))
+      DMAUserVars["LastGPS-X"], DMAUserVars["LastGPS-Y"], DMAUserVars["LastGPS-Z"] = string.match(chatstring, "X:%s([0-9 -]+.%d+)%sY:%s([0-9 -]+.%d+)%sZ:%s([0-9 -]+.%d+)%s-");
+      DMAUserVars["GPS-Scan"] = false;
+      DMA:UpdateEditBoxXYZ();
+    end
+    ----------====~~ Added Options for Clickable Links Made by Mangos ~~====----------
+    for guid in string.gmatch(chatstring, "%|cffffffff%|Hquest:(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP QUEST
+      chatstring = string.gsub (chatstring, "%|cffffffff%|Hquest:(.*)%|h%[(.*)%]%|h%|r", MangLinkifier_Link("%2", "%1", "lookupquest"))
+    end
+    for guid in string.gmatch(chatstring, "%|cff(.*)%|Hitem:(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP ITEM -- Bug when more than 1 item is linked in chat, it is not  translated
+      chatstring = string.gsub (chatstring, "%|cff(.*)%|Hitem:(.*)%|h%[(.*)%]%|h%|r", MangLinkifier_Link("%3-%1", "%2", "lookupitem"))
+    end
+    for guid in string.gmatch(chatstring, "%|cffffffff%|Hgameobject_entry:(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP OBJECT
+      chatstring = string.gsub(chatstring, "%|cffffffff%|Hgameobject_entry:(.*)%|h%[(.*)%]%|h%|r", MangLinkifier_Link("%2", "%1", "lookupgo"))
+      if not DMA.Linkifier.isShowing then DMA:ProcessDMAGobjectList(chatstring); end
+    end
+    for guid in string.gmatch(chatstring, "%|cffffffff%|Hcreature_entry:(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP CREATURE
+      chatstring = string.gsub (chatstring, "%|cffffffff%|Hcreature_entry:(.*)%|h%[(.*)%]%|h%|r", MangLinkifier_Link("%2", "%1", "lookupcreature"))
+    end
+    for guid in string.gmatch(chatstring, "%|cffffffff%|Hspell:(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP SPELL
+      chatstring = string.gsub (chatstring, "%|cffffffff%|Hspell:(.*)%|h%[(.*)%]%|h%|r", MangLinkifier_Link("%2", "%1", "lookupspell"))
+    end
+    for guid in string.gmatch(chatstring, "%|cffffffff%|Htele:(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP TELE
+      chatstring = string.gsub (chatstring, "%|cffffffff%|Htele:(.*)%|h%[(.*)%]%|h%|r", MangLinkifier_Link("%2", "%1", "lookuptele"))
     end
   end
   return chatstring
 end
+--[[
+local function Rainbowify(text)
+  local finalText = ""
+  local i = 1
+
+  local characterCount = 0;
+  for character in string.gmatch(text, "([%z\1-\127\194-\244][\128-\191]*)") do
+    characterCount = characterCount + 1
+  end
+
+  for character in string.gmatch(text, "([%z\1-\127\194-\244][\128-\191]*)") do
+    ---@type Color
+    local color = Rainbow(i, characterCount)
+    finalText = finalText .. color:WrapTextInColorCode(character)
+    i = i + 1
+  end
+  return finalText
+end]]
 
 function MangLinkifier_Link(orgtxt, id, type)
-  local color = DMinstrel.Linkifier.db.profile.style.color.linkifier
+  local color = DMA.Linkifier.db.profile.style.color.linkifier
   local urlcolor = RGBPercToHex(color.r,color.g,color.b)
+  --local urlcolor = (string.rep("0",6-string.len((string.upper(string.format("%x", dec)))))..(string.upper(string.format("%x", dec))))
   ----------====~~GO Target Command Replace Text ~~====----------
   if(type == "targid") then
     link = orgtxt .." - |cff" .. urlcolor .. "|Htargidadd:" .. id .. "|h["..Locale["lfer_Spawn"].."]|h|r "
+--    link = link .." - |cff" .. urlcolor .. "|Htargidlist:" .. id .. "|h["..Locale["lfer_List"].."]|h|r "
   elseif(type == "targguid") then
-    link = orgtxt .." - |cff" .. urlcolor .. "|Htargguidmove:" .. id .. "|h["..Locale["lfer_Move"].."]|h|r "
+    link = orgtxt .." - |cff" .. urlcolor .. "|Htargguidgo:" .. id .. "|h["..Locale["lfer_Goto"].."]|h|r "
+    link = link .." - |cff" .. urlcolor .. "|Htargguidmove:" .. id .. "|h["..Locale["lfer_Move"].."]|h|r "
     link = link .." - |cff" .. urlcolor .. "|Htargguidturn:" .. id .. "|h["..Locale["lfer_Turn"].."]|h|r "
     link = link .." - |cff" .. urlcolor .. "|Htargguiddel:" .. id .. "|h["..Locale["lfer_Delete"].."]|h|r " 
     link = link .." - |cff" .. urlcolor .. "|Htargguidact:" .. id .. "|h["..Locale["lfer_Activate"].."]|h|r \n" 
@@ -84,6 +143,8 @@ function MangLinkifier_Link(orgtxt, id, type)
     link = link .." - |cff" .. urlcolor .. "|Hnpcguidmove:" .. id .. "|h["..Locale["lfer_Move"].."]|h|r "
   elseif(type == "npcentry") then
     link = orgtxt .." - |cff" .. urlcolor .. "|Hnpcentryadd:" .. id .. "|h["..Locale["lfer_Spawn"].."]|h|r "
+--    link = link .." - |cff" .. urlcolor .. "|Hnpcentrylist:" .. id .. "|h["..Locale["lfer_List"].."]|h|r "
+    link = link .." - |cff" .. urlcolor .. "|Hnpcentryreload:" .. id .. "|h["..Locale["lfer_Reload"].."]|h|r "
   elseif(type == "npcdisplay") then
     link = orgtxt .." - |cff" .. urlcolor .. "|Hnpcdisplay:" .. id .. "|h["..Locale["lfer_Morph"].."]|h|r "
   elseif(type == "npcdisplay2") then
@@ -98,8 +159,40 @@ function MangLinkifier_Link(orgtxt, id, type)
     link = orgtxt .." - |cff" .. urlcolor .. "|Haddgoid:" .. id .. "|h["..Locale["lfer_Spawn"].."]|h|r \n"
   elseif(type == "addgoxyz") then
     link = orgtxt .." - |cff" .. urlcolor .. "|Haddgoxyz:" .. id .. "|h["..Locale["lfer_Teleport"].."]|h|r "
+  ----------====~~ PINFO Command Match Text ~~====----------
+  elseif(type == "pinfoacc") then
+    link = orgtxt .." - |cff" .. urlcolor .. "|Hpinfoacc:" .. id .. "|h["..Locale["lfer_Pinfo"].."]|h|r "
+  ----------====~~ GPS Command Replace Text ~~====----------
+  elseif(type == "gpsxyz") then
+    link = orgtxt .." - |cff" .. urlcolor .. "|Hgpsxyz:" .. id .. "|h["..Locale["lfer_Teleport"].."]|h|r "
   ----------====~~ Added Options for Clickable Links Made by Mangos ~~====----------
-  else
+  elseif(type == "lookupquest") then
+    link = "|cffffffff|Hquest:" .. id .. "|h[" .. orgtxt .. "]|h|r"
+    link = link .." - |cff" .. urlcolor .. "|Hlookupquestadd:" .. id .. "|h["..Locale["lfer_Add"].."]|h|r "
+    link = link .." - |cff" .. urlcolor .. "|Hlookupquestrem:" .. id .. "|h["..Locale["lfer_Remove"].."]|h|r "
+  elseif(type == "lookupitem") then
+    for orgtxt, color in string.gmatch (orgtxt, "(.*)%-(.*)") do
+      link = "|cff" .. color .."|Hitem:" .. id .. "|h[" .. orgtxt .. "]|h|r"
+      link = link .." - |cff" .. urlcolor .. "|Hlookupitemadd:" .. id .. "|h["..Locale["lfer_Add"].."]|h|r "
+      link = link .." - |cff" .. urlcolor .. "|Hlookupitemlist:" .. id .. "|h["..Locale["lfer_List"].."]|h|r "
+    end
+  elseif(type == "lookupgo") then
+    link = "|cffffffff|Hgameobject_entry:" .. id .. "|h[" .. orgtxt .. "]|h|r"
+    link = link .." - |cff" .. urlcolor .. "|Hlookupgoadd:" .. id .. "|h["..Locale["lfer_Spawn"].."]|h|r "
+--    link = link .." - |cff" .. urlcolor .. "|Hlookupgolist:" .. id .. "|h["..Locale["lfer_List"].."]|h|r "
+  elseif(type == "lookupcreature") then
+    link = "|cffffffff|Hcreature_entry:" .. id .. "|h[" .. orgtxt .. "]|h|r"
+    link = link .." - |cff" .. urlcolor .. "|Hlookupcreatureadd:" .. id .. "|h["..Locale["lfer_Spawn"].."]|h|r "
+    link = link .." - |cff" .. urlcolor .. "|Hlookupcreaturelist:" .. id .. "|h["..Locale["lfer_List"].."]|h|r "
+  elseif(type == "lookupspell") then
+    link = "|cffffffff|Hspell:" .. id .. "|h[" .. orgtxt .. "]|h|r"
+    link = link .." - |cff" .. urlcolor .. "|Hlookupspelllearn:" .. id .. "|h["..Locale["lfer_Learn"].."]|h|r "
+    link = link .." - |cff" .. urlcolor .. "|Hlookupspellunlearn:" .. id .. "|h["..Locale["lfer_Unlearn"].."]|h|r "
+  elseif(type == "lookuptele") then
+    link = "|cffffffff|Htele:" .. id .. "|h[" .. orgtxt .. "]|h|r"
+    link = link .." - |cff" .. urlcolor .. "|Hlookupteleteleport:" .. id .. "|h["..Locale["lfer_Teleport"].."]|h|r "   
+    link = link .." - |cff" .. urlcolor .. "|Hlookupteledelete:" .. id .. "|h["..Locale["lfer_Delete"].."]|h|r "
+  else 
     link = orgtxt .." - |cffc20000"..Locale["lfer_Error"].." |r |cff008873" .. type .. "|r"
   end
   return link

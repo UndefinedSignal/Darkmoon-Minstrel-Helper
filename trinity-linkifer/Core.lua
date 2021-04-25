@@ -21,7 +21,7 @@
 -------------------------------------------------------------------------------------------------------------
 --
 -- TrinityAdmin Version 3.x
--- DMinstrel.Linkifier is a derivative of TrinityAdmin.
+-- DMA.Linkifier is a derivative of TrinityAdmin.
 --
 -- Copyright (C) 2007 Free Software Foundation, Inc.
 -- License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
@@ -101,14 +101,14 @@ local defaults = {
    }
 }
 
-Locale       = LibStub("AceLocale-3.0"):NewLocale("DMinstrel.Linkifier", "ruRU");
+Locale       = LibStub("AceLocale-3.0"):NewLocale("DMA.Linkifier", "ruRU");
 Locale       = Return_enUS();
 
 Strings      = LibStub("AceLocale-3.0"):NewLocale("TEST", "ruRU");
 
 
-function DMinstrel.Linkifier:OnInitialize()
-  self.db = LibStub("AceDB-3.0"):New("DMinstrel.LinkifierDB", defaults)
+function DMA.Linkifier:OnInitialize()
+  self.db = LibStub("AceDB-3.0"):New("DMA.LinkifierDB", defaults)
   if (IsAddOnLoaded("Prat-3.0")) then
     Strings    = ReturnPratStrings_enUS();
   else
@@ -127,7 +127,7 @@ function DMinstrel.Linkifier:OnInitialize()
    SetItemRef = MangLinkifier_SetItemRef
 end
 
-function DMinstrel.Linkifier:AddMessage(frame, text, r, g, b, id)
+function DMA.Linkifier:AddMessage(frame, text, r, g, b, id)
   -- frame is the object that was hooked (one of the ChatFrames)  
   local catchedSth = false
   local output = false
@@ -145,15 +145,15 @@ function DMinstrel.Linkifier:AddMessage(frame, text, r, g, b, id)
       end
    end
 
-   if DMinstrel.Linkifier:ID_Setting_Start_Read() then   
+   if DMA.Linkifier:ID_Setting_Start_Read() then   
        local b1,e1,pattern = string.find(text, "GUID: (%d+)%.")
        --local b1,e1,pattern = string.find(text, "GUID:")
        if b1 then
           b1,e1,pattern = string.find(text, "([0-9]+)")
           if b1 then
-              DMinstrel.Linkifier:ID_Setting_Start_Write(0)
+              DMA.Linkifier:ID_Setting_Start_Write(0)
               
-              DMinstrel.Linkifier:ID_Setting_Write(0,pattern)
+              DMA.Linkifier:ID_Setting_Write(0,pattern)
               --ma_NPC_guidbutton:SetText(pattern)
               --self:LogAction("NPC_GUID_Get id "..pattern..".")
           end	
@@ -164,7 +164,7 @@ function DMinstrel.Linkifier:AddMessage(frame, text, r, g, b, id)
           b1,e1,pattern = string.find(text, "([0-9]+)")
           if b1 then
               
-              DMinstrel.Linkifier:ID_Setting_Write(1,pattern)
+              DMA.Linkifier:ID_Setting_Write(1,pattern)
               --ma_NPC_idbutton:SetText(pattern)
               --self:LogAction("NPC_EntryID_Get id "..pattern..".")
           end	
@@ -175,7 +175,7 @@ function DMinstrel.Linkifier:AddMessage(frame, text, r, g, b, id)
           b1,e1,pattern = string.find(text, "([0-9]+)")
           if b1 then
               
-              --DMinstrel.Linkifier:ID_Setting_Write(1,pattern)
+              --DMA.Linkifier:ID_Setting_Write(1,pattern)
               --ma_npcdisplayid:SetText(pattern)
               --self:LogAction("NPC_DisplayID_Get id "..pattern..".")
           end	
@@ -183,14 +183,14 @@ function DMinstrel.Linkifier:AddMessage(frame, text, r, g, b, id)
    
    end
 
-   if DMinstrel.Linkifier:OID_Setting_Start_Read() then   
+   if DMA.Linkifier:OID_Setting_Start_Read() then   
        local b1,e1,pattern = string.find(text, "GUID: (%d+) ")
        --local b1,e1,pattern = string.find(text, "GUID:")
        if b1 then
           b1,e1,pattern = string.find(text, "([0-9]+)")
           if b1 then
-              DMinstrel.Linkifier:OID_Setting_Start_Write(0)
-              DMinstrel.Linkifier:OID_Setting_Write(0,pattern)
+              DMA.Linkifier:OID_Setting_Start_Write(0)
+              DMA.Linkifier:OID_Setting_Write(0,pattern)
               --ma_Obj_guidbutton:SetText(pattern)
               --self:LogAction("OBJECT_GUID_Get id "..pattern..".")
           end	
@@ -204,7 +204,7 @@ function DMinstrel.Linkifier:AddMessage(frame, text, r, g, b, id)
           b1,e1,pattern = string.find(xpattern, "([0-9]+)")
           if b1 then
               
-   --      		DMinstrel.Linkifier:OID_Setting_Write(1,pattern)
+   --      		DMA.Linkifier:OID_Setting_Write(1,pattern)
               --ma_Obj_idbutton:SetText(pattern)
               --self:LogAction("OBJECT_EntryID_Get id "..pattern..".")
               
@@ -216,7 +216,7 @@ function DMinstrel.Linkifier:AddMessage(frame, text, r, g, b, id)
           --b1,e1,pattern = string.find(text, "([0-9]+)")
           b1,e1,pattern = string.find(xpattern, "([0-9]+)")
           if b1 then
-   --      		DMinstrel.Linkifier:OID_Setting_Write(1,pattern)
+   --      		DMA.Linkifier:OID_Setting_Write(1,pattern)
    --      		ma_Obj_idbutton:SetText(pattern)
               --ma_gobdisplayid:SetText(pattern)
               --self:LogAction("OBJECT DisplayID"..pattern..".")
@@ -227,8 +227,8 @@ function DMinstrel.Linkifier:AddMessage(frame, text, r, g, b, id)
    for diff in string.gmatch(text, Strings["ma_GmatchUpdateDiff"]) do
        --ma_difftext:SetText(diff)
        catchedSth = true
---       output = DMinstrel.Linkifier.db.profile.style.showchat
-       output = DMinstrel.Linkifier.db.profile.style.showchat  
+--       output = DMA.Linkifier.db.profile.style.showchat
+       output = DMA.Linkifier.db.profile.style.showchat  
    end
 
    -- Check for possible UrlModification
@@ -237,13 +237,13 @@ function DMinstrel.Linkifier:AddMessage(frame, text, r, g, b, id)
       -- don't output anything
       elseif output == true then
          text = MangLinkifier_Decompose(text)
-         if DMinstrel.Linkifier.isShowing then
+         if DMA.Linkifier.isShowing then
             self.hooks[frame].AddMessage(frame, text, r, g, b, id)
          end
       end
    else
       text = MangLinkifier_Decompose(text)
-      if DMinstrel.Linkifier.isShowing then
+      if DMA.Linkifier.isShowing then
          self.hooks[frame].AddMessage(frame, text, r, g, b, id)
       end
    end
@@ -256,7 +256,7 @@ function DMinstrel.Linkifier:AddMessage(frame, text, r, g, b, id)
    end
 end
 
-function DMinstrel.Linkifier:ChatMsg(msg, msgt, recipient)
+function DMA.Linkifier:ChatMsg(msg, msgt, recipient)
   if not msgt then local msgt = "say" end
   if msgt == "addon" then
    if recipient then
@@ -273,12 +273,12 @@ function DMinstrel.Linkifier:ChatMsg(msg, msgt, recipient)
   end
 end
 
-function DMinstrel.Linkifier:AndBit(value, test) 
+function DMA.Linkifier:AndBit(value, test) 
   return mod(value, test*2) >= test 
 end
 
 -- Как бы и не используется, но может быть полезным
-function DMinstrel.Linkifier:SendMailLinkifieril(recipient, subject, body)
+function DMA.Linkifier:SendMailLinkifieril(recipient, subject, body)
   recipient = string.gsub(recipient, " ", "")
   subject = string.gsub(subject, " ", "")
   body = string.gsub(body, "\n", " ")
@@ -288,7 +288,7 @@ function DMinstrel.Linkifier:SendMailLinkifieril(recipient, subject, body)
   --self:LogAction("Sent a mail to "..recipient..". Subject was: "..subject)
 end
 
-function DMinstrel.Linkifier:UpdateMailBytesLeft()
+function DMA.Linkifier:UpdateMailBytesLeft()
    local bleft = 246 - strlen(ma_searcheditbox:GetText()) - strlen(ma_var1editbox:GetText()) - strlen(ma_maileditbox:GetText())
    if bleft >= 0 then
       ma_lookupresulttext:SetText(Locale["ma_MailBytesLeft"].."|cff00ff00"..bleft.."|r")
@@ -305,11 +305,11 @@ local mang_OID_start = 0
 local mang_OID_guid = ""
 local mang_OID_entryid = ""
 
-function DMinstrel.Linkifier:ID_Setting_Start_Read()
+function DMA.Linkifier:ID_Setting_Start_Read()
    return mang_ID_start
 end  
 
-function DMinstrel.Linkifier:ID_Setting_Write(num,val)
+function DMA.Linkifier:ID_Setting_Write(num,val)
    if num == 0 then
    -- GUID
       mang_ID_guid = val
@@ -320,7 +320,7 @@ function DMinstrel.Linkifier:ID_Setting_Write(num,val)
 
 end
 
-function DMinstrel.Linkifier:ID_Setting_Read(num)
+function DMA.Linkifier:ID_Setting_Read(num)
           
 local val = "" 
           
@@ -335,15 +335,15 @@ local val = ""
    return val
 end
 
-function DMinstrel.Linkifier:OID_Setting_Start_Read()
+function DMA.Linkifier:OID_Setting_Start_Read()
    return mang_OID_start
 end
 
-function DMinstrel.Linkifier:OID_Setting_Start_Write(num)
+function DMA.Linkifier:OID_Setting_Start_Write(num)
    mang_OID_start = num
 end
 
-function DMinstrel.Linkifier:OID_Setting_Write(num,val)
+function DMA.Linkifier:OID_Setting_Write(num,val)
    if num == 0 then
    -- GUID
       mang_OID_guid = val
@@ -353,7 +353,7 @@ function DMinstrel.Linkifier:OID_Setting_Write(num,val)
    end
 end
 
-function DMinstrel.Linkifier:OID_Setting_Read(num)
+function DMA.Linkifier:OID_Setting_Read(num)
           
 local val = "" 
           
