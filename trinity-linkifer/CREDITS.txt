@@ -20,3 +20,8 @@ Rochet2 (Fixed and updated some parts of the add-on)
 
 TrinityLinkifer optimized for BfA by:
 TestUnit
+
+Спасибо что пользуетесь этим аддоном. Возможно вам пригодятся эти дискорд-сервера с ГОшками и аурами
+1. https://discord.gg/c2bYuq7 - Ролевой проект Darkmoon
+2. https://discord.gg/xcBe98GWJ6 - Объёмный сервер с объектами по категориям
+3. https://discord.gg/sB9vTBBHJU - НПС

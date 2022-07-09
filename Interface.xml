@@ -12,11 +12,66 @@
 		<HighlightTexture file="Interface\Buttons\UI-Panel-MinimizeButton-Highlight" alphaMode="ADD"/>
 	</Button>
 
-	<Frame name="DMinstrelMacrosEdit" movable="true" clampedToScreen="true" hidden="false" parent="UIParent">
+	<Frame name="DMinstrelMacrosEdit" movable="true" clampedToScreen="true" hidden="false" inherits="DMIN_Edit" parent="UIParent">
 		<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border">
 			<EdgeSize val="12"/>
 		</Backdrop>
 		<Size x="200" y="200"/>
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<Frames>
+			<Button parentKey="Close" inherits="UIPanelCloseButton">
+				<Size x="24" y="24"/>
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="2" y="2"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():Hide();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Frame name="$parentContent">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="15" y="-15"/>
+					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-15" y="15"/>
+				</Anchors>
+				<Frames>
+					<SimpleHTML name="$parentText">
+						<Size x="120" y="190"/>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="15" y="-15"/>
+							<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-15" y="15"/>
+						</Anchors>
+					</SimpleHTML>
+
+					<Frame name="$parentTextMacros" inherits="MIN_TextAreaMacros">
+						<Size x="120" y="190"/>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT"/>
+							<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
+						</Anchors>
+					</Frame>
+				</Frames>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				tinsert(UISpecialFrames, self:GetName());
+				self:Show();
+				self:RegisterForDrag("LeftButton");
+			</OnLoad>
+			<OnDragStart>self:StartMoving();</OnDragStart>
+			<OnDragStop>self:StopMovingOrSizing();</OnDragStop>
+		</Scripts>
+	</Frame>
+
+	<Frame name="DMinstrelDiscord" movable="true" clampedToScreen="true" hidden="false" inherits="DMIN_Edit" parent="UIParent">
+		<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border">
+			<EdgeSize val="12"/>
+		</Backdrop>
+		<Size x="300" y="300"/>
 		<Anchors>
 			<Anchor point="CENTER"/>
 		</Anchors>
@@ -57,6 +112,13 @@
 			</Frame>
 		</Frames>
 		<Scripts>
+			<OnShow>
+				local text = [[Спасибо что пользуетесь этим аддоном. Возможно вам пригодятся эти дискорд-сервера с ГОшками и аурами|n
+1. https://discord.gg/c2bYuq7 - Ролевой проект Darkmoon|n
+2. https://discord.gg/xcBe98GWJ6 - Объёмный сервер с объектами по категориям|n
+3. https://discord.gg/sB9vTBBHJU - НИП|n]]
+				_G["DMinstrelDiscordContentTextMacrosScrollText"]:SetText(text);
+			</OnShow>
 			<OnLoad>
 				tinsert(UISpecialFrames, self:GetName());
 				self:Show();
@@ -77,6 +139,7 @@
 				tinsert(UISpecialFrames, self:GetName());
 				self:Show();
 				self:RegisterForDrag("LeftButton");
+				self.addonVersion:SetText(DMinstrel.Version);
 			</OnLoad>
 			<OnDragStart>self:StartMoving();</OnDragStart>
 			<OnDragStop>self:StopMovingOrSizing();</OnDragStop>
@@ -90,6 +153,19 @@
 			</BackgroundInsets>
 		</Backdrop>
 		<Layers>
+			<Layer level="OVERLAY">
+				<FontString parentKey="addonVersion" inherits="QuestFont" text="v 1.0" justifyH="CENTER">
+					<Color r="1" g="1" b="1" a="1"/>
+					<FontHeight val="8"/>
+					<Anchors>
+						<Anchor point="BOTTOM" x="0" y="0" />
+					</Anchors>
+					<Shadow>
+						<Offset x="1" y="1" />
+						<Color r="0" g="0" b="0"/>
+					</Shadow>
+				</FontString>
+			</Layer>
 			<Layer level="BACKGROUND">
 				<Texture parentKey="bg" atlas="auctionhouse-background-index">
 					<Anchors>
@@ -105,7 +181,7 @@
 				<Size x="24" y="24"/>
 				<KeyValues>
 					<KeyValue key="minWidth" value="320" type="number"/>
-					<KeyValue key="minHeight" value="380" type="number"/>
+					<KeyValue key="minHeight" value="180" type="number"/>
 				</KeyValues>
 				<Anchors>
 					<Anchor point="BOTTOMRIGHT" x="3" y="-3"/>
@@ -130,7 +206,7 @@
 
                         GameTooltip:AddDoubleLine("Created by:", "TestUnit", 1, 1, 1, 1, 0.96, 0.41);
                         GameTooltip:AddLine(" ");
-                        GameTooltip:AddDoubleLine("Версия:", "0.92 BFA", 1, 1, 1, 1, 0.96, 0.41);
+                        GameTooltip:AddDoubleLine("Версия:", DMinstrel.Version, 1, 1, 1, 1, 0.96, 0.41);
                         GameTooltip:AddDoubleLine("Ролевой сервер Darkmoon:", "rp-wow.ru", 1, 1, 1, 1, 0.96, 0.41);
 		                GameTooltip:Show();
 					</OnEnter>
@@ -246,7 +322,7 @@
 							</OnClick>
 						</Scripts>
 					</Button>
-					<Button parentKey="NPC" inherits="UIPanelButtonTemplate" text="НПС">
+					<Button parentKey="NPC" inherits="UIPanelButtonTemplate" text="НИП">
 						<Anchors>
 							<Anchor point="TOPLEFT" realtiveTo="$parent" relativePoint="TOPRIGHT" x="-80" y="-2"/>
 							<Anchor point="BOTTOMRIGHT" realtiveTo="$parent" relativePoint="BOTTOMRIGHT" x="-2" y="2"/>
@@ -259,25 +335,101 @@
 					</Button>
 				</Frames>
 			</Frame>
-
+			<Frame name="$parentInfo">
+				<Anchors>
+					<Anchor relativeTo="$parentBottom" point="TOPLEFT" x="0" y="30" />
+					<Anchor relativeTo="$parentBottom" point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="0" y="0"/>
+				</Anchors>
+				<Layers>
+					<Layer level="OVERLAY">
+						<FontString parentKey="txt" inherits="QuestFont_Huge" text="Менестрель" justifyH="CENTER" justifyV="CENTER">
+							<Color r="1" g="1" b="1" a="1"/>
+							<FontHeight val="8"/>
+							<Anchors>
+								<Anchor point="TOPLEFT" x="0" y="0" />
+								<Anchor point="BOTTOMRIGHT" x="0" y="0" />
+							</Anchors>
+							<Shadow>
+								<Offset x="1" y="1" />
+								<Color r="0" g="0" b="0"/>
+							</Shadow>
+						</FontString>
+					</Layer>
+					<Layer level="BACKGROUND">
+						<Texture parentKey="bg" atlas="auctionhouse-background-auctions">
+							<Anchors>
+								<Anchor point="TOPLEFT" realtiveTo="$parent" relativePoint="TOPLEFT" x="3" y="0"/>
+								<Anchor point="BOTTOMRIGHT" realtiveTo="$parent" relativePoint="BOTTOMRIGHT" x="0" y="3"/>
+							</Anchors>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Frames>
+					<Button parentKey="Discord" text="">
+						<Size x="24" y="24"/>
+						<Anchors>
+							<Anchor point="LEFT" x="5" y="0"/>
+						</Anchors>
+						<NormalTexture file="Interface\AddOns\DMinstrel\Resources\IMG\discord"/>
+						<PushedTexture file="Interface\AddOns\DMinstrel\Resources\IMG\discord"/>
+						<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+						<Scripts>
+							<OnClick>
+								if (DMinstrelDiscord:IsShown()) then
+									DMinstrelDiscord:Hide()
+								else
+									DMinstrelDiscord:Show();
+								end
+							</OnClick>
+							<OnEnter>
+								GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+								GameTooltip:AddLine("Заходи на наш дискорд-сервер ;)");
+								GameTooltip:Show();
+							</OnEnter>
+							<OnLeave>
+								GameTooltip:Hide();
+							</OnLeave>
+						</Scripts>
+					</Button>
+					<Button>
+						<Anchors>
+							<Anchor point="TOPLEFT" x="30"/>
+							<Anchor point="BOTTOMRIGHT" x="-30"/>
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								DMinstrel:ClickAtBIGButton();
+							</OnClick>
+							<OnEnter>
+								GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+								GameTooltip:AddLine("Большая и полезная кнопка с информацией!");
+								GameTooltip:AddLine(DMinstrel.MinstrelText, 1, 1, 1);
+								GameTooltip:Show();
+							</OnEnter>
+							<OnLeave>
+								GameTooltip:Hide();
+							</OnLeave>
+						</Scripts>
+					</Button>
+				</Frames>
+			</Frame>
 			<Frame name="$parentContent">
 				<Anchors>
 					<Anchor relativeTo="$parent" point="TOPLEFT" relativePoint="TOPLEFT" x="8" y="-12"/>
-					<Anchor relativeTo="$parentBottom" point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="0" y="6"/>
+					<Anchor relativeTo="$parentInfo" point="BOTTOMRIGHT" relativePoint="TOPRIGHT" x="0" y="6"/>
 				</Anchors>
 				<Frames>
 					<Frame name="$parentCommands">
 						<Anchors>
-							<Anchor point="TOPLEFT" x="0" y="0" />
-							<Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+							<Anchor point="TOPLEFT" x="0" y="-5" />
+							<Anchor point="BOTTOMRIGHT" x="-10" y="0"/>
 						</Anchors>
 						<Frames>
 							<ScrollFrame name="$parentSlider1" inherits="UIPanelScrollFrameTemplate">
 								<Anchors>
 									<Anchor point="TOPLEFT" x="0" y="-8" />
-									<Anchor point="BOTTOMRIGHT" x="-20" y="0"/>
+									<Anchor point="BOTTOMRIGHT" x="-10" y="0"/>
 								</Anchors>
-
 								<ScrollChild>
 									<Frame name="$parentChild">
 										<Size x="280" y="300"/>
@@ -286,157 +438,161 @@
 											<Anchor relativeTo="$parent" point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="0" />
 										</Anchors>
 										<Frames>
-											<Button name="$parentbtn1" inherits="DMinstrelButtonCommands" id="1">
-												<Anchors>
-													<Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="7" y="0"/>
-													<Anchor point="TOPRIGHT" relativePoint="CENTER" x="7" y="0"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn2" inherits="DMinstrelButtonCommands" id="2">
-												<Anchors>
-													<Anchor relativeTo="$parent" point="TOPRIGHT" relativePoint="TOPRIGHT" x="0" y="0"/>
-													<Anchor relativeTo="$parent" point="TOPLEFT" relativePoint="TOP" x="7" y="0"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn3" inherits="DMinstrelButtonCommands" id="3">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn1" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn1" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn4" inherits="DMinstrelButtonCommands" id="4">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn2" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn2" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn5" inherits="DMinstrelButtonCommands" id="5">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn3" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn3" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn6" inherits="DMinstrelButtonCommands" id="6">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn4" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn4" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn7" inherits="DMinstrelButtonCommands" id="7">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn5" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn5" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn8" inherits="DMinstrelButtonCommands" id="8">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn6" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn6" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn9" inherits="DMinstrelButtonCommands" id="9">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn7" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn7" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn10" inherits="DMinstrelButtonCommands" id="10">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn8" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn8" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn11" inherits="DMinstrelButtonCommands" id="11">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn9" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn9" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn12" inherits="DMinstrelButtonCommands" id="12">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn10" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn10" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn13" inherits="DMinstrelButtonCommands" id="13">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn11" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn11" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn14" inherits="DMinstrelButtonCommands" id="14">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn12" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn12" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn15" inherits="DMinstrelButtonCommands" id="15">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn13" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn13" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn16" inherits="DMinstrelButtonCommands" id="16">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn14" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn14" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn17" inherits="DMinstrelButtonCommands" id="17">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn15" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn15" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn18" inherits="DMinstrelButtonCommands" id="18">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn16" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn16" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn19" inherits="DMinstrelButtonCommands" id="19">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn17" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn17" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn20" inherits="DMinstrelButtonCommands" id="20">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn18" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn18" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn21" inherits="DMinstrelButtonCommands" id="21">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn19" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn19" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn22" inherits="DMinstrelButtonCommands" id="22">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn20" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn20" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn23" inherits="DMinstrelButtonCommands" id="23">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn21" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn21" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-											<Button name="$parentbtn24" inherits="DMinstrelButtonCommands" id="24">
-												<Anchors>
-													<Anchor relativeTo="$parentbtn22" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
-													<Anchor relativeTo="$parentbtn22" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
-												</Anchors>
-											</Button>
-										</Frames>
+										<Button name="$parentbtn1" inherits="DMinstrelButtonCommands" id="1">
+											<KeyValues>
+												<KeyValue key="IconText" value="spell_Shaman_spiritwalkersgrace"/>
+											</KeyValues>
+											<Anchors>
+												<Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="7" y="0"/>
+												<Anchor point="TOPRIGHT" relativePoint="CENTER" x="7" y="0"/>
+											</Anchors>
+										</Button>
+										<Button name="$parentbtn2" inherits="DMinstrelButtonCommands" id="2">
+											<KeyValues>
+												<KeyValue key="IconText" value="Spell_Frost_WindWalkOn"/>
+											</KeyValues>
+											<Anchors>
+												<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT" x="0" y="0"/>
+												<Anchor point="TOPLEFT" relativePoint="TOP" x="7" y="0"/>
+											</Anchors>
+										</Button>
+										<Button name="$parentbtn3" inherits="DMinstrelButtonCommands" id="3">
+											<KeyValues>
+												<KeyValue key="IconText" value="INV_Elemental_SpiritofHarmony_2"/>
+											</KeyValues>
+											<Anchors>
+												<Anchor relativeTo="$parentbtn1" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+												<Anchor relativeTo="$parentbtn1" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+											</Anchors>
+										</Button>
+										<Button name="$parentbtn4" inherits="DMinstrelButtonCommands" id="4">
+											<KeyValues>
+												<KeyValue key="IconText" value="INV_Elemental_SpiritofHarmony_1"/>
+											</KeyValues>
+											<Anchors>
+												<Anchor relativeTo="$parentbtn2" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+												<Anchor relativeTo="$parentbtn2" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+											</Anchors>
+										</Button>
+										<Button name="$parentbtn5" inherits="DMinstrelButtonCommands" id="5">
+											<KeyValues>
+												<KeyValue key="IconText" value="TRADE_ARCHAEOLOGY_DELICATEMUSICBOX"/>
+											</KeyValues>
+											<Anchors>
+												<Anchor relativeTo="$parentbtn3" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+												<Anchor relativeTo="$parentbtn3" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+											</Anchors>
+											<Scripts>
+												<OnClick>
+													DMinstrel:WantToPlaySound();
+												</OnClick>
+											</Scripts>
+										</Button>
+										<Button name="$parentbtn6" inherits="DMinstrelButtonCommands" id="6">
+											<KeyValues>
+												<KeyValue key="IconText" value="UI_VenthyrAnimaBoss_OrbLines"/>
+											</KeyValues>
+											<Anchors>
+												<Anchor relativeTo="$parentbtn4" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+												<Anchor relativeTo="$parentbtn4" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+											</Anchors>
+										</Button>
+										<Button name="$parentbtn7" inherits="DMinstrelButtonCommands" id="7">
+											<KeyValues>
+												<KeyValue key="IconText" value="Warrior_DisruptingShout"/>
+											</KeyValues>
+											<Anchors>
+												<Anchor relativeTo="$parentbtn5" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+												<Anchor relativeTo="$parentbtn5" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+											</Anchors>
+											<Scripts>
+												<OnClick>
+													DMinstrel:switchNPCSayFrame();
+												</OnClick>
+											</Scripts>
+										</Button>
+										<Button name="$parentbtn8" inherits="DMinstrelButtonCommands" id="8">
+											<KeyValues>
+												<KeyValue key="IconText" value="UI_VenthyrAnimaBoss_OrbLines"/>
+											</KeyValues>
+											<Anchors>
+												<Anchor relativeTo="$parentbtn6" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+												<Anchor relativeTo="$parentbtn6" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+											</Anchors>
+										</Button>
+										<Button name="$parentbtn9" inherits="DMinstrelButtonCommands" id="9">
+											<KeyValues>
+												<KeyValue key="IconText" value="Ability_DemonHunter_SigilPurple"/>
+											</KeyValues>
+											<Anchors>
+												<Anchor relativeTo="$parentbtn7" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+												<Anchor relativeTo="$parentbtn7" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+											</Anchors>
+											<Scripts>
+												<OnClick>
+													DMinstrel:switchApplyAuraFrame();
+												</OnClick>
+											</Scripts>
+										</Button>
+										<Button name="$parentbtn10" inherits="DMinstrelButtonCommands" id="10">
+											<KeyValues>
+												<KeyValue key="IconText" value="UI_VenthyrAnimaBoss_OrbLines"/>
+											</KeyValues>
+											<Anchors>
+												<Anchor relativeTo="$parentbtn8" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+												<Anchor relativeTo="$parentbtn8" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+											</Anchors>
+										</Button>
+										<Button name="$parentbtn11" inherits="DMinstrelButtonCommands" id="11">
+											<KeyValues>
+												<KeyValue key="IconText" value="Ability_Fixated_State_Red"/>
+											</KeyValues>
+											<Anchors>
+												<Anchor relativeTo="$parentbtn9" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+												<Anchor relativeTo="$parentbtn9" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+											</Anchors>
+										</Button>
+										<Button name="$parentbtn12" inherits="DMinstrelButtonCommands" id="12">
+											<KeyValues>
+												<KeyValue key="IconText" value="INV_Pet_Butterfly_Red"/>
+											</KeyValues>
+											<Anchors>
+												<Anchor relativeTo="$parentbtn10" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+												<Anchor relativeTo="$parentbtn10" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+											</Anchors>
+											<Scripts>
+												<OnShow>
+													if (DMinstrel.MyLevel > 1) then
+														self:Enable();
+														self.Text:SetText("Полёт");
+													else
+														self:Disable();
+														self.Text:SetText("Полёт (недоступно)");
+													end
+												</OnShow>
+											</Scripts>
+										</Button>
+										<Button name="$parentbtn13" inherits="DMinstrelButtonCommands" id="13">
+											<KeyValues>
+												<KeyValue key="IconText" value="Ability_Hunter_MarkedForDeath"/>
+											</KeyValues>
+											<Anchors>
+												<Anchor relativeTo="$parentbtn11" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+												<Anchor relativeTo="$parentbtn11" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+											</Anchors>
+										</Button>
+										<Button name="$parentbtn14" inherits="DMinstrelButtonCommands" id="14">
+											<KeyValues>
+												<KeyValue key="IconText" value="Ability_Hunter_MarkedForDeath"/>
+											</KeyValues>
+											<Anchors>
+												<Anchor relativeTo="$parentbtn12" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+												<Anchor relativeTo="$parentbtn12" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+											</Anchors>
+										</Button>
+									</Frames>
 									</Frame>
 								</ScrollChild>
-								<Scripts>
-									ScrollFrame_OnLoad(self);
-									ScrollFrame_OnScrollRangeChanged(self);
-								</Scripts>
 							</ScrollFrame>
 						</Frames>
 					</Frame>
@@ -460,144 +616,216 @@
 										</Anchors>
 										<Frames>
 											<Button name="$parentbtn1" inherits="DMinstrelButtonNPC" id="1">
+												<KeyValues>
+													<KeyValue key="IconText" value="INV_Boot_Leather_LegionEndGame_C_01"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="7" y="0"/>
 													<Anchor point="TOPRIGHT" relativePoint="CENTER" x="7" y="0"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn2" inherits="DMinstrelButtonNPC" id="2">
+												<KeyValues>
+													<KeyValue key="IconText" value="Spell_Nature_TimeStop"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parent" point="TOPRIGHT" relativePoint="TOPRIGHT" x="0" y="0"/>
 													<Anchor relativeTo="$parent" point="TOPLEFT" relativePoint="TOP" x="7" y="0"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn3" inherits="DMinstrelButtonNPC" id="3">
+												<KeyValues>
+													<KeyValue key="IconText" value="Spell_Holy_FistOfJustice"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn1" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn1" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn4" inherits="DMinstrelButtonNPC" id="4">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Blackhand_Marked4Death"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn2" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn2" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn5" inherits="DMinstrelButtonNPC" id="5">
+												<KeyValues>
+													<KeyValue key="IconText" value="Spell_Frost_Stun"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn3" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn3" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn6" inherits="DMinstrelButtonNPC" id="6">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Stealth"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn4" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn4" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn7" inherits="DMinstrelButtonNPC" id="7">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_PVP_GladiatorMedallion"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn5" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn5" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn8" inherits="DMinstrelButtonNPC" id="8">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_PVP_DefenderoftheWeak"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn6" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn6" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn9" inherits="DMinstrelButtonNPC" id="9">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Argus_WastingPlague"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn7" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn7" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn10" inherits="DMinstrelButtonNPC" id="10">
+												<KeyValues>
+													<KeyValue key="IconText" value="Inv_Misc_Rope_02"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn8" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn8" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn11" inherits="DMinstrelButtonNPC" id="11">
+												<KeyValues>
+													<KeyValue key="IconText" value="Spell_Arcane_ManaTap"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn9" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn9" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn12" inherits="DMinstrelButtonNPC" id="12">
+												<KeyValues>
+													<KeyValue key="IconText" value="Spell_Hunter_FocusingShot"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn10" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn10" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn13" inherits="DMinstrelButtonNPC" id="13">
+												<KeyValues>
+													<KeyValue key="IconText" value="ABILITY_HUNTER_SEPARATIONANXIETY"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn11" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn11" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn14" inherits="DMinstrelButtonNPC" id="14">
+												<KeyValues>
+													<KeyValue key="IconText" value="Achievement_LegionPvP6Tier4"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn12" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn12" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn15" inherits="DMinstrelButtonNPC" id="15">
+												<KeyValues>
+													<KeyValue key="IconText" value="Buff_EpicHunter"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn13" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn13" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn16" inherits="DMinstrelButtonNPC" id="16">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Hunter_ThrilloftheHunt"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn14" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn14" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn17" inherits="DMinstrelButtonNPC" id="17">
+												<KeyValues>
+													<KeyValue key="IconText" value="INV_Legendary_Gun"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn15" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn15" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn18" inherits="DMinstrelButtonNPC" id="18">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Monk_DeadlyReach"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn16" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn16" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn19" inherits="DMinstrelButtonNPC" id="19">
+												<KeyValues>
+													<KeyValue key="IconText" value="Achievement_LegionPVP4Tier1"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn17" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn17" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn20" inherits="DMinstrelButtonNPC" id="20">
+												<KeyValues>
+													<KeyValue key="IconText" value="INV_Misc_ScrollRolled04c"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn18" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn18" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn21" inherits="DMinstrelButtonNPC" id="21">
+												<KeyValues>
+													<KeyValue key="IconText" value="Achievement_GuildPerk_WorkingOvertime_Rank2"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn19" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn19" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn22" inherits="DMinstrelButtonNPC" id="22">
+												<KeyValues>
+													<KeyValue key="IconText" value="INV_Archaeology_Orcclans_Frostwolfaxe"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn20" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn20" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn23" inherits="DMinstrelButtonNPC" id="23">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Revendreth_DemonHunter"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn21" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn21" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn24" inherits="DMinstrelButtonNPC" id="24">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Revendreth_DemonHunter"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn22" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn22" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
@@ -633,42 +861,63 @@
 										</Anchors>
 										<Frames>
 											<Button name="$parentbtn1" inherits="DMinstrelButtonGObject" id="1">
+												<KeyValues>
+													<KeyValue key="IconText" value="inv_misc_volatilefire"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="7" y="0"/>
 													<Anchor point="TOPRIGHT" relativePoint="CENTER" x="7" y="0"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn2" inherits="DMinstrelButtonGObject" id="2">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_IronMaidens_CorruptedBlood"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parent" point="TOPRIGHT" relativePoint="TOPRIGHT" x="0" y="0"/>
 													<Anchor relativeTo="$parent" point="TOPLEFT" relativePoint="TOP" x="7" y="0"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn3" inherits="DMinstrelButtonGObject" id="3">
+												<KeyValues>
+													<KeyValue key="IconText" value="Boss_OdunRunes_Orange"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn1" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn1" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn4" inherits="DMinstrelButtonGObject" id="4">
+												<KeyValues>
+													<KeyValue key="IconText" value="Boss_OdunRunes_Blue"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn2" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn2" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn5" inherits="DMinstrelButtonGObject" id="5">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Hunter_MarkedForDeath"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn3" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn3" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn6" inherits="DMinstrelButtonGObject" id="6">
+												<KeyValues>
+													<KeyValue key="IconText" value="inv_misc_crate01"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn4" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn4" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn7" inherits="DMinstrelButtonGObject" id="7">
+												<KeyValues>
+													<KeyValue key="IconText" value="Creatureportrait_IllidanCrystal01"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn5" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn5" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
@@ -765,12 +1014,18 @@
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn23" inherits="DMinstrelButtonGObject" id="23">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Vanish"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn21" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn21" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
 											<Button name="$parentbtn24" inherits="DMinstrelButtonGObject" id="24">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Revendreth_DemonHunter"/>
+												</KeyValues>
 												<Anchors>
 													<Anchor relativeTo="$parentbtn22" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
 													<Anchor relativeTo="$parentbtn22" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
@@ -788,6 +1043,449 @@
 					</Frame>
 				</Frames>
 			</Frame>
+		</Frames>
+	</Frame>
+
+	<Frame name="DMinstrel_AuraPlanel" parent="UIParent" frameStrata="DIALOG" enableMouse="true" movable="true" clampedToScreen="true" hidden="true">
+		<Size x="250" y="82"/>
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<KeyValues>
+			<KeyValue key="selectedChannel" value="1" type="global"/>
+			<KeyValue key="chatCommand" value=".minstrel npc"/>
+		</KeyValues>
+		<Backdrop edgeFile="Interface\GLUES\COMMON\TextPanel-Border" tile="true">
+			<EdgeSize>
+				<AbsValue val="16"/>
+			</EdgeSize>
+			<BackgroundInsets>
+				<AbsInset left="3" right="3" top="3" bottom="3"/>
+			</BackgroundInsets>
+		</Backdrop>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="bg" atlas="auctionhouse-background-index">
+					<Anchors>
+						<Anchor point="TOPLEFT" realtiveTo="$parent" relativePoint="TOPLEFT" x="3" y="0"/>
+						<Anchor point="BOTTOMRIGHT" realtiveTo="$parent" relativePoint="BOTTOMRIGHT" x="0" y="3"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button parentKey="Close" inherits="UIPanelCloseButton">
+				<Size x="24" y="24"/>
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="2" y="2"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():Hide();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<EditBox parentKey="Setup" autoFocus="false" multiline="false" letters="60">
+				<Size x="124" y="24"/>
+				<Anchors>
+					<Anchor point="CENTER" x="0" y="0"/>
+				</Anchors>
+				<FontString font="Fonts\FRIZQT___CYR.TTF">
+					<FontHeight val="14"/>
+				</FontString>
+				<TextInsets>
+					<AbsInset left="-2"/>
+				</TextInsets>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture parentKey="Left" file="Interface\Common\Common-Input-Border">
+							<Size x="8" y="20"/>
+							<Anchors>
+								<Anchor point="LEFT" x="-5" y="0"/>
+							</Anchors>
+							<TexCoords left="0" right="0.0625" top="0" bottom="0.625"/>
+						</Texture>
+						<Texture parentKey="Right" file="Interface\Common\Common-Input-Border">
+							<Size x="8" y="20"/>
+							<Anchors>
+								<Anchor point="RIGHT" x="0" y="0"/>
+							</Anchors>
+							<TexCoords left="0.9375" right="1.0" top="0" bottom="0.625"/>
+						</Texture>
+						<Texture parentKey="Middle" file="Interface\Common\Common-Input-Border">
+							<Size x="10" y="20"/>
+							<Anchors>
+								<Anchor point="LEFT" relativeKey="$parent.Left" relativePoint="RIGHT"/>
+								<Anchor point="RIGHT" relativeKey="$parent.Right" relativePoint="LEFT"/>
+							</Anchors>
+							<TexCoords left="0.0625" right="0.9375" top="0" bottom="0.625"/>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						self:SetText("");
+					</OnLoad>
+					<OnTextChanged>
+						if (tonumber(self:GetText()) ~= nil or self:GetText() == "") then
+							self:SetTextColor(1, 1, 1, 1);
+						else
+							self:SetTextColor(1, 0, 0, 1);
+						end
+					</OnTextChanged>
+				</Scripts>
+			</EditBox>
+
+			<Button parentKey="UnapplyAura" inherits="UIPanelButtonTemplate" text="Снять ауру">
+				<Size x="100" y="16"/>
+				<Anchors>
+					<Anchor point="BOTTOMRIGHT" x="-5" y="5"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						DMinstrel:SendMinstrelMessage(".minstrel unaura "..self:GetParent().Setup:GetText());
+					</OnClick>
+					<OnEnter>
+		                GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+		                GameTooltip:AddLine("Снимает ауру под номером к выбранному НИП");
+		                GameTooltip:Show();
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+					<OnShow>
+						if (DMinstrel.MyLevel > 1) then
+							self:Enable();
+						else
+							self:Disable();
+						end
+					</OnShow>
+				</Scripts>
+			</Button>
+
+			<Button parentKey="ApplyAura" inherits="UIPanelButtonTemplate" text="Применить ауру">
+				<Size x="100" y="16"/>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" x="5" y="5"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						DMinstrel:SendMinstrelMessage(".minstrel aura "..self:GetParent().Setup:GetText());
+					</OnClick>
+					<OnEnter>
+		                GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+		                GameTooltip:AddLine("Применяет ауру под номером к выбранному НИП");
+		                GameTooltip:Show();
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+					<OnShow>
+						if (DMinstrel.MyLevel > 1) then
+							self:Enable();
+						else
+							self:Disable();
+						end
+					</OnShow>
+				</Scripts>
+			</Button>
+
+			<Button parentKey="FindAura" inherits="UIPanelButtonTemplate" text="Список аур">
+				<Size x="100" y="16"/>
+				<Anchors>
+					<Anchor point="TOP" x="0" y="-5"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						if(RPSCoreFramework) then
+							RPS_MainFrame:Show();
+							RPSCoreFramework:OnClickCosmetic(_G[RPSCoreFramework.Interface.MenuButtons[6][2]]);
+							RPSCoreFramework:OnClickFrameShowing(_G[RPSCoreFramework.Interface.MenuButtons[6][3]]);
+						else
+							message("Необходимо наличие аддона RPS Darkmoon");
+						end
+					</OnClick>
+					<OnEnter>
+		                GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+		                GameTooltip:AddLine("Открывает окно с аурами аддона Darkmoon");
+						GameTooltip:AddLine("Номер ауры = её ID");
+		                GameTooltip:Show();
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				tinsert(UISpecialFrames, self:GetName());
+				self:RegisterForDrag("LeftButton");
+			</OnLoad>
+			<OnDragStart>
+				self:StartMoving();
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing();
+			</OnDragStop>
+		</Scripts>
+	</Frame>
+
+	<Frame name="DMinstrel_SoundPlanel" parent="UIParent" frameStrata="DIALOG" enableMouse="true" movable="true" clampedToScreen="true" hidden="true">
+		<Size x="200" y="82"/>
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<KeyValues>
+			<KeyValue key="selectedChannel" value="1" type="global"/>
+			<KeyValue key="chatCommand" value=".minstrel npc"/>
+		</KeyValues>
+		<Backdrop edgeFile="Interface\GLUES\COMMON\TextPanel-Border" tile="true">
+			<EdgeSize>
+				<AbsValue val="16"/>
+			</EdgeSize>
+			<BackgroundInsets>
+				<AbsInset left="3" right="3" top="3" bottom="3"/>
+			</BackgroundInsets>
+		</Backdrop>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="bg" atlas="auctionhouse-background-index">
+					<Anchors>
+						<Anchor point="TOPLEFT" realtiveTo="$parent" relativePoint="TOPLEFT" x="3" y="0"/>
+						<Anchor point="BOTTOMRIGHT" realtiveTo="$parent" relativePoint="BOTTOMRIGHT" x="0" y="3"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button parentKey="Close" inherits="UIPanelCloseButton">
+				<Size x="24" y="24"/>
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="2" y="2"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():Hide();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<EditBox parentKey="Setup" autoFocus="false" multiline="false" letters="60">
+				<Size x="124" y="24"/>
+				<Anchors>
+					<Anchor point="CENTER" x="0" y="0"/>
+				</Anchors>
+				<FontString font="Fonts\FRIZQT___CYR.TTF">
+					<FontHeight val="14"/>
+				</FontString>
+				<TextInsets>
+					<AbsInset left="-2"/>
+				</TextInsets>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture parentKey="Left" file="Interface\Common\Common-Input-Border">
+							<Size x="8" y="20"/>
+							<Anchors>
+								<Anchor point="LEFT" x="-5" y="0"/>
+							</Anchors>
+							<TexCoords left="0" right="0.0625" top="0" bottom="0.625"/>
+						</Texture>
+						<Texture parentKey="Right" file="Interface\Common\Common-Input-Border">
+							<Size x="8" y="20"/>
+							<Anchors>
+								<Anchor point="RIGHT" x="0" y="0"/>
+							</Anchors>
+							<TexCoords left="0.9375" right="1.0" top="0" bottom="0.625"/>
+						</Texture>
+						<Texture parentKey="Middle" file="Interface\Common\Common-Input-Border">
+							<Size x="10" y="20"/>
+							<Anchors>
+								<Anchor point="LEFT" relativeKey="$parent.Left" relativePoint="RIGHT"/>
+								<Anchor point="RIGHT" relativeKey="$parent.Right" relativePoint="LEFT"/>
+							</Anchors>
+							<TexCoords left="0.0625" right="0.9375" top="0" bottom="0.625"/>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						self:SetText("");
+					</OnLoad>
+					<OnTextChanged>
+						if (tonumber(self:GetText()) ~= nil or self:GetText() == "") then
+							self:SetTextColor(1, 1, 1, 1);
+						else
+							self:SetTextColor(1, 0, 0, 1);
+						end
+					</OnTextChanged>
+				</Scripts>
+			</EditBox>
+			<Button parentKey="PlaySound" inherits="UIPanelButtonTemplate" text="Проиграть звук">
+				<Size x="100" y="16"/>
+				<Anchors>
+					<Anchor point="BOTTOM" y="5"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						DMinstrel:SendMinstrelMessage(".minstrel sound playself "..self:GetParent().Setup:GetText());
+					</OnClick>
+					<OnEnter>
+		                GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+		                GameTooltip:AddLine("Проиграть звук");
+		                GameTooltip:Show();
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+					<OnShow>
+						if (DMinstrel.MyLevel > 1) then
+							self:Enable();
+						else
+							self:Disable();
+						end
+					</OnShow>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				tinsert(UISpecialFrames, self:GetName());
+				self:RegisterForDrag("LeftButton");
+			</OnLoad>
+			<OnDragStart>
+				self:StartMoving();
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing();
+			</OnDragStop>
+		</Scripts>
+	</Frame>
+
+	<Frame name="DMinstrel_NPCSayPlanel" inherits="DMIN_Edit" parent="UIParent">
+		<Size x="380" y="230"/>
+		<KeyValues>
+			<KeyValue key="selectedChannel" value="1" type="global"/>
+			<KeyValue key="chatCommand" value=".minstrel npc"/>
+		</KeyValues>
+		<Layers>
+			<Layer>
+				<FontString name="$parentDescLabel" font="Fonts\FRIZQT___CYR.TTF" text="Реплика:" justifyH="CENTER">
+					<Color r="1" g="1" b="1" a="1"/>
+					<FontHeight val="14"/>
+					<Anchors>
+						<Anchor point="TOPLEFT" x="23" y="-30" />
+					</Anchors>
+					<Shadow>
+						<Offset x="1" y="1" />
+						<Color r="0" g="0" b="0"/>
+					</Shadow>
+				</FontString>
+				<FontString font="Fonts\FRIZQT___CYR.TTF" text="Задержка:" justifyH="CENTER">
+					<Color r="1" g="1" b="1" a="1"/>
+					<FontHeight val="14"/>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT" x="23" y="12" />
+					</Anchors>
+					<Shadow>
+						<Offset x="1" y="1" />
+						<Color r="0" g="0" b="0"/>
+					</Shadow>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button parentKey="Close" inherits="UIPanelCloseButton">
+				<Size x="24" y="24"/>
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="2" y="2"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():Hide();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Frame name="$parentType" parentKey="dropDown" inherits="UIDropDownMenuTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="-126" y="-15" />
+				</Anchors>
+				<FontString font="Fonts\FRIZQT___CYR.TTF">
+					<FontHeight val="16"/>
+				</FontString>
+				<Scripts>
+					<OnLoad>
+						DMinstrel:CreateNPCSayDropDown(self);
+					</OnLoad>
+				</Scripts>
+			</Frame>
+			<Frame name="$parentTextArea" inherits="MIN_TextArea">
+				<Size y="100"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentDescLabel" x="0" y="-20"/>
+					<Anchor point="BOTTOMRIGHT" x="-20" y="40"/>
+				</Anchors>
+			</Frame>
+			<Button name="$parentSendMessage" parentKey="sendMessageBtn" inherits="DMinstrelButton" text="Отправить">
+				<Size x="126" y="28"/>
+				<Anchors>
+					<Anchor point="BOTTOM" x="20" y="5"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						DMinstrel:SayLongMessage(self:GetParent());
+					</OnClick>
+				</Scripts>
+			</Button>
+			<EditBox parentKey="delay" autoFocus="false" multiline="false" letters="3">
+				<Size x="32" y="18"/>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" x="100" y="10"/>
+				</Anchors>
+				<FontString font="Fonts\FRIZQT___CYR.TTF">
+					<FontHeight val="14"/>
+				</FontString>
+				<TextInsets>
+					<AbsInset left="-2"/>
+				</TextInsets>
+				<Layers>
+					<Layer level="BACKGROUND">
+						<Texture parentKey="Left" file="Interface\Common\Common-Input-Border">
+							<Size x="8" y="20"/>
+							<Anchors>
+								<Anchor point="LEFT" x="-5" y="0"/>
+							</Anchors>
+							<TexCoords left="0" right="0.0625" top="0" bottom="0.625"/>
+						</Texture>
+						<Texture parentKey="Right" file="Interface\Common\Common-Input-Border">
+							<Size x="8" y="20"/>
+							<Anchors>
+								<Anchor point="RIGHT" x="0" y="0"/>
+							</Anchors>
+							<TexCoords left="0.9375" right="1.0" top="0" bottom="0.625"/>
+						</Texture>
+						<Texture parentKey="Middle" file="Interface\Common\Common-Input-Border">
+							<Size x="10" y="20"/>
+							<Anchors>
+								<Anchor point="LEFT" relativeKey="$parent.Left" relativePoint="RIGHT"/>
+								<Anchor point="RIGHT" relativeKey="$parent.Right" relativePoint="LEFT"/>
+							</Anchors>
+							<TexCoords left="0.0625" right="0.9375" top="0" bottom="0.625"/>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						self:SetText("1");
+					</OnLoad>
+					<OnTextChanged>
+						if (tonumber(self:GetText()) ~= nil or self:GetText() == "") then
+							self:SetTextColor(1, 1, 1, 1);
+						else
+							self:SetTextColor(1, 0, 0, 1);
+						end
+					</OnTextChanged>
+				</Scripts>
+			</EditBox>
 		</Frames>
 	</Frame>
 </Ui>

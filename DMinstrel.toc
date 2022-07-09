@@ -1,14 +1,38 @@
-## Interface: 80300
-## Title: Darkmoon Minstrel
-## Author: TrinityAdmin Dev team + Manground Dev Team + TestUnit + Taku @Druidsmoker
-## Version: 0.1
+## Interface: 90015
+##                            ░░░░▒▒▒▒░░░░                                   «Это такой style~»   
+##                    ░░░░▒▒▒▒░░                                ░░░░░░░░░░        
+##                ░░░░░░░░                                  ░░▒▒▓▓▒▒▒▒▒▒░░        
+##            ░░░░░░                                    ▒▒░░▒▒▒▒░░▒▒▒▒▒▒▒▒        
+##        ░░░░░░                                      ░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░        
+##        ░░░░                                        ▒▒▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒          
+##    ░░░░░░                                          ░░▓▓▒▒▒▒▒▒▓▓▒▒▒▒░░          
+##    ░░░░                                          ░░▒▒▒▒▒▒▒▒▓▓▓▓▓▓▒▒░░          
+##    ░░░░                                          ░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒            
+##  ░░░░                                          ░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒              
+##  ░░░░                                      ░░░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░              
+##  ░░░░                                    ░░░░░░▒▒▒▒██▒▒▒▒▒▒▒▒░░                
+##░░░░░░░░                            ░░░░▒▒░░░░▒▒▒▒▒▒▒▒▒▒▒▒▓▓▒▒░░                
+##░░░░░░░░                        ░░░░░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░░                  
+##  ░░░░░░░░░░░░░░░░░░░░░░░░▒▒▒▒░░░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒                  
+##  ░░▒▒▒▒░░░░▒▒░░░░░░▒▒░░░░▒▒░░░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓░░▓▓▓▓▓▓▓▓▒▒▒▒                  
+##  ░░░░░░▒▒░░░░▒▒░░▒▒▒▒░░▒▒▒▒▒▒▒▒▒▒▒▒░░▒▒▒▒▒▒▓▓▒▒▓▓▓▓▒▒▓▓▓▓▓▓░░░░                
+##    ▒▒░░░░▒▒░░▒▒▒▒▒▒░░▒▒▒▒▒▒░░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▒▒▒▒░░  ▒▒▒▒░░              
+##      ▒▒░░░░▒▒▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▒▒▒▒░░      ░░▒▒░░░░            
+##    ▒▒▓▓▒▒▓▓██▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓▓▒▒░░            ▒▒▒▒░░▒▒▒▒░░░░    
+##  ▒▒▒▒▒▒▒▒▒▒▓▓▒▒░░▒▒▒▒▒▒▒▒▒▒▒▒░░▒▒▒▒▒▒▓▓▓▓▓▓▓▓▒▒              ▒▒▒▒▒▒▒▒░░        
+##    ░░▓▓░░      ░░░░▒▒▒▒▒▒▒▒▓▓▓▓▓▓██████████▓▓▒▒▒▒░░░░░░░░      ▒▒▒▒▒▒▒▒        
+##                                ░░░░░░░░░░░░░░░░░░                ░░▒▒▓▓▒▒░░▒▒░░      
+## Title: Darkmoon Minstrel Helper
+## Author: TestUnit + ludwichi + SeMGa!
+## Version: 1.0 Lizard
 ## Notes: This addon was created for work with Darkmoon minstrel commands
-## Name: Darkmoon Master Addon
-## X-Date: 04 September 2021
-## X-Discord: TestUnit#1075
+## Name: Darkmoon Minstrel Helper
+## X-Date: 10.07.22
+## X-Discord: TestUnit#1075, w11m33T#1075
 ## X-Website: https://rp-wow.ru/users/132
+## LoadWith: RPSEmotes
 ## OptionalDeps: LibStub, CallbackHandler-1.0, AceAddon-3.0, AceEvent-3.0, AceHook-3.0, AceDB-3.0, AceLocale-3.0, AceConsole-3.0, Prat-3.0, Prat-3.0_Libraries
 ## DefaultState: Enabled
-## SavedVariables: DMMSave
+## SavedVariables: SAVEME, DMinstrelIconData, DMinstrelSave, DMinstrelFavMorphs
 
 DMinstrel.xml

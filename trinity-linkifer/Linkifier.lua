@@ -27,81 +27,139 @@ local function RGBPercToHex(r, g, b)
 end
 function MangLinkifier_Decompose(chatstring)
   if chatstring ~= nil then
-    ----------====~~GO Target Command Match Text ~~====----------
-    for guid in string.gmatch(chatstring, Strings["lfer_GOtargid1"]) do --TARGET ID
-      chatstring = string.gsub (chatstring, Strings["lfer_GOtargid2"], MangLinkifier_Link(Strings["lfer_GOtargid3"], "%2", "targid"))
+    -- ----------====~~ NPC Info Command Match Text ~~====----------
+    for guid in string.gmatch(chatstring, Strings["lfer_NPCInfoguid1"]) do --NPCINFO GUID
+      chatstring = string.gsub (chatstring, Strings["lfer_NPCInfoguid2"], MangLinkifier_Link(Strings["lfer_NPCInfoguid3"], "%1", "npcguid"))
     end
-    for guid in string.gmatch(chatstring, Strings["lfer_GOtargguid1"]) do --TARGET GUID
-      chatstring = string.gsub (chatstring, Strings["lfer_GOtargguid2"], MangLinkifier_Link(Strings["lfer_GOtargguid3"], "%1", "targguid"))
+    for guid in string.gmatch(chatstring, Strings["lfer_NPCInfoentry1"]) do --NPCINFO Entry
+      chatstring = string.gsub (chatstring, Strings["lfer_NPCInfoentry2"], MangLinkifier_Link(Strings["lfer_NPCInfoentry3"], "%1", "npcentry"))
     end
-    for guid in string.gmatch(chatstring, Strings["lfer_GOtargxyz1"]) do --TARGET XYZ
-      chatstring = string.gsub(chatstring, Strings["lfer_GOtargxyz2"], MangLinkifier_Link(Strings["lfer_GOtargxyz3"], "%1 %2 %3 %4", "targxyz"))
+    for guid in string.gmatch(chatstring, Strings["lfer_NPCInfodisplay1"]) do --NPCINFO Display
+      chatstring = string.gsub (chatstring, Strings["lfer_NPCInfodisplay2"], MangLinkifier_Link(Strings["lfer_NPCInfodisplay3"], "%1", "npcdisplay"))
     end
+    for guid in string.gmatch(chatstring, Strings["lfer_GOBTarOrientation1"]) do --MINGOBTar GUID
+      chatstring = string.gsub (chatstring, Strings["lfer_GOBTarOrientation1"], MangLinkifier_Link(Strings["lfer_GOBTarOrientation2"], "%1", "minoritent"));
+    end
+    for guid in string.gmatch(chatstring, Strings["lfer_GOBTarGuid1"]) do --MINGOBTar GUID
+      DMinstrel.User.GOBJECT = string.gsub (chatstring, Strings["lfer_GOBTarGuid2"], "%1");
+      chatstring = string.gsub (chatstring, Strings["lfer_GOBTarGuid1"], MangLinkifier_Link(Strings["lfer_GOBTarGuid3"], "%1 %2", "mingobtar"));
+    end
+  --   ----------====~~ ADD GO Command Match Text ~~====----------
+    for guid in string.gmatch(chatstring, Strings["lfer_AddGoguid1"]) do --ADDGO GUID
+      chatstring = string.gsub (chatstring, Strings["lfer_AddGoguid2"], MangLinkifier_Link(Strings["lfer_AddGoguid3"], "%1", "addgoguid"));
+    end
+    for guid in string.gmatch(chatstring, Strings["lfer_AddGoid1"]) do --ADDGO ID
+      chatstring = string.gsub (chatstring, Strings["lfer_AddGoid2"], MangLinkifier_Link(Strings["lfer_AddGoid3"], "%1", "addgoid"))
+    end
+
+    for guid in string.gmatch(chatstring, "%|cffffffff%|Hgameobject_entry:(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP OBJECT
+      chatstring = string.gsub(chatstring, "%|cffffffff%|Hgameobject_entry:(.*)%|h%[(.*)%]%|h%|r", MangLinkifier_Link("%2", "%1", "lookupgo"))
+    end
+    for guid in string.gmatch(chatstring, "%|cffffffff%|Hcreature_entry:(.*)%|h%[(.*)%]%|h%|r") do --LOOKUP CREATURE
+      chatstring = string.gsub (chatstring, "%|cffffffff%|Hcreature_entry:(.*)%|h%[(.*)%]%|h%|r", MangLinkifier_Link("%2", "%1", "lookupcreature"))
+    end
+
+    -- for guid in string.gmatch(chatstring, Strings["lfer_LookUpObj1"]) do
+    --   chatstring = string.gsub (chatstring, Strings["lfer_LookUpObj1"], MangLinkifier_Link(Strings["lfer_LookUpObj1"], "%1 %3", "lookup"))
+    -- end
   end
   return chatstring
 end
---[[
-local function Rainbowify(text)
-  local finalText = ""
-  local i = 1
-
-  local characterCount = 0;
-  for character in string.gmatch(text, "([%z\1-\127\194-\244][\128-\191]*)") do
-    characterCount = characterCount + 1
-  end
-
-  for character in string.gmatch(text, "([%z\1-\127\194-\244][\128-\191]*)") do
-    ---@type Color
-    local color = Rainbow(i, characterCount)
-    finalText = finalText .. color:WrapTextInColorCode(character)
-    i = i + 1
-  end
-  return finalText
-end]]
 
 function MangLinkifier_Link(orgtxt, id, type)
   local color = DMinstrel.Linkifier.db.profile.style.color.linkifier
   local urlcolor = RGBPercToHex(color.r,color.g,color.b)
-  --local urlcolor = (string.rep("0",6-string.len((string.upper(string.format("%x", dec)))))..(string.upper(string.format("%x", dec))))
   ----------====~~GO Target Command Replace Text ~~====----------
   if(type == "targid") then
     link = orgtxt .." - |cff" .. urlcolor .. "|Htargidadd:" .. id .. "|h["..Locale["lfer_Spawn"].."]|h|r "
-  elseif(type == "targguid") then
-    link = orgtxt .." - |cff" .. urlcolor .. "|Htargguidgo:" .. id .. "|h["..Locale["lfer_Goto"].."]|h|r "
-    link = link .." - |cff" .. urlcolor .. "|Htargguidmove:" .. id .. "|h["..Locale["lfer_Move"].."]|h|r "
-    link = link .." - |cff" .. urlcolor .. "|Htargguidturn:" .. id .. "|h["..Locale["lfer_Turn"].."]|h|r "
-    link = link .." - |cff" .. urlcolor .. "|Htargguiddel:" .. id .. "|h["..Locale["lfer_Delete"].."]|h|r " 
-    link = link .." - |cff" .. urlcolor .. "|Htargguidact:" .. id .. "|h["..Locale["lfer_Activate"].."]|h|r \n" 
-  elseif(type == "targxyz") then
-    link = orgtxt .." - |cff" .. urlcolor .. "|Htargxyz:" .. id .. "|h["..Locale["lfer_Teleport"].."]|h|r "
-  else 
+  elseif (type == "mingobtar") then
+    local chunks = {};
+    for s in id:gmatch("%S+") do
+      table.insert(chunks, s);
+    end
+    link = orgtxt.. " - |cff" .. urlcolor .. "|Hmingobtarmmove:" .. chunks[1] .. "|h["..Locale["lfer_MMove"].."]|h|r "
+    link = link.. " - |cff" .. urlcolor .. "|Hmingobtarmspawn:" .. chunks[2] .. "|h["..Locale["lfer_MSpawn"].."]|h|r "
+    link = link.. " - |cff" .. urlcolor .. "|Hmingobtarmdel:" .. chunks[1] .. "|h["..Locale["lfer_MDel"].."]|h|r "
+  elseif (type == "minoritent") then
+    link = orgtxt.. " - |cff" .. urlcolor .. "|Hmingobtarorient:" .. id .. "|h["..Locale["lfer_MOrient"].."]|h|r "
+  ----------====~~ NPC Info Command Replace Text ~~====----------
+  elseif(type == "npcguid") then
+    link = orgtxt .." - |cff" .. urlcolor .. "|Hnpcguidmove:" .. id .. "|h["..Locale["lfer_Move"].."]|h|r "
+    link = link .." - |cff" .. urlcolor .. "|Hnpcguiddel:" .. id .. "|h["..Locale["lfer_MDel"].."]|h|r "
+  elseif(type == "npcentry") then
+    link = orgtxt .." - |cff" .. urlcolor .. "|Hnpcentryadd:" .. id .. "|h["..Locale["lfer_Spawn"].."]|h|r "
+  elseif(type == "npcdisplay") then
+    link = orgtxt .." - |cff" .. urlcolor .. "|Hnpcdisplay:" .. id .. "|h["..Locale["lfer_Morph"].."]|h|r "
+  elseif(type == "lookupgo") then
+    link = "|cffffffff|Hgameobject_entry:" .. id .. "|h[" .. orgtxt .. "]|h|r"
+    link = link .." - |cff" .. urlcolor .. "|Hlookupgoadd:" .. id .. "|h["..Locale["lfer_Spawn"].."]|h|r "
+  elseif(type == "lookupcreature") then
+    link = "|cffffffff|Hcreature_entry:" .. id .. "|h[" .. orgtxt .. "]|h|r"
+    link = link .." - |cff" .. urlcolor .. "|Hlookupcreatureadd:" .. id .. "|h["..Locale["lfer_Spawn"].."]|h|r "
+  ----------====~~ ADD GO Command Replace Text ~~====----------
+  elseif(type == "addgoguid") then
+    link = orgtxt .." - |cff" .. urlcolor .. "|Haddgoguidmove:" .. id .. "|h["..Locale["lfer_Move"].."]|h|r "
+    link = link .." - |cff" .. urlcolor .. "|Haddgoguidturn:" .. id .. "|h["..Locale["lfer_Turn"].."]|h|r "
+    link = link .." - |cff" .. urlcolor .. "|Haddgoguiddel:" .. id .. "|h["..Locale["lfer_Delete"].."]|h|r \n"
+  elseif(type == "addgoid") then
+    link = orgtxt .." - |cff" .. urlcolor .. "|Haddgoid:" .. id .. "|h["..Locale["lfer_Spawn"].."]|h|r \n"
+  else
     link = orgtxt .." - |cffc20000"..Locale["lfer_Error"].." |r |cff008873" .. type .. "|r"
   end
   return link
 end
 
 function MangLinkifier_SetItemRef(link, text, button)
-  ----------====~~Target Command Functions ~~====----------
-  if ( strsub(link, 1, 9) == "targidadd" ) then
-    SendChatMessage(".gobject add "..strsub(link, 11), say, nil, nil)
+  ----------====~~ NPC Info Command Functions ~~====----------
+  if ( strsub(link, 1, 11) == "npcentryadd" ) then
+    DMinstrel:SendMinstrelMessage(".minstrel npc add "..strsub(link, 13))
     return;
-  elseif ( strsub(link, 1, 10) == "targguidgo" ) then
-    SendChatMessage(".go object "..strsub(link, 12), say, nil, nil)
+  elseif ( strsub(link, 1, 10) == "npcdisplay" ) then
+    DMinstrel:SendMinstrelMessage(".minstrel morph "..strsub(link, 12))
     return;
-  elseif ( strsub(link, 1, 12) == "targguidmove" ) then
-    SendChatMessage(".gobject move "..strsub(link, 14), say, nil, nil)
+  elseif ( strsub(link, 1, 11) == "npcdisplay2" ) then
+    DMinstrel:SendMinstrelMessage(".minstrel morph "..strsub(link, 13))
     return;
-  elseif ( strsub(link, 1, 12) == "targguidturn" ) then
-    SendChatMessage(".gobject turn "..strsub(link, 14), say, nil, nil)
+  elseif ( strsub(link, 1, 11) == "npcguidmove" ) then
+    SendChatMessage(".min move creature "..strsub(link, 13), say, nil, nil)
     return;
-  elseif ( strsub(link, 1, 11) == "targguidact" ) then
-      SendChatMessage(".gobject activate "..strsub(link, 13), say, nil, nil)
+  elseif ( strsub(link, 1, 10) == "npcguiddel" ) then
+    SendChatMessage(".min del "..strsub(link, 12), say, nil, nil)
     return;
-  elseif ( strsub(link, 1, 11) == "targguiddel" ) then
-    SendChatMessage(".gobject delete "..strsub(link, 13), say, nil, nil)
+  ----------====~~ ADD GO Command Functions ~~====----------
+  elseif ( strsub(link, 1, 13) == "addgoguidmove" ) then
+    DMinstrel:SendMinstrelMessage(".minstrel gobject move "..strsub(link, 15))
     return;
-  elseif ( strsub(link, 1, 7) == "targxyz" ) then
-    SendChatMessage(".go "..strsub(link, 9), say, nil, nil)
+  elseif ( strsub(link, 1, 13) == "addgoguidturn" ) then
+    DMinstrel:SendMinstrelMessage(".minstrel gobject turn "..strsub(link, 15))
+    return;
+  elseif ( strsub(link, 1, 12) == "addgoguiddel" ) then
+    DMinstrel:SendMinstrelMessage(".minstrel gobject delete "..strsub(link, 14))
+    return;
+  elseif ( strsub(link, 1, 7) == "addgoid" ) then
+    DMinstrel:SendMinstrelMessage(".minstrel gobject add "..strsub(link, 9))
+    DMinstrel.User.GOBJECT = strsub(link, 9);
+    return;
+  elseif ( strsub(link, 1, 11) == "lookupgoadd" ) then
+    SendChatMessage(".minstrel gobject add "..strsub(link, 13), say, nil, nil)
+    return;
+  elseif ( strsub(link, 1, 14) == "creature_entry" ) then
+    SendChatMessage(".minstrel npc add "..strsub(link, 16), say, nil, nil)
+    return;
+  elseif ( strsub(link, 1, 17) == "lookupcreatureadd" ) then
+    SendChatMessage(".minstrel npc add "..strsub(link, 19), say, nil, nil)
+    return;
+  elseif ( strsub(link, 1, 15) == "mingobtarmspawn" ) then
+    DMinstrel:SendMinstrelMessage(".minstrel gobject add "..strsub(link, 17));
+    return;
+  elseif ( strsub(link, 1, 14) == "mingobtarmmove" ) then
+    DMinstrel:SendMinstrelMessage(".minstrel gobject move "..strsub(link, 16));
+    return;
+  elseif ( strsub(link, 1, 13) == "mingobtarmdel" ) then
+    DMinstrel:SendMinstrelMessage(".minstrel gobject delete "..strsub(link, 15));
+    return;
+  elseif (strsub(link, 1, 15) == "mingobtarorient") then
+    DMinstrel:SendMinstrelMessage(".minstrel gobject turn "..DMinstrel.User.GOBJECT);
     return;
   end
   MangLinkifier_SetItemRef_Original(link, text, button);
