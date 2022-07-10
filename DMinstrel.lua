@@ -34,6 +34,7 @@ DMinstrel.ChatMaxLetters = 255;
 DMinstrel.MyLevel = 0;
 DMinstrel.MinstrelText = "";
 DMinstrel.Timers = {};
+DMinstrel.ReEnableFrame = nil;
 C_ChatInfo.RegisterAddonMessagePrefix(DMinstrel.Prefix)
 DMinstrel.Commands = {};
 DMinstrel.Commands[1] = {"Подойди", ".min npc come"};
@@ -50,6 +51,7 @@ DMinstrel.Commands[11] = {"Отменить эмоцию НИП", ".min npc set 
 DMinstrel.Commands[12] = {"Полёт", ".minstrel fly"};
 DMinstrel.Commands[13] = {"Инфо объект", ".min gob tar"};
 DMinstrel.Commands[14] = {"Инфо НИП", ".min npc info"};
+DMinstrel.Commands[15] = {"Выделить и удалить", "Выделяет объект и удаляет его"};
 
 DMinstrel.NPC = {};
 DMinstrel.NPC[1] = {"К ноге", ".min npc come"};
@@ -428,6 +430,21 @@ function DMinstrel:WantToPlaySound()
 		DMinstrel_SoundPlanel:Hide();
 	else
 		DMinstrel_SoundPlanel:Show();
+	end
+end
+
+function DMinstrel:TimedSwitchFrameState(frame)
+	DMinstrel.ReEnableFrame = frame;
+	DMinstrel:ReEnabledFrame();
+	DMinstrel:ScheduleTimer("ReEnabledFrame", 0.5);
+end
+
+function DMinstrel:ReEnabledFrame()
+	if DMinstrel.ReEnableFrame:IsEnabled() then
+		DMinstrel.ReEnableFrame:Disable();
+	else
+		DMinstrel:SendMinstrelMessage(".minstrel gobject delete "..DMinstrel.User.GOBJECT);
+		DMinstrel.ReEnableFrame:Enable();
 	end
 end
 

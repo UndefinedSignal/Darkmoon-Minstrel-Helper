@@ -1,4 +1,4 @@
-DMinstrel = LibStub("AceAddon-3.0"):NewAddon(CreateFrame("Frame"), "DMinstrel", "AceConsole-3.0", "AceEvent-3.0", "AceHook-3.0");
+DMinstrel = LibStub("AceAddon-3.0"):NewAddon(CreateFrame("Frame"), "DMinstrel", "AceConsole-3.0", "AceEvent-3.0", "AceHook-3.0", "AceTimer-3.0");
 DMinstrel.Version = GetAddOnMetadata("DMinstrel", "version");
 
 DMinstrel.NPCSayChannels = {
