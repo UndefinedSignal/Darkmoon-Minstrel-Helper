@@ -23,16 +23,16 @@
 ##    ░░▓▓░░      ░░░░▒▒▒▒▒▒▒▒▓▓▓▓▓▓██████████▓▓▒▒▒▒░░░░░░░░      ▒▒▒▒▒▒▒▒        
 ##                                ░░░░░░░░░░░░░░░░░░                ░░▒▒▓▓▒▒░░▒▒░░      
 ## Title: Darkmoon Minstrel Helper
-## Author: TestUnit + ludwichi + SeMGa!
+## Author: TestUnit, ludwichi, SeMGa!, Taku @Druidsmoker
 ## Version: 1.0 Lizard
 ## Notes: This addon was created for work with Darkmoon minstrel commands
 ## Name: Darkmoon Minstrel Helper
-## X-Date: 10.07.22
+## X-Date: 31.07.22
 ## X-Discord: TestUnit#1075, w11m33T#1075
 ## X-Website: https://rp-wow.ru/users/132
 ## LoadWith: RPSEmotes
 ## OptionalDeps: LibStub, CallbackHandler-1.0, AceAddon-3.0, AceEvent-3.0, AceHook-3.0, AceDB-3.0, AceLocale-3.0, AceConsole-3.0, Prat-3.0, Prat-3.0_Libraries
 ## DefaultState: Enabled
-## SavedVariables: SAVEME, DMinstrelIconData, DMinstrelSave, DMinstrelFavMorphs
+## SavedVariables: DMinstrelIconData, DMinstrelGOBSave, DMinstrelSave, DMinstrelFavMorphs
 
 DMinstrel.xml

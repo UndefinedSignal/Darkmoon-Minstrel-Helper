@@ -52,6 +52,7 @@ DMinstrel.Commands[12] = {"Полёт", ".minstrel fly"};
 DMinstrel.Commands[13] = {"Инфо объект", ".min gob tar"};
 DMinstrel.Commands[14] = {"Инфо НИП", ".min npc info"};
 DMinstrel.Commands[15] = {"Выделить и удалить", "Выделяет объект и удаляет его"};
+-- DMinstrel.Commands[16] = {"Поворот объекта", "Открывает окно для вращения объектов"};
 
 DMinstrel.NPC = {};
 DMinstrel.NPC[1] = {"К ноге", ".min npc come"};
@@ -79,36 +80,38 @@ DMinstrel.NPC[22] = {"Рубить", ".min npc set emote 173"};
 DMinstrel.NPC[23] = {"Убрать всех НИП", ".min reset creature"};
 DMinstrel.NPC[24] = {"Убрать НИП'а", ".min npc del"};
 
-DMinstrel.GObject = {};
-DMinstrel.GObject[1] = {"Огонь", ".min gob add 726147"};
-DMinstrel.GObject[2] = {"Кровь", ".min gob add 739410"};
-DMinstrel.GObject[3] = {"Красная руна", ".min gob add 724851"};
-DMinstrel.GObject[4] = {"Синяя руна", ".min gob add 713694"};
-DMinstrel.GObject[5] = {"Таргет", ".min gob tar"};
-DMinstrel.GObject[6] = {"Ящик", ".min gob add 741496"};
-DMinstrel.GObject[7] = {"Красный кристалл", ".min gob add 709940"};
-DMinstrel.GObject[8] = {"Деревяная ограда", ".min gob add 718467"};
-DMinstrel.GObject[9] = {"Капкан", ".min gob add 714992"};
-DMinstrel.GObject[10] = {"Мусор", ".min gob add 718634"};
-DMinstrel.GObject[11] = {"Обычный стол", ".min gob add 728267"};
-DMinstrel.GObject[12] = {"Стог сена", ".min gob add 726959"};
-DMinstrel.GObject[13] = {"Кусты", ".min gob add 708487"};
-DMinstrel.GObject[14] = {"Удобное кресло", ".min gob add 738477"};
-DMinstrel.GObject[15] = {"Простой табурет", ".min gob add 728933"};
-DMinstrel.GObject[16] = {"Горшок зелени", ".min gob add 730574"};
-DMinstrel.GObject[17] = {"Сеть", ".min gob add 739159"};
-DMinstrel.GObject[18] = {"Бревно-скамья", ".min gob add 712354"};
-DMinstrel.GObject[19] = {"Костёр", ".min gob add 739396"};
-DMinstrel.GObject[20] = {"Палатка", ".min gob add 711377"};
-DMinstrel.GObject[21] = {"Спальный мешок", ".min gob add 723887"};
-DMinstrel.GObject[22] = {"Удобный диван", ".min gob add 738311"};
-DMinstrel.GObject[23] = {"Туман", ".min gob add 720522"};
-DMinstrel.GObject[24] = {"Удалить все свои объекты", ".min reset object"};
+if (DMinstrelGOBSave == nil or #DMinstrelGOBSave <= 0) then
+	DMinstrelGOBSave = {};
+	DMinstrelGOBSave[1] = {"Огонь", ".min gob add 726147"};
+	DMinstrelGOBSave[2] = {"Кровь", ".min gob add 739410"};
+	DMinstrelGOBSave[3] = {"Красная руна", ".min gob add 724851"};
+	DMinstrelGOBSave[4] = {"Синяя руна", ".min gob add 713694"};
+	DMinstrelGOBSave[5] = {"Таргет", ".min gob tar"};
+	DMinstrelGOBSave[6] = {"Ящик", ".min gob add 741496"};
+	DMinstrelGOBSave[7] = {"Красный кристалл", ".min gob add 709940"};
+	DMinstrelGOBSave[8] = {"Деревяная ограда", ".min gob add 718467"};
+	DMinstrelGOBSave[9] = {"Капкан", ".min gob add 714992"};
+	DMinstrelGOBSave[10] = {"Мусор", ".min gob add 718634"};
+	DMinstrelGOBSave[11] = {"Обычный стол", ".min gob add 728267"};
+	DMinstrelGOBSave[12] = {"Стог сена", ".min gob add 726959"};
+	DMinstrelGOBSave[13] = {"Кусты", ".min gob add 708487"};
+	DMinstrelGOBSave[14] = {"Удобное кресло", ".min gob add 738477"};
+	DMinstrelGOBSave[15] = {"Простой табурет", ".min gob add 728933"};
+	DMinstrelGOBSave[16] = {"Горшок зелени", ".min gob add 730574"};
+	DMinstrelGOBSave[17] = {"Сеть", ".min gob add 739159"};
+	DMinstrelGOBSave[18] = {"Бревно-скамья", ".min gob add 712354"};
+	DMinstrelGOBSave[19] = {"Костёр", ".min gob add 739396"};
+	DMinstrelGOBSave[20] = {"Палатка", ".min gob add 711377"};
+	DMinstrelGOBSave[21] = {"Спальный мешок", ".min gob add 723887"};
+	DMinstrelGOBSave[22] = {"Удобный диван", ".min gob add 738311"};
+	DMinstrelGOBSave[23] = {"Туман", ".min gob add 720522"};
+	DMinstrelGOBSave[24] = {"Удалить все свои объекты", ".min reset object"};
+end
 
-if DMinstrelSave == nil then
+if (DMinstrelSave == nil or #DMinstrelSave <= 0) then
 	DMinstrelSave = {}
 	DMinstrelSave[1] = {".minstrel npc say — Я слежу за тобой!", ""};
-	DMinstrelSave[2] = {".minstrel morph 11686", ""};
+	DMinstrelSave[2] = {".minstrel morph 5369", ""};
 	DMinstrelSave[3] = {".minstrel demorph", ""};
 	DMinstrelSave[4] = {".minstre gobject target", ""};
 	DMinstrelSave[5] = {".minstrel unpossess", ""};
@@ -118,6 +121,7 @@ if DMinstrelSave == nil then
 end
 
 DMinstrel.ActiveMacros = 0;
+DMinstrel.ActiveObjectButton = 0;
 
 --- TRP3 Code
 local _DMinstrelResizeFrame = DMinstrelResizeFrame;
@@ -206,6 +210,15 @@ function DMinstrel:MacrosWindow()
 	return true;
 end
 
+function DMinstrel:ObjectWindow()
+	if DMinstrelObjectEdit:IsShown() then
+		DMinstrelObjectEdit:Hide();
+		return false
+	end
+	DMinstrelObjectEdit:Show();
+	return true;
+end
+
 function DMinstrel:InitResize(resizeButton)
 	resizeButton.resizableFrame = resizeButton.resizableFrame or resizeButton:GetParent();
 	assert(resizeButton.minWidth, "minWidth key is not set.");
@@ -270,6 +283,7 @@ function DMinstrel:ChangeContent(window)
 	if window == "Models" then
 		--DMinstrelUI:Hide();
 		DMinstrelMacrosEdit:Hide();
+		DMinstrelObjectEdit:Hide();
 		DMinstrel:ProcessDMinstrelMorph();
 		return
 	end
@@ -293,7 +307,8 @@ function DMinstrel:ChangeContent(window)
 end
 
 function DMinstrel:SendMinstrelMessage(msg)
-	C_ChatInfo.SendAddonMessage(DMinstrel.Prefix, msg, "WHISPER", UnitName("player"));
+	--SendChatMessage(msg, "WHISPER", nil, GetUnitName("PLAYER"));
+	C_ChatInfo.SendAddonMessage(DMinstrel.Prefix, msg, "WHISPER", GetUnitName("PLAYER"));
 end
 
 local function chsize(char)
@@ -439,6 +454,10 @@ function DMinstrel:TimedSwitchFrameState(frame)
 	DMinstrel:ScheduleTimer("ReEnabledFrame", 0.5);
 end
 
+-- function DMinstrel:OpenGObjectTurnFrame()
+
+-- end
+
 function DMinstrel:ReEnabledFrame()
 	if DMinstrel.ReEnableFrame:IsEnabled() then
 		DMinstrel.ReEnableFrame:Disable();
@@ -477,6 +496,27 @@ StaticPopupDialogs["DMinstrelMacrosEdit"] = {
 	button2 = CANCEL,
 	OnAccept = function (self, data)
 		DMinstrelSave[DMinstrel.ActiveMacros][2] = data[1];
+		DMinstrelMacrosEdit:Hide();
+	end,
+	OnCancel = function (_,reason)
+
+	end,
+	hasEditBox = false,
+	timeout = 30,
+	whileDead = true,
+	hideOnEscape = true,
+}
+
+StaticPopupDialogs["DMinstrelObjectEdit"] = {
+	text = "Вы действительно хотите изменить команду объекта?",
+	button1 = ACCEPT,
+	button2 = CANCEL,
+	OnAccept = function (self, data)
+		DMinstrelGOBSave[DMinstrel.ActiveObjectButton][2] = data[1];
+		DMinstrelGOBSave[DMinstrel.ActiveObjectButton][1] = data[2];
+		DMinstrelUI:Hide(); -- Нужно чтобы обновить текст
+		DMinstrelUI:Show();
+		DMinstrelObjectEdit:Hide();
 	end,
 	OnCancel = function (_,reason)
 

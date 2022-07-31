@@ -30,8 +30,8 @@ function ReturnPratStrings_ruRU()
     ["lfer_GOtargxyz2"] = "X: |cffffffff|Hpos:|h([0-9 -]+.%d+)|h|r Y: |cffffffff|Hpos:|h([0-9 -]+.%d+)|h|r Z: |cffffffff|Hpos:|h([0-9 -]+.%d+)|h|r MapId: |cffffffff|Hpos:|h(%d+)",
     ["lfer_GOtargxyz3"] = "X: %1  Y: %2  Z: %3 MapId: %4", "%1 %2 %3 %4",
     ----------====~~ NPC Info Command Match Text ~~====----------
-    ["lfer_NPCInfoguid1"] = "SpawndID: (%d+)%.",
-    ["lfer_NPCInfoguid2"] = "SpawndID: (%d+)%.",
+    ["lfer_NPCInfoguid1"] = "SpawnID: (%d+).",
+    ["lfer_NPCInfoguid2"] = "SpawnID: (%d+).",
     ["lfer_NPCInfoguid3"] = "SpawndID: %1.",
     ["lfer_NPCInfoentry1"] = "Entry: (%d+)%.",
     ["lfer_NPCInfoentry2"] = "Entry: (%d+)%.",
@@ -72,8 +72,11 @@ function ReturnStrings_ruRU()
     ["lfer_GOtargxyz2"] = "X: |cffffffff|Hpos:|h([0-9 -]+.%d+)|h|r Y: |cffffffff|Hpos:|h([0-9 -]+.%d+)|h|r Z: |cffffffff|Hpos:|h([0-9 -]+.%d+)|h|r MapId: |cffffffff|Hpos:|h(%d+)",
     ["lfer_GOtargxyz3"] = "X: %1  Y: %2  Z: %3 MapId: %4", "%1 %2 %3 %4",
     ----------====~~ NPC Info Command Match Text ~~====----------
-    ["lfer_NPCInfoguid1"] = "SpawndID: (%d+)%.",
-    ["lfer_NPCInfoguid2"] = "SpawndID: (%d+)%.",
+    ["lfer_NPCInfoname1"] = "Name: (.+)",
+    ["lfer_NPCInfoname2"] = "Name: (.+)",
+    ["lfer_NPCInfoname3"] = "Name: %1",
+    ["lfer_NPCInfoguid1"] = "SpawnID: (%d+).",
+    ["lfer_NPCInfoguid2"] = "SpawnID: (%d+).",
     ["lfer_NPCInfoguid3"] = "SpawndID: %1.",
     ["lfer_NPCInfoentry1"] = "Entry: (%d+)%.",
     ["lfer_NPCInfoentry2"] = "Entry: (%d+)%.",
@@ -102,6 +105,5 @@ function ReturnStrings_ruRU()
     ["lfer_LookUpObj1"] = "(%d+) - .+(%d+).+%[(.+)%]|h|r'",
     ["lfer_LookUpObj2"] = "(%d+) - .+(%d+).+%[(.+)%]|h|r",
     ["lfer_LookUpObj3"] = "%1 - %3'"
-
 }
 end

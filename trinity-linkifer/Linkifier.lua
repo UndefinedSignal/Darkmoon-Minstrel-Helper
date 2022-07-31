@@ -28,6 +28,9 @@ end
 function MangLinkifier_Decompose(chatstring)
   if chatstring ~= nil then
     -- ----------====~~ NPC Info Command Match Text ~~====----------
+    -- for guid in string.gmatch(chatstring, Strings["lfer_NPCInfoname1"]) do --NPCINFO Name
+    --   chatstring = string.gsub (chatstring, Strings["lfer_NPCInfoname2"], MangLinkifier_Link(Strings["lfer_NPCInfoname3"], "%1", "npcname"))
+    -- end
     for guid in string.gmatch(chatstring, Strings["lfer_NPCInfoguid1"]) do --NPCINFO GUID
       chatstring = string.gsub (chatstring, Strings["lfer_NPCInfoguid2"], MangLinkifier_Link(Strings["lfer_NPCInfoguid3"], "%1", "npcguid"))
     end
@@ -82,6 +85,8 @@ function MangLinkifier_Link(orgtxt, id, type)
     link = link.. " - |cff" .. urlcolor .. "|Hmingobtarmdel:" .. chunks[1] .. "|h["..Locale["lfer_MDel"].."]|h|r "
   elseif (type == "minoritent") then
     link = orgtxt.. " - |cff" .. urlcolor .. "|Hmingobtarorient:" .. id .. "|h["..Locale["lfer_MOrient"].."]|h|r "
+  elseif(type == "npcname")then
+    link = orgtxt.. " - |cff" .. urlcolor .. "|Hminnpcnamelookup:" .. id .. "|h["..Locale["lfer_NLook"].."]|h|r "
   ----------====~~ NPC Info Command Replace Text ~~====----------
   elseif(type == "npcguid") then
     link = orgtxt .." - |cff" .. urlcolor .. "|Hnpcguidmove:" .. id .. "|h["..Locale["lfer_Move"].."]|h|r "
@@ -91,7 +96,7 @@ function MangLinkifier_Link(orgtxt, id, type)
   elseif(type == "npcdisplay") then
     link = orgtxt .." - |cff" .. urlcolor .. "|Hnpcdisplay:" .. id .. "|h["..Locale["lfer_Morph"].."]|h|r "
   elseif(type == "lookupgo") then
-    link = "|cffffffff|Hgameobject_entry:" .. id .. "|h[" .. orgtxt .. "]|h|r"
+    link = orgtxt .. "|cffffffff|Hgameobject_entry:" .. id .. "|h[" .. orgtxt .. "]|h|r"
     link = link .." - |cff" .. urlcolor .. "|Hlookupgoadd:" .. id .. "|h["..Locale["lfer_Spawn"].."]|h|r "
   elseif(type == "lookupcreature") then
     link = "|cffffffff|Hcreature_entry:" .. id .. "|h[" .. orgtxt .. "]|h|r"
@@ -121,10 +126,13 @@ function MangLinkifier_SetItemRef(link, text, button)
     DMinstrel:SendMinstrelMessage(".minstrel morph "..strsub(link, 13))
     return;
   elseif ( strsub(link, 1, 11) == "npcguidmove" ) then
-    SendChatMessage(".min move creature "..strsub(link, 13), say, nil, nil)
+    DMinstrel:SendMinstrelMessage(".min npc come "..strsub(link, 13), say, nil, nil)
     return;
   elseif ( strsub(link, 1, 10) == "npcguiddel" ) then
-    SendChatMessage(".min del "..strsub(link, 12), say, nil, nil)
+    DMinstrel:SendMinstrelMessage(".m n d "..strsub(link, 12), say, nil, nil)
+    return;
+  elseif( strsub(link, 1, 13) == "npcnamelookup" ) then
+    DMinstrel:SendMinstrelMessage(".minstrel lookup creature "..strsub(link, 15), say, nil, nil)
     return;
   ----------====~~ ADD GO Command Functions ~~====----------
   elseif ( strsub(link, 1, 13) == "addgoguidmove" ) then
@@ -141,13 +149,13 @@ function MangLinkifier_SetItemRef(link, text, button)
     DMinstrel.User.GOBJECT = strsub(link, 9);
     return;
   elseif ( strsub(link, 1, 11) == "lookupgoadd" ) then
-    SendChatMessage(".minstrel gobject add "..strsub(link, 13), say, nil, nil)
+    DMinstrel:SendMinstrelMessage(".minstrel gobject add "..strsub(link, 13), say, nil, nil)
     return;
   elseif ( strsub(link, 1, 14) == "creature_entry" ) then
-    SendChatMessage(".minstrel npc add "..strsub(link, 16), say, nil, nil)
+    DMinstrel:SendMinstrelMessage(".minstrel npc add "..strsub(link, 16), say, nil, nil)
     return;
   elseif ( strsub(link, 1, 17) == "lookupcreatureadd" ) then
-    SendChatMessage(".minstrel npc add "..strsub(link, 19), say, nil, nil)
+    DMinstrel:SendMinstrelMessage(".minstrel npc add "..strsub(link, 19), say, nil, nil)
     return;
   elseif ( strsub(link, 1, 15) == "mingobtarmspawn" ) then
     DMinstrel:SendMinstrelMessage(".minstrel gobject add "..strsub(link, 17));

@@ -87,17 +87,38 @@
         <NormalFont style="GameFontHighlightLeft"/>
         <Scripts>
             <OnLoad>
-                self.Text:SetText(DMinstrel.GObject[tonumber(self:GetID())][1]);
+                self:RegisterForClicks("LeftButtonUp", "RightButtonDown");
                 self.icon:SetTexture("Interface/ICONS/"..self.IconText);
             </OnLoad>
+            <OnShow>
+                self.Text:SetText(DMinstrelGOBSave[tonumber(self:GetID())][1]);
+            </OnShow>
             <OnClick>
-                DMinstrel:SendMinstrelMessage(DMinstrel.GObject[tonumber(self:GetID())][2]);
+                DMinstrel.ActiveObjectButton = tonumber(self:GetID());
+                if(button == "RightButton") then
+                    
+                    if (DMinstrelGOBSave[DMinstrel.ActiveObjectButton][2] == nil) then
+                        DMinstrelGOBSave[DMinstrel.ActiveObjectButton][2] = "";
+                    else
+                        _G["DMinstrelObjectEditContentTextTitleScrollText"]:SetText(DMinstrelGOBSave[DMinstrel.ActiveObjectButton][1]);
+                        _G["DMinstrelObjectEditContentTextMacrosScrollText"]:SetText(DMinstrelGOBSave[DMinstrel.ActiveObjectButton][2]);
+                    end
+                    DMinstrel:ObjectWindow();
+                else
+                    if (DMinstrelGOBSave[DMinstrel.ActiveObjectButton][2] == "" or DMinstrelGOBSave[DMinstrel.ActiveObjectButton][2] == nil) then
+                        DMinstrelGOBSave[DMinstrel.ActiveObjectButton][2] = " ";
+                    else
+                        DMinstrel:SendMinstrelMessage(DMinstrelGOBSave[DMinstrel.ActiveObjectButton][2]);
+                    end
+                end
             </OnClick>
             <OnEnter>
                 GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
-                GameTooltip:AddLine(DMinstrel.GObject[tonumber(self:GetID())][1]);
+                GameTooltip:AddLine(DMinstrelGOBSave[tonumber(self:GetID())][1]);
                 GameTooltip:AddLine(" ");
-                GameTooltip:AddLine(DMinstrel.GObject[tonumber(self:GetID())][2], 1,1,1, true);
+                GameTooltip:AddLine(DMinstrelGOBSave[tonumber(self:GetID())][2], 1,1,1, true);
+                GameTooltip:AddLine("ЛКМ — Применить.", 1, 0.5, 0.25);
+                GameTooltip:AddLine("ПКМ — Редактировать.", 1, 0.5, 0.25);
                 GameTooltip:Show();
             </OnEnter>
             <OnLeave>
@@ -154,6 +175,9 @@
                     else
                         DMinstrel.ActiveMacros = tonumber(self:GetID());
                         DMinstrelMacrosEdit:Show();
+                        if (DMinstrelSave[DMinstrel.ActiveMacros][2] == nil) then
+                            DMinstrelSave[DMinstrel.ActiveMacros][2] = "";
+                        end
                         if (DMinstrelSave[DMinstrel.ActiveMacros][2] == "") then
                             _G["DMinstrelMacrosEditContentTextMacrosScrollText"]:SetText(DMinstrelSave[DMinstrel.ActiveMacros][1]);
                         else
@@ -167,7 +191,7 @@
 
     <Frame name="MIN_TextAreaBase" virtual="true" enableMouse="true">
         <Frames>
-            <ScrollFrame parentKey="scroll" name="$parentScroll" inherits="UIPanelScrollFrameTemplate">
+            <ScrollFrame name="$parentScroll" inherits="UIPanelScrollFrameTemplate">
                 <Anchors>
                     <Anchor point="TOP" x="0" y="-8"/>
                     <Anchor point="BOTTOM" x="0" y="2"/>
@@ -219,7 +243,7 @@
                 </Anchors>
                 <Scripts>
                     <OnClick>
-                        self:GetParent().scroll.text:SetFocus();
+                        _G[self:GetParent():GetName().."ScrollText"]:SetFocus();
                     </OnClick>
                 </Scripts>
             </Button>
@@ -263,7 +287,6 @@
                                 self:GetParent():GetParent().dummy:Hide();
                             </OnEditFocusGained>
                             <OnEditFocusLost>
-                                StaticPopup_Show("DMinstrelMacrosEdit", nil, nil, {self:GetText()});
                                 self:HighlightText(0,0);
                                 self:GetParent():GetParent().dummy:Show();
                             </OnEditFocusLost>
@@ -352,7 +375,7 @@
         </Layers>
     </Frame>
 
-    <Frame name="MIN_TextAreaMacros" inherits="MIN_TextArea, MIN_TextAreaMacrosBase" virtual="true"/>
+    <Frame name="MIN_TextAreaMacros" inherits="MIN_TextArea" virtual="true"/>
 
     <Frame name="DMIN_Edit" frameStrata="DIALOG" enableMouse="true" movable="true" clampedToScreen="true" hidden="true" virtual="true">
 		<Size x="380" y="130"/>

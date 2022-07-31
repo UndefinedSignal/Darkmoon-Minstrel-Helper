@@ -25,6 +25,7 @@ function Return_ruRU()
     ["lfer_Reload"] = "Перезагрузить",
     ["lfer_Goto"] = "Перейти",
     ["lfer_Move"] = "Двигать",
+    ["lfer_NLook"] = "Искать",
     ["lfer_Turn"] = "Повернуть",
     ["lfer_MSpawn"] = "Спавн",
     ["lfer_MDel"] = "Удалить",

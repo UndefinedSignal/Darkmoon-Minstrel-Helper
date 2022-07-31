@@ -35,17 +35,9 @@
 			<Frame name="$parentContent">
 				<Anchors>
 					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="15" y="-15"/>
-					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-15" y="15"/>
+					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-15" y="35"/>
 				</Anchors>
 				<Frames>
-					<SimpleHTML name="$parentText">
-						<Size x="120" y="190"/>
-						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="15" y="-15"/>
-							<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-15" y="15"/>
-						</Anchors>
-					</SimpleHTML>
-
 					<Frame name="$parentTextMacros" inherits="MIN_TextAreaMacros">
 						<Size x="120" y="190"/>
 						<Anchors>
@@ -55,6 +47,82 @@
 					</Frame>
 				</Frames>
 			</Frame>
+			<Button parentKey="Apply" inherits="UIPanelButtonTemplate" text="Сохранить">
+				<Size x="100" y="24"/>
+				<Anchors>
+					<Anchor point="BOTTOM" realtiveTo="$parent" x="0" y="5"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						StaticPopup_Show("DMinstrelMacrosEdit", nil, nil, {_G[self:GetParent():GetName().."ContentTextMacrosScrollText"]:GetText()});
+					</OnClick>
+				</Scripts>
+			</Button>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				tinsert(UISpecialFrames, self:GetName());
+				self:Show();
+				self:RegisterForDrag("LeftButton");
+			</OnLoad>
+			<OnDragStart>self:StartMoving();</OnDragStart>
+			<OnDragStop>self:StopMovingOrSizing();</OnDragStop>
+		</Scripts>
+	</Frame>
+
+	<Frame name="DMinstrelObjectEdit" movable="true" clampedToScreen="true" hidden="false" inherits="DMIN_Edit" parent="UIParent">
+		<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border">
+			<EdgeSize val="12"/>
+		</Backdrop>
+		<Size x="200" y="200"/>
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<Frames>
+			<Button parentKey="Close" inherits="UIPanelCloseButton">
+				<Size x="24" y="24"/>
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="2" y="2"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():Hide();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Frame name="$parentContent">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="15" y="-15"/>
+					<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-15" y="35"/>
+				</Anchors>
+				<Frames>
+					<Frame name="$parentTextTitle" inherits="MIN_TextAreaMacros">
+						<Size x="120" y="70"/>
+						<Anchors>
+							<Anchor point="TOPLEFT"/>
+							<Anchor point="TOPRIGHT"/>
+						</Anchors>
+					</Frame>
+					<Frame name="$parentTextMacros" inherits="MIN_TextAreaMacros">
+						<Size x="120" y="70"/>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentTextTitle"/>
+							<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
+						</Anchors>
+					</Frame>
+				</Frames>
+			</Frame>
+			<Button parentKey="Apply" inherits="UIPanelButtonTemplate" text="Сохранить">
+				<Size x="100" y="24"/>
+				<Anchors>
+					<Anchor point="BOTTOM" realtiveTo="$parent" x="0" y="5"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						StaticPopup_Show("DMinstrelObjectEdit", nil, nil, {_G[self:GetParent():GetName().."ContentTextMacrosScrollText"]:GetText(), _G[self:GetParent():GetName().."ContentTextTitleScrollText"]:GetText()});
+					</OnClick>
+				</Scripts>
+			</Button>
 		</Frames>
 		<Scripts>
 			<OnLoad>
@@ -117,8 +185,7 @@
 1. https://discord.gg/c2bYuq7 - Ролевой проект Darkmoon|n
 2. https://discord.gg/xcBe98GWJ6 - Объёмный сервер с объектами по категориям|n
 3. https://discord.gg/sB9vTBBHJU - НИП|n
-4. https://discord.gg/fsAAbsDCFF - Автор обитает здесь|n
-5. https://boosty.to/testunit - Поддержка]]
+4. https://discord.gg/fsAAbsDCFF - Специальный Discord-сервер автора|n]]
 				_G["DMinstrelDiscordContentTextMacrosScrollText"]:SetText(text);
 			</OnShow>
 			<OnLoad>
@@ -612,6 +679,21 @@
 												</OnClick>
 											</Scripts>
 										</Button>
+										<!-- <Button name="$parentbtn16" inherits="DMinstrelButtonCommands" id="15">
+											<KeyValues>
+												<KeyValue key="IconText" value="Spell_Shadow_SoulLeech_2"/>
+											</KeyValues>
+											<Anchors>
+												<Anchor relativeTo="$parentbtn14" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+												<Anchor relativeTo="$parentbtn14" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+											</Anchors>
+											<Scripts>
+												<OnClick>
+													DMinstrel:OpenGObjectTurnFrame();
+													PlaySound(624, "SFX");
+												</OnClick>
+											</Scripts>
+										</Button> -->
 									</Frames>
 									</Frame>
 								</ScrollChild>
@@ -1221,8 +1303,13 @@
 					<OnClick>
 						if(RPSCoreFramework) then
 							RPS_MainFrame:Show();
-							RPSCoreFramework:OnClickCosmetic(_G[RPSCoreFramework.Interface.MenuButtons[6][2]]);
-							RPSCoreFramework:OnClickFrameShowing(_G[RPSCoreFramework.Interface.MenuButtons[6][3]]);
+							for _,v in pairs(RPSCoreFramework.Interface.MenuButtons) do
+								if (v[1] == "Ауры") then
+									RPSCoreFramework:OnClickCosmetic(_G[v[2]]);
+									RPSCoreFramework:OnClickFrameShowing(_G[v[3]]);
+									break;
+								end
+							end
 						else
 							message("Необходимо наличие аддона RPS Darkmoon");
 						end
