@@ -1,0 +1,160 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
+
+    <Frame name="NPCViewUI" parent="UIParent" movable="true" hidden="true" clampedToScreen="true">
+        <Size x="825" y="700"/>
+        <Anchors>
+            <Anchor point="CENTER"/>
+        </Anchors>
+
+        <Layers>
+            <Layer level="BACKGROUND">
+				<Texture parentKey="bg" atlas="auctionhouse-background-index">
+                    <Color r="1" g="1" b="1" a="0.8"/>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+						<Anchor point="BOTTOMRIGHT"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+            <Layer>
+                <FontString name="$parentBottomText" inherits="GameFontNormalMed1" justifyH="LEFT" justifyV="MIDDLE" wordwrap="true">
+                    <Anchors>
+                        <Anchor point="BOTTOM" x="0" y="5"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+			<Button parentKey="Close" inherits="UIPanelCloseButton">
+				<Size x="24" y="24"/>
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="3" y="3"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						DMinstrel:SwitchWindow();
+					</OnClick>
+				</Scripts>
+			</Button>
+            <Frame name="$parentChild">
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                    <Anchor point="BOTTOMRIGHT"/>
+                </Anchors>
+            </Frame>
+             <Button parentKey="SwitchLeft" inherits="NPCViewButton" text="Предыдущая">
+                <Size x="180" y="32"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" x="-140" y="15"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        DMinstrel:SwitchLeft();
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <EditBox parentKey="COUNTER" autoFocus="false" multiline="false" letters="60" numeric="true">
+				<Size x="64" y="24"/>
+				<Anchors>
+					<Anchor point="BOTTOM" x="0" y="25"/>
+				</Anchors>
+				<FontString font="Fonts\FRIZQT___CYR.TTF">
+					<FontHeight val="14"/>
+				</FontString>
+				<TextInsets>
+					<AbsInset left="-2"/>
+				</TextInsets>
+				<Layers>
+                    <Layer level="OVERLAY">
+                        <FontString name="$parentBottomText" inherits="GameFontNormalMed1" text="№" justifyH="LEFT" justifyV="MIDDLE" wordwrap="true">
+                            <Anchors>
+                                <Anchor point="TOP" y="10"/>
+                            </Anchors>
+                        </FontString>
+                    </Layer>
+					<Layer level="BACKGROUND">
+						<Texture parentKey="Left" file="Interface\Common\Common-Input-Border">
+							<Size x="8" y="20"/>
+							<Anchors>
+								<Anchor point="LEFT" x="-5" y="0"/>
+							</Anchors>
+							<TexCoords left="0" right="0.0625" top="0" bottom="0.625"/>
+						</Texture>
+						<Texture parentKey="Right" file="Interface\Common\Common-Input-Border">
+							<Size x="8" y="20"/>
+							<Anchors>
+								<Anchor point="RIGHT" x="0" y="0"/>
+							</Anchors>
+							<TexCoords left="0.9375" right="1.0" top="0" bottom="0.625"/>
+						</Texture>
+						<Texture parentKey="Middle" file="Interface\Common\Common-Input-Border">
+							<Size x="10" y="20"/>
+							<Anchors>
+								<Anchor point="LEFT" relativeKey="$parent.Left" relativePoint="RIGHT"/>
+								<Anchor point="RIGHT" relativeKey="$parent.Right" relativePoint="LEFT"/>
+							</Anchors>
+							<TexCoords left="0.0625" right="0.9375" top="0" bottom="0.625"/>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+                    <OnTextChanged>
+                        if(self:GetText() ~= "") then
+                            DMinstrel.Models.CurrentID = tonumber(self:GetText());
+                        end
+                    </OnTextChanged>
+                    <OnEnterPressed>
+                        DMinstrel:ModelScreenUpdate()
+                    </OnEnterPressed>
+                    <OnEditFocusLost>
+                        DMinstrel:ModelScreenUpdate();
+                    </OnEditFocusLost>
+				</Scripts>
+			</EditBox>
+            <Button parentKey="SwitchRight" inherits="NPCViewButton" text="Следующая">
+                <Size x="180" y="32"/>
+                <Anchors>
+                    <Anchor point="BOTTOM" x="140" y="15"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        DMinstrel:SwitchRight();
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <EditBox parentKey="searchBox" inherits="SearchBoxTemplate" letters="40" hidden="false">
+                <Size x="140" y="32"/>
+                <Anchors>
+                    <Anchor point="BOTTOMLEFT"  x="25" y="15"/>
+                </Anchors>
+                <Scripts>
+                    <OnShow/>
+                    <OnEnterPressed>
+                        self:ClearFocus();
+                    </OnEnterPressed>
+                    <OnTextChanged>
+                        SearchBoxTemplate_OnTextChanged(self);
+                    </OnTextChanged>
+                    <OnEditFocusLost>
+                        DMinstrel:SearchFor(self:GetText());
+                        DMinstrel:ModelScreenUpdate();
+                    </OnEditFocusLost>
+                    <OnEditFocusGained/>
+                    <OnKeyDown/>
+                </Scripts>
+            </EditBox>
+        </Frames>
+        <Scripts>
+            <OnLoad>
+				tinsert(UISpecialFrames, self:GetName());
+				self:RegisterForDrag("LeftButton");
+			</OnLoad>
+            <OnDragStart>
+				self:StartMoving();
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing();
+			</OnDragStop>
+        </Scripts>
+    </Frame>
+</Ui>

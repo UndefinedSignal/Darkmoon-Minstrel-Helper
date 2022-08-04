@@ -32,7 +32,7 @@ function Return_ruRU()
     ["lfer_MMove"] = "Двигать",
     ["lfer_MOrient"] = "Повернуть",
     ["lfer_Delete"] = "Удалить",
-    ["lfer_Activate"] = "Активировать",
+    ["lfer_Activate"] = "Активация",
     ["lfer_Teleport"] = "Телепорт",
     ["lfer_GOBrotate"] = "Повернуть",
     ["lfer_Morph"] = "Морф",

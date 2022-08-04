@@ -189,6 +189,122 @@
         </Scripts>
     </Button>
 
+    <Button name="CountControl" virtual="true">
+        <Size x="18" y="18"/>
+        <NormalTexture file="Interface\Buttons\UI-PlusButton-Up"/>
+        <PushedTexture file="Interface\Buttons\UI-PlusButton-Down"/>
+        <HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+        <Scripts>
+            <OnClick>
+                DMinstrel:HandleGOBMove(self);
+            </OnClick>
+            <OnLeave>
+                GameTooltip:Hide();
+            </OnLeave>
+        </Scripts>
+    </Button>
+
+    <Frame name="DMIN_EditBOX" virtual="true" enableMouse="true">
+        <Layers>
+            <Layer level="BACKGROUND">
+                <Texture file="Interface\DialogFrame\UI-DialogBox-Background" horizTile="true" vertTile="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativePoint="TOPLEFT" x="3" y="-4"/>
+                        <Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT" x="-5" y="2"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="BORDER" textureSubLevel="1">
+                <Texture name="$parentInsetBotLeftCorner" inherits="UI-Frame-InnerBotLeftCorner" parentKey="InsetBorderBottomLeft">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" x="2" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentInsetBotRightCorner" inherits="UI-Frame-InnerBotRight" parentKey="InsetBorderBottomRight">
+                    <Anchors>
+                        <Anchor point="BOTTOMRIGHT" x="-3" y="0"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentInsetTopLeftCorner" inherits="UI-Frame-InnerTopLeft" parentKey="InsetBorderTopLeft">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="2" y="-3"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentInsetTopRightCorner" inherits="UI-Frame-InnerTopRight" parentKey="InsetBorderTopmRight">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="-3" y="-3"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+            <Layer level="BORDER">
+                <Texture name="$parentInsetBottomBorder" inherits="_UI-Frame-InnerBotTile" parentKey="InsetBorderBottom">
+                    <Anchors>
+                        <Anchor point="BOTTOMLEFT" relativeKey="$parent.InsetBorderBottomLeft" relativePoint="BOTTOMRIGHT"/>
+                        <Anchor point="BOTTOMRIGHT" relativeKey="$parent.InsetBorderBottomRight" relativePoint="BOTTOMLEFT"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentInsetLeftBorder" inherits="!UI-Frame-InnerLeftTile" parentKey="InsetBorderLeft">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="2" y="-3"/>
+                        <Anchor point="BOTTOMLEFT" relativeKey="$parent.InsetBorderBottomLeft" relativePoint="TOPLEFT"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentInsetRightBorder" inherits="!UI-Frame-InnerRightTile" parentKey="InsetBorderRight">
+                    <Anchors>
+                        <Anchor point="TOPRIGHT" x="-3" y="-3"/>
+                        <Anchor point="BOTTOMRIGHT" relativeKey="$parent.InsetBorderBottomRight" relativePoint="TOPRIGHT"/>
+                    </Anchors>
+                </Texture>
+                <Texture name="$parentInsetTopBorder" inherits="_UI-Frame-InnerTopTile" parentKey="InsetBorderBottom">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeKey="$parent.InsetBorderLeft" relativePoint="TOPLEFT"/>
+                        <Anchor point="TOPRIGHT" relativeKey="$parent.InsetBorderRight" relativePoint="TOPRIGHT"/>
+                    </Anchors>
+                </Texture>
+            </Layer>
+        </Layers>
+        <Frames>
+            <EditBox name="$parentText" parentKey="text" multiLine="false" enableMouse="false" autoFocus="false">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="8" y="-14"/>
+                    <Anchor point="BOTTOMRIGHT" x="-8" y="12"/>
+                </Anchors>
+                <Scripts>
+                    <OnEnterPressed>
+                        if(not IsModifierKeyDown()) then
+                            self:ClearFocus();
+                        end
+                    </OnEnterPressed>
+                    <OnEscapePressed>
+                        self:ClearFocus();
+                    </OnEscapePressed>
+                    <OnEditFocusGained>
+                        self:HighlightText();
+                        self:GetParent().dummy:Hide();
+                    </OnEditFocusGained>
+                    <OnEditFocusLost>
+                        self:HighlightText(0,0);
+                        self:GetParent().dummy:Show();
+                    </OnEditFocusLost>
+                </Scripts>
+                <FontString inherits="ChatFontNormal"/>
+            </EditBox>
+            <Button name="$parentFocusDummy" parentKey="dummy">
+                <Anchors>
+                    <Anchor point="TOP" x="0" y="5"/>
+                    <Anchor point="BOTTOM" x="0" y="-5"/>
+                    <Anchor point="LEFT" x="0" y="0"/>
+                    <Anchor point="RIGHT" x="-10" y="0"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        _G[self:GetParent():GetName().."Text"]:SetFocus();
+                    </OnClick>
+                </Scripts>
+            </Button>
+        </Frames>
+    </Frame>
+
     <Frame name="MIN_TextAreaBase" virtual="true" enableMouse="true">
         <Frames>
             <ScrollFrame name="$parentScroll" inherits="UIPanelScrollFrameTemplate">
@@ -412,4 +528,148 @@
 			</OnDragStop>
 		</Scripts>
 	</Frame>
+
+    <Button name="NPCViewButton" inherits="UIMenuButtonStretchTemplate" virtual="true">
+		<HighlightTexture file="Interface\Buttons\UI-Silver-Button-Highlight" alphaMode="ADD">
+            <Anchors>
+                <Anchor point="TOPLEFT" x="0" y="3"/>
+                <Anchor point="BOTTOMRIGHT" x="0" y="-3"/>
+            </Anchors>
+			<TexCoords left="0" right="1.0" top="0.03" bottom="0.7175"/>
+		</HighlightTexture>
+    </Button>
+
+    <Frame name="ModelBounds" virtual="true">
+        <KeyValues>
+            <KeyValue key="textString" value="" type="string"/>
+            <KeyValue key="spawnID" value="" type="string"/>
+            <KeyValue key="displayID" value="" type="string"/>
+        </KeyValues>
+        <Backdrop edgeFile="Interface\GLUES\COMMON\TextPanel-Border" tile="true">
+			<EdgeSize>
+				<AbsValue val="16"/>
+			</EdgeSize>
+			<BackgroundInsets>
+				<AbsInset left="3" right="3" top="3" bottom="3"/>
+			</BackgroundInsets>
+		</Backdrop>
+        <Layers>
+            <Layer level="BACKGROUND">
+				<Texture parentKey="bg" atlas="transmog-wardrobe-border-collected">
+                    <!-- transmog-wardrobe-border-unusable
+                    transmog-wardrobe-border-uncollected
+                    transmog-wardrobe-border-collected
+                    transmog-wardrobe-border-selected
+                    transmog-wardrobe-border-current
+                    transmog-wardrobe-border-current-transmogged
+                    transmog-wardrobe-border-highlighted -->
+					<Anchors>
+						<Anchor point="TOPLEFT" x="0" y="10"/>
+						<Anchor point="BOTTOMRIGHT" x="0" y="0"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+            <Layer level="OVERLAY">
+                <FontString parentKey="Title" inherits="GameFontNormalMed1" justifyH="CENTER" justifyV="MIDDLE" wordwrap="true">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" x="14"/>
+                        <Anchor point="RIGHT" x="-14"/>
+                    </Anchors>
+                </FontString>
+                <FontString parentKey="id" inherits="GameFontNormalMed1" justifyH="CENTER" justifyV="MIDDLE" wordwrap="true" hidden="true">
+                    <Anchors>
+                        <Anchor point="BOTTOM" y="20"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+        <Frames>
+            <Frame name="$parentSector">
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="20" y="-20"/>
+                    <Anchor point="BOTTOMRIGHT"  x="-20" y="20"/>
+                </Anchors>
+                <Frames>
+                    <PlayerModel name="$parentModel" inherits="MouseDisabledModelTemplate" frameStrata="DIALOG">
+                        <KeyValues>
+                            <KeyValue key="Zoom" value="2.7" type="number"/>
+                            <KeyValue key="Name" value=""/>
+                        </KeyValues>
+                        <Size x="4" y="4" />
+                        <Anchors>
+                            <Anchor point="TOPLEFT"/>
+                            <Anchor point="BOTTOMRIGHT"/>
+                        </Anchors>
+                        <Scripts>
+                            <OnMouseWheel>
+                                DMinstrel:OnMouseScrollUp(self, delta);
+                            </OnMouseWheel>
+                        </Scripts>
+                    </PlayerModel>
+                </Frames>
+            </Frame>
+            <Button parentKey="Favourite">
+                <Size x="18" y="18"/>
+                <Anchors>
+                    <Anchor point="TOPRIGHT" x="-17" y="2"/>
+                </Anchors>
+                <NormalTexture atlas="auctionhouse-icon-favorite-off"/>
+                 <HighlightTexture atlas="auctionhouse-icon-favorite" alphaMode="ADD"/>
+                <Scripts>
+                    <OnLoad>
+                        self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
+                    </OnLoad>
+                    <OnClick>
+                        print(button)
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+                        GameTooltip:AddLine("Избранное", 1,1,1, true);
+                        GameTooltip:AddLine("ЛКМ: Добавить\\убрать в\\из избранное", 1,0.5,0.25, true);
+                        GameTooltip:Show();
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide();
+                    </OnLeave>
+                </Scripts>
+            </Button>
+            <Button parentKey="Dummy">
+                <Anchors>
+                    <Anchor point="TOPLEFT"/>
+                    <Anchor point="BOTTOMRIGHT"/>
+                </Anchors>
+                <Scripts>
+                    <OnLoad>
+                        self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
+                    </OnLoad>
+                    <OnClick>
+                        if(button == "LeftButton")then
+                            DMinstrel:TryToLookUp(true, self:GetParent().spawnID);
+                        elseif(button == "RightButton")then
+                            DMinstrel:TryToLookUp(false, self:GetParent().displayID);
+                        end
+                    </OnClick>
+                    <OnEnter>
+                        GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+                        GameTooltip:AddLine("НИП", 1,1,1, true);
+                        GameTooltip:AddLine("ЛКМ: Спавн НИП", 1,0.5,0.25, true);
+                        GameTooltip:AddLine("ПКМ: Морф НИП", 1,0.5,0.25, true);
+                        GameTooltip:Show();
+                        self:GetParent().id:Show();
+                        self:GetParent().bg:SetAtlas("transmog-wardrobe-border-unusable");
+                    </OnEnter>
+                    <OnLeave>
+                        GameTooltip:Hide();
+                        self:GetParent().id:Hide();
+                        self:GetParent().bg:SetAtlas("transmog-wardrobe-border-collected");
+                    </OnLeave>
+                </Scripts>
+            </Button>
+        </Frames>
+        <Scripts>
+            <OnShow>
+                self.Title:SetText(self.textString);
+            </OnShow>
+        </Scripts>
+    </Frame>
 </Ui>

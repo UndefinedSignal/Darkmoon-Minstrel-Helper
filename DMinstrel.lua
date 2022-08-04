@@ -28,13 +28,23 @@
 DMinstrel.Prefix = "DRPS";
 DMinstrel.Linkifier = DMinstrel;
 DMinstrel.User = {};
-DMinstrel.User.GOBJECT = "";
 DMinstrel.Debug = false;
 DMinstrel.ChatMaxLetters = 255;
 DMinstrel.MyLevel = 0;
 DMinstrel.MinstrelText = "";
 DMinstrel.Timers = {};
 DMinstrel.ReEnableFrame = nil;
+
+DMinstrel.GOBInfo = { ["LastGuid"] = "",
+						["Orientation"] = "",
+						["LastX"] = "",
+						["LastY"] = "",
+						["LastZ"] = "",
+						["StartX"] = "",
+						["StartY"] = "",
+						["StartZ"] = ""}
+
+
 C_ChatInfo.RegisterAddonMessagePrefix(DMinstrel.Prefix)
 DMinstrel.Commands = {};
 DMinstrel.Commands[1] = {"Подойди", ".min npc come"};
@@ -52,7 +62,7 @@ DMinstrel.Commands[12] = {"Полёт", ".minstrel fly"};
 DMinstrel.Commands[13] = {"Инфо объект", ".min gob tar"};
 DMinstrel.Commands[14] = {"Инфо НИП", ".min npc info"};
 DMinstrel.Commands[15] = {"Выделить и удалить", "Выделяет объект и удаляет его"};
--- DMinstrel.Commands[16] = {"Поворот объекта", "Открывает окно для вращения объектов"};
+DMinstrel.Commands[16] = {"Управление Объектом", "Открывает окно для передвижения и вращения объекта"};
 
 DMinstrel.NPC = {};
 DMinstrel.NPC[1] = {"К ноге", ".min npc come"};
@@ -182,6 +192,14 @@ function DMinstrel:switchMainFrame()
 		DMinstrelUI:Hide();
 	else
 		DMinstrelUI:Show();
+	end
+end
+
+function DMinstrel:switchGOBMoveFrame()
+	if DMinstrelGOB:IsVisible() then
+		DMinstrelGOB:Hide();
+	else
+		DMinstrelGOB:Show();
 	end
 end
 
@@ -454,17 +472,46 @@ function DMinstrel:TimedSwitchFrameState(frame)
 	DMinstrel:ScheduleTimer("ReEnabledFrame", 0.5);
 end
 
--- function DMinstrel:OpenGObjectTurnFrame()
-
--- end
-
 function DMinstrel:ReEnabledFrame()
 	if DMinstrel.ReEnableFrame:IsEnabled() then
 		DMinstrel.ReEnableFrame:Disable();
 	else
-		DMinstrel:SendMinstrelMessage(".minstrel gobject delete "..DMinstrel.User.GOBJECT);
+		DMinstrel:SendMinstrelMessage(".minstrel gobject delete "..DMinstrel.GOBInfo["LastGuid"]);
 		DMinstrel.ReEnableFrame:Enable();
 	end
+end
+
+function DMinstrel:UpdateGOBInterface()
+	DMinstrelGOBGUIDText:SetText(DMinstrel.GOBInfo["LastGuid"]);
+	DMinstrelGOBCoordXText:SetText(DMinstrel.GOBInfo["StartX"]);
+	DMinstrelGOBCoordYText:SetText(DMinstrel.GOBInfo["StartY"]);
+	DMinstrelGOBCoordZText:SetText(DMinstrel.GOBInfo["StartZ"]);
+end
+
+function DMinstrel:HandleGOBMove(button)
+	local GUID = DMinstrelGOBGUIDText:GetText();
+	local VALUE = DMinstrelGOBValueSizeText:GetText();
+	local SIZE = DMinstrelGOBSizeText:GetText();
+	local COORDX = DMinstrelGOBCoordXText:GetText();
+	local COORDY = DMinstrelGOBCoordYText:GetText();
+	local COORDZ = DMinstrelGOBCoordZText:GetText();
+
+	if(button.operation == "Decr") then
+		VALUE = -VALUE;
+	end
+
+	if(button.set == "X")then
+		DMinstrelGOBCoordXText:SetText(tonumber(COORDX) + tonumber(VALUE))
+	elseif(button.set == "Y")then
+		DMinstrelGOBCoordYText:SetText(tonumber(COORDY) + tonumber(VALUE))
+	elseif(button.set == "Z")then
+		DMinstrelGOBCoordZText:SetText(tonumber(COORDZ) + tonumber(VALUE))
+	elseif(button.set == "S")then
+		DMinstrelGOBSizeText:SetText(tonumber(SIZE) + tonumber(VALUE))
+	end
+	
+	local msg = ".min gob move "..DMinstrelGOBGUIDText:GetText().." "..DMinstrelGOBCoordXText:GetText().." "..DMinstrelGOBCoordYText:GetText().." "..DMinstrelGOBCoordZText:GetText();
+	DMinstrel:SendMinstrelMessage(msg)
 end
 
 function DMinstrel:AddMinimapIcon()
@@ -528,3 +575,9 @@ StaticPopupDialogs["DMinstrelObjectEdit"] = {
 }
 
 print("Аддон |cff008C80DMinstrel|r загружен!|nПриятного пользования.");
+
+SlashCmdList["DMINSAY"] = function ()
+    DMinstrel:switchNPCSayFrame();
+end
+SLASH_DMINSAY1 = '/msay'
+SLASH_DMINSAY2 = '/npcsay'

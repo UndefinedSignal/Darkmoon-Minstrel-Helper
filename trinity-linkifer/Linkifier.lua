@@ -40,16 +40,36 @@ function MangLinkifier_Decompose(chatstring)
     for guid in string.gmatch(chatstring, Strings["lfer_NPCInfodisplay1"]) do --NPCINFO Display
       chatstring = string.gsub (chatstring, Strings["lfer_NPCInfodisplay2"], MangLinkifier_Link(Strings["lfer_NPCInfodisplay3"], "%1", "npcdisplay"))
     end
-    for guid in string.gmatch(chatstring, Strings["lfer_GOBTarOrientation1"]) do --MINGOBTar GUID
+    for guid in string.gmatch(chatstring, Strings["lfer_GOBTarOrientation1"]) do --MINGOBTarOrientation GUID
+      DMinstrel.GOBInfo["Orientation"] = string.match(chatstring, Strings["lfer_GOBTarOrientation1"]);
       chatstring = string.gsub (chatstring, Strings["lfer_GOBTarOrientation1"], MangLinkifier_Link(Strings["lfer_GOBTarOrientation2"], "%1", "minoritent"));
     end
     for guid in string.gmatch(chatstring, Strings["lfer_GOBTarGuid1"]) do --MINGOBTar GUID
-      DMinstrel.User.GOBJECT = string.gsub (chatstring, Strings["lfer_GOBTarGuid2"], "%1");
+      DMinstrel.GOBInfo["LastGuid"] = string.match(chatstring, Strings["lfer_GOBTarGuid2"]);
       chatstring = string.gsub (chatstring, Strings["lfer_GOBTarGuid1"], MangLinkifier_Link(Strings["lfer_GOBTarGuid3"], "%1 %2", "mingobtar"));
     end
   --   ----------====~~ ADD GO Command Match Text ~~====----------
     for guid in string.gmatch(chatstring, Strings["lfer_AddGoguid1"]) do --ADDGO GUID
+      DMinstrel.GOBInfo["LastGuid"] = string.match(chatstring, Strings["lfer_AddGoguid2"]);
       chatstring = string.gsub (chatstring, Strings["lfer_AddGoguid2"], MangLinkifier_Link(Strings["lfer_AddGoguid3"], "%1", "addgoguid"));
+    end
+    for guid in string.gmatch(chatstring, Strings["lfer_GOtargxyz1"]) do
+      DMinstrel.GOBInfo["LastX"], DMinstrel.GOBInfo["LastY"], DMinstrel.GOBInfo["LastZ"] = string.match(chatstring, Strings["lfer_GOtargxyz2"]);
+      DMinstrel.GOBInfo["StartX"] = DMinstrel.GOBInfo["LastX"];
+      DMinstrel.GOBInfo["StartY"] = DMinstrel.GOBInfo["LastY"];
+      DMinstrel.GOBInfo["StartZ"] = DMinstrel.GOBInfo["LastZ"];
+      DMinstrel:UpdateGOBInterface();
+    end
+    for guid in string.gmatch(chatstring, Strings["lfer_AddGoxyz1"]) do
+      DMinstrel.GOBInfo["LastX"], DMinstrel.GOBInfo["LastY"], DMinstrel.GOBInfo["LastZ"] = string.match(chatstring, Strings["lfer_AddGoxyz2"]);
+      DMinstrel.GOBInfo["StartX"] = DMinstrel.GOBInfo["LastX"];
+      DMinstrel.GOBInfo["StartY"] = DMinstrel.GOBInfo["LastY"];
+      DMinstrel.GOBInfo["StartZ"] = DMinstrel.GOBInfo["LastZ"];
+      DMinstrel:UpdateGOBInterface();
+      --chatstring = string.gsub (chatstring, Strings["lfer_AddGoxyz2"], MangLinkifier_Link(Strings["lfer_AddGoxyz3"], "%1", "addgoguid"));
+    end
+    for guid in string.gmatch(chatstring, Strings["lfer_ActGoguid1"]) do --Activate GUID
+      chatstring = string.gsub (chatstring, Strings["lfer_ActGoguid2"], MangLinkifier_Link(Strings["lfer_ActGoguid3"], "%1", "actgoguid"));
     end
     for guid in string.gmatch(chatstring, Strings["lfer_AddGoid1"]) do --ADDGO ID
       chatstring = string.gsub (chatstring, Strings["lfer_AddGoid2"], MangLinkifier_Link(Strings["lfer_AddGoid3"], "%1", "addgoid"))
@@ -108,6 +128,8 @@ function MangLinkifier_Link(orgtxt, id, type)
     link = link .." - |cff" .. urlcolor .. "|Haddgoguiddel:" .. id .. "|h["..Locale["lfer_Delete"].."]|h|r \n"
   elseif(type == "addgoid") then
     link = orgtxt .." - |cff" .. urlcolor .. "|Haddgoid:" .. id .. "|h["..Locale["lfer_Spawn"].."]|h|r \n"
+  elseif(type == "actgoguid") then
+    link = orgtxt .." - |cff" .. urlcolor .. "|Hactgoguid:" .. id .. "|h["..Locale["lfer_Activate"].."]|h|r "
   else
     link = orgtxt .." - |cffc20000"..Locale["lfer_Error"].." |r |cff008873" .. type .. "|r"
   end
@@ -146,7 +168,9 @@ function MangLinkifier_SetItemRef(link, text, button)
     return;
   elseif ( strsub(link, 1, 7) == "addgoid" ) then
     DMinstrel:SendMinstrelMessage(".minstrel gobject add "..strsub(link, 9))
-    DMinstrel.User.GOBJECT = strsub(link, 9);
+    return;
+  elseif ( strsub(link, 1, 9) == "actgoguid" ) then
+    DMinstrel:SendMinstrelMessage(".minstrel gobject activate "..strsub(link, 11))
     return;
   elseif ( strsub(link, 1, 11) == "lookupgoadd" ) then
     DMinstrel:SendMinstrelMessage(".minstrel gobject add "..strsub(link, 13), say, nil, nil)
@@ -167,7 +191,7 @@ function MangLinkifier_SetItemRef(link, text, button)
     DMinstrel:SendMinstrelMessage(".minstrel gobject delete "..strsub(link, 15));
     return;
   elseif (strsub(link, 1, 15) == "mingobtarorient") then
-    DMinstrel:SendMinstrelMessage(".minstrel gobject turn "..DMinstrel.User.GOBJECT);
+    DMinstrel:SendMinstrelMessage(".minstrel gobject turn "..DMinstrel.GOBInfo["LastGuid"]);
     return;
   end
   MangLinkifier_SetItemRef_Original(link, text, button);

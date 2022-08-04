@@ -95,6 +95,9 @@
 	<Include file="Locales\include.xml"/>
 	<Script file="DMinstrelBeforeOnLoad.lua" />
 	<Include file="Templates.xml"/>
+	<Include file="NPCView.xml"/>
+	<Script file="Сreatures.lua" />
+	<Script file="NPCView.lua" />
 	<Script file="DMinstrel.lua" />
 	<Include file="morph-catalog\morph-catalog.xml"/>
 	<Include file="Interface.xml"/>

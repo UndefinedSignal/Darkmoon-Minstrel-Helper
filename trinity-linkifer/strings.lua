@@ -26,8 +26,8 @@ function ReturnPratStrings_ruRU()
     ["lfer_GOtargid3"] = "GUID: %1 ID: %2",
     ["lfer_GOtargguid1"] = "GUID: (%d+) ID: (%d+)",
     ["lfer_GOtargguid3"] = "GUID: %1 ID: %1",
-    ["lfer_GOtargxyz1"] = "X: |cffffffff|Hpos:|h([0-9 -]+.%d+)|h|r Y: |cffffffff|Hpos:|h([0-9 -]+.%d+)|h|r Z: |cffffffff|Hpos:|h([0-9 -]+.%d+)|h|r MapId: |cffffffff|Hpos:|h(%d+)",
-    ["lfer_GOtargxyz2"] = "X: |cffffffff|Hpos:|h([0-9 -]+.%d+)|h|r Y: |cffffffff|Hpos:|h([0-9 -]+.%d+)|h|r Z: |cffffffff|Hpos:|h([0-9 -]+.%d+)|h|r MapId: |cffffffff|Hpos:|h(%d+)",
+    ["lfer_GOtargxyz1"] = "X: ([0-9 -]+.%d+) Y: ([0-9 -]+.%d+) Z: ([0-9 -]+.%d+) MapId: (%d+)",
+    ["lfer_GOtargxyz2"] = "X: ([0-9 -]+.%d+) Y: ([0-9 -]+.%d+) Z: ([0-9 -]+.%d+) MapId: (%d+)",
     ["lfer_GOtargxyz3"] = "X: %1  Y: %2  Z: %3 MapId: %4", "%1 %2 %3 %4",
     ----------====~~ NPC Info Command Match Text ~~====----------
     ["lfer_NPCInfoguid1"] = "SpawnID: (%d+).",
@@ -46,6 +46,10 @@ function ReturnPratStrings_ruRU()
 
     ["lfer_GOBTarOrientation1"] = "Orientation: (%d+%.%d+)",
     ["lfer_GOBTarOrientation2"] = "Orientation: %1",
+    ----------====~~ Activate GO Command Match Text ~~====----------
+    ["lfer_ActGoguid1"] = "%) %(GUID: (%d+)%)",
+    ["lfer_ActGoguid2"] = "%(GUID: (%d+)%)",
+    ["lfer_ActGoguid3"] = "(GUID: %1)",
     ----------====~~ ADD GO Command Match Text ~~====----------
     ["lfer_AddGoguid1"] = "%) %(GUID: (%d+)%)",
     ["lfer_AddGoguid2"] = "%(GUID: (%d+)%)",
@@ -68,8 +72,8 @@ function ReturnStrings_ruRU()
     ["lfer_GOtargid3"] = "GUID: %1 ID: %2",
     ["lfer_GOtargguid1"] = "GUID: (%d+) ID: (%d+)",
     ["lfer_GOtargguid3"] = "GUID: %1 ID: %1",
-    ["lfer_GOtargxyz1"] = "X: |cffffffff|Hpos:|h([0-9 -]+.%d+)|h|r Y: |cffffffff|Hpos:|h([0-9 -]+.%d+)|h|r Z: |cffffffff|Hpos:|h([0-9 -]+.%d+)|h|r MapId: |cffffffff|Hpos:|h(%d+)",
-    ["lfer_GOtargxyz2"] = "X: |cffffffff|Hpos:|h([0-9 -]+.%d+)|h|r Y: |cffffffff|Hpos:|h([0-9 -]+.%d+)|h|r Z: |cffffffff|Hpos:|h([0-9 -]+.%d+)|h|r MapId: |cffffffff|Hpos:|h(%d+)",
+    ["lfer_GOtargxyz1"] = "X: ([0-9 -]+.%d+) Y: ([0-9 -]+.%d+) Z: ([0-9 -]+.%d+) MapId: (%d+)",
+    ["lfer_GOtargxyz2"] = "X: ([0-9 -]+.%d+) Y: ([0-9 -]+.%d+) Z: ([0-9 -]+.%d+) MapId: (%d+)",
     ["lfer_GOtargxyz3"] = "X: %1  Y: %2  Z: %3 MapId: %4", "%1 %2 %3 %4",
     ----------====~~ NPC Info Command Match Text ~~====----------
     ["lfer_NPCInfoname1"] = "Name: (.+)",
@@ -91,10 +95,15 @@ function ReturnStrings_ruRU()
 
     ["lfer_GOBTarOrientation1"] = "Orientation: (%d+%.%d+)",
     ["lfer_GOBTarOrientation2"] = "Orientation: %1",
+    ----------====~~ Activate GO Command Match Text ~~====----------
+    ["lfer_ActGoguid1"] = "%) %(GUID: (%d+)%)",
+    ["lfer_ActGoguid2"] = "%(GUID: (%d+)%)",
+    ["lfer_ActGoguid3"] = "(GUID: %1)",
     ----------====~~ ADD GO Command Match Text ~~====----------
     ["lfer_AddGoguid1"] = "%) %(GUID: (%d+)%)",
     ["lfer_AddGoguid2"] = "%(GUID: (%d+)%)",
     ["lfer_AddGoguid3"] = "(GUID: %1)",
+    ["lfer_AddGoguid4"] = "%1",
     ["lfer_AddGoid1"] = "Object '(%d+)'",
     ["lfer_AddGoid2"] = "Object '(%d+)'",
     ["lfer_AddGoid3"] = "Object '%1')",

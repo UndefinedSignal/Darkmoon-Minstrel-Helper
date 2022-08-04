@@ -679,7 +679,7 @@
 												</OnClick>
 											</Scripts>
 										</Button>
-										<!-- <Button name="$parentbtn16" inherits="DMinstrelButtonCommands" id="15">
+										<Button name="$parentbtn16" inherits="DMinstrelButtonCommands" id="16">
 											<KeyValues>
 												<KeyValue key="IconText" value="Spell_Shadow_SoulLeech_2"/>
 											</KeyValues>
@@ -689,11 +689,11 @@
 											</Anchors>
 											<Scripts>
 												<OnClick>
-													DMinstrel:OpenGObjectTurnFrame();
+													DMinstrel:switchGOBMoveFrame();
 													PlaySound(624, "SFX");
 												</OnClick>
 											</Scripts>
-										</Button> -->
+										</Button>
 									</Frames>
 									</Frame>
 								</ScrollChild>
@@ -1596,5 +1596,355 @@
 				</Scripts>
 			</EditBox>
 		</Frames>
+	</Frame>
+	<Frame name="DMinstrelGOB" movable="true" clampedToScreen="true" parent="UIParent" hidden="false">
+		<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border">
+			<EdgeSize val="12"/>
+		</Backdrop>
+		<Size x="180" y="260"/>
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture parentKey="bg" atlas="auctionhouse-background-index">
+					<Anchors>
+						<Anchor point="TOPLEFT" realtiveTo="$parent" relativePoint="TOPLEFT" x="3" y="0"/>
+						<Anchor point="BOTTOMRIGHT" realtiveTo="$parent" relativePoint="BOTTOMRIGHT" x="0" y="3"/>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<Button parentKey="Close" inherits="UIPanelCloseButton">
+				<Size x="24" y="24"/>
+				<Anchors>
+					<Anchor point="TOPRIGHT" x="2" y="2"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						self:GetParent():Hide();
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Frame name="$parentGUID" inherits="DMIN_EditBOX">
+				<Size x="150" y="28"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="15" y="-20"/>
+				</Anchors>
+				<Layers>
+					<Layer>
+						<FontString parentKey="Title" inherits="QuestFont" text="GUID" justifyH="CENTER">
+							<Color r="1" g="1" b="1" a="1"/>
+							<FontHeight val="8"/>
+							<Anchors>
+								<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="0" />
+							</Anchors>
+							<Shadow>
+								<Offset x="1" y="1" />
+								<Color r="0" g="0" b="0"/>
+							</Shadow>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						local editFrame = _G[self:GetName().."Text"];
+						editFrame:SetNumeric();
+					</OnLoad>
+				</Scripts>
+			</Frame>
+			<Frame name="$parentValueSize" inherits="DMIN_EditBOX" >
+				<Size x="55" y="28"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentGUID" relativePoint="BOTTOMLEFT"  x="0" y="-17"/>
+				</Anchors>
+				<Layers>
+					<Layer>
+						<FontString parentKey="Title" inherits="QuestFont" text="Шаг" justifyH="CENTER">
+							<Color r="1" g="1" b="1" a="1"/>
+							<FontHeight val="8"/>
+							<Anchors>
+								<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="0" />
+							</Anchors>
+							<Shadow>
+								<Offset x="1" y="1" />
+								<Color r="0" g="0" b="0"/>
+							</Shadow>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						local editFrame = _G[self:GetName().."Text"];
+						editFrame:SetNumeric();
+						editFrame:SetText("1.0");
+						editFrame:SetMaxLetters(6);
+					</OnLoad>
+				</Scripts>
+			</Frame>
+			<Frame name="$parentSize" inherits="DMIN_EditBOX">
+				<Size x="65" y="28"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentValueSize" relativePoint="TOPRIGHT"  x="3" y="0"/>
+				</Anchors>
+				<Layers>
+					<Layer>
+						<FontString parentKey="Title" inherits="QuestFont" text="Размер" justifyH="CENTER">
+							<Color r="1" g="1" b="1" a="1"/>
+							<FontHeight val="8"/>
+							<Anchors>
+								<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="0" />
+							</Anchors>
+							<Shadow>
+								<Offset x="1" y="1" />
+								<Color r="0" g="0" b="0"/>
+							</Shadow>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<Button parentKey="Increment" inherits="CountControl">
+						<KeyValues>
+							<KeyValue key="set" value="S"/>
+							<KeyValue key="operation" value="Incr"/>
+						</KeyValues>
+						<Anchors>
+							<Anchor point="RIGHT" x="16" y="-2"/>
+						</Anchors>
+						<NormalTexture file="Interface\Buttons\UI-PlusButton-Up"/>
+						<PushedTexture file="Interface\Buttons\UI-PlusButton-Down"/>
+						<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+						<Scripts>
+							<OnEnter>
+								GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+								GameTooltip:AddLine("|cFFFFFFFFУвеличить переменную|r");
+								GameTooltip:Show();
+							</OnEnter>
+						</Scripts>
+					</Button>
+					<Button parentKey="Decrement" inherits="CountControl">
+						<KeyValues>
+							<KeyValue key="set" value="S"/>
+							<KeyValue key="operation" value="Decr"/>
+						</KeyValues>
+						<Anchors>
+							<Anchor point="LEFT" relativeKey="$parent.Increment" relativePoint="RIGHT"/>
+						</Anchors>
+						<NormalTexture file="Interface\Buttons\UI-MinusButton-Up"/>
+						<PushedTexture file="Interface\Buttons\UI-MinusButton-Down"/>
+						<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+						<Scripts>
+							<OnEnter>
+								GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+								GameTooltip:AddLine("|cFFFFFFFFУменьшить переменную|r");
+								GameTooltip:Show();
+							</OnEnter>
+						</Scripts>
+					</Button>
+				</Frames>
+				<Scripts>
+					<OnLoad>
+						local editFrame = _G[self:GetName().."Text"];
+						editFrame:SetText("1.0");
+					</OnLoad>
+				</Scripts>
+			</Frame>
+			<Frame name="$parentCoordX" inherits="DMIN_EditBOX">
+				<Size x="125" y="28"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentValueSize" relativePoint="BOTTOMLEFT"  x="0" y="-17"/>
+				</Anchors>
+				<Layers>
+					<Layer>
+						<FontString parentKey="Title" inherits="QuestFont" text="Координата X" justifyH="CENTER">
+							<Color r="1" g="1" b="1" a="1"/>
+							<FontHeight val="8"/>
+							<Anchors>
+								<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="0" />
+							</Anchors>
+							<Shadow>
+								<Offset x="1" y="1" />
+								<Color r="0" g="0" b="0"/>
+							</Shadow>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<Button parentKey="Increment" inherits="CountControl">
+						<KeyValues>
+							<KeyValue key="set" value="X"/>
+							<KeyValue key="operation" value="Incr"/>
+						</KeyValues>
+						<Anchors>
+							<Anchor point="RIGHT" x="16" y="-2"/>
+						</Anchors>
+						<NormalTexture file="Interface\Buttons\UI-PlusButton-Up"/>
+						<PushedTexture file="Interface\Buttons\UI-PlusButton-Down"/>
+						<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+						<Scripts>
+							<OnEnter>
+								GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+								GameTooltip:AddLine("|cFFFFFFFFУвеличить переменную|r");
+								GameTooltip:Show();
+							</OnEnter>
+						</Scripts>
+					</Button>
+					<Button parentKey="Decrement" inherits="CountControl">
+						<KeyValues>
+							<KeyValue key="set" value="X"/>
+							<KeyValue key="operation" value="Decr"/>
+						</KeyValues>
+						<Anchors>
+							<Anchor point="LEFT" relativeKey="$parent.Increment" relativePoint="RIGHT"/>
+						</Anchors>
+						<NormalTexture file="Interface\Buttons\UI-MinusButton-Up"/>
+						<PushedTexture file="Interface\Buttons\UI-MinusButton-Down"/>
+						<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+						<Scripts>
+							<OnEnter>
+								GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+								GameTooltip:AddLine("|cFFFFFFFFУменьшить переменную|r");
+								GameTooltip:Show();
+							</OnEnter>
+						</Scripts>
+					</Button>
+				</Frames>
+			</Frame>
+			<Frame name="$parentCoordY" inherits="DMIN_EditBOX">
+				<Size x="125" y="28"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentCoordX" relativePoint="BOTTOMLEFT"  x="0" y="-17"/>
+				</Anchors>
+				<Layers>
+					<Layer>
+						<FontString parentKey="Title" inherits="QuestFont" text="Координата Y" justifyH="CENTER">
+							<Color r="1" g="1" b="1" a="1"/>
+							<FontHeight val="8"/>
+							<Anchors>
+								<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="0" />
+							</Anchors>
+							<Shadow>
+								<Offset x="1" y="1" />
+								<Color r="0" g="0" b="0"/>
+							</Shadow>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<Button parentKey="Increment" inherits="CountControl">
+						<KeyValues>
+							<KeyValue key="set" value="Y"/>
+							<KeyValue key="operation" value="Incr"/>
+						</KeyValues>
+						<Anchors>
+							<Anchor point="RIGHT" x="16" y="-2"/>
+						</Anchors>
+						<NormalTexture file="Interface\Buttons\UI-PlusButton-Up"/>
+						<PushedTexture file="Interface\Buttons\UI-PlusButton-Down"/>
+						<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+						<Scripts>
+							<OnEnter>
+								GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+								GameTooltip:AddLine("|cFFFFFFFFУвеличить переменную|r");
+								GameTooltip:Show();
+							</OnEnter>
+						</Scripts>
+					</Button>
+					<Button parentKey="Decrement" inherits="CountControl">
+						<KeyValues>
+							<KeyValue key="set" value="Y"/>
+							<KeyValue key="operation" value="Decr"/>
+						</KeyValues>
+						<Anchors>
+							<Anchor point="LEFT" relativeKey="$parent.Increment" relativePoint="RIGHT"/>
+						</Anchors>
+						<NormalTexture file="Interface\Buttons\UI-MinusButton-Up"/>
+						<PushedTexture file="Interface\Buttons\UI-MinusButton-Down"/>
+						<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+						<Scripts>
+							<OnEnter>
+								GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+								GameTooltip:AddLine("|cFFFFFFFFУменьшить переменную|r");
+								GameTooltip:Show();
+							</OnEnter>
+						</Scripts>
+					</Button>
+				</Frames>
+			</Frame>
+			<Frame name="$parentCoordZ" inherits="DMIN_EditBOX">
+				<Size x="125" y="28"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parentCoordY" relativePoint="BOTTOMLEFT"  x="0" y="-17"/>
+				</Anchors>
+				<Layers>
+					<Layer>
+						<FontString parentKey="Title" inherits="QuestFont" text="Координата Z" justifyH="CENTER">
+							<Color r="1" g="1" b="1" a="1"/>
+							<FontHeight val="8"/>
+							<Anchors>
+								<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="0" />
+							</Anchors>
+							<Shadow>
+								<Offset x="1" y="1" />
+								<Color r="0" g="0" b="0"/>
+							</Shadow>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+					<Button parentKey="Increment" inherits="CountControl">
+						<KeyValues>
+							<KeyValue key="set" value="Z"/>
+							<KeyValue key="operation" value="Incr"/>
+						</KeyValues>
+						<Anchors>
+							<Anchor point="RIGHT" x="16" y="-2"/>
+						</Anchors>
+						<NormalTexture file="Interface\Buttons\UI-PlusButton-Up"/>
+						<PushedTexture file="Interface\Buttons\UI-PlusButton-Down"/>
+						<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+						<Scripts>
+							<OnEnter>
+								GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+								GameTooltip:AddLine("|cFFFFFFFFУвеличить переменную|r");
+								GameTooltip:Show();
+							</OnEnter>
+						</Scripts>
+					</Button>
+					<Button parentKey="Decrement" inherits="CountControl">
+						<KeyValues>
+							<KeyValue key="set" value="Z"/>
+							<KeyValue key="operation" value="Decr"/>
+						</KeyValues>
+						<Anchors>
+							<Anchor point="LEFT" relativeKey="$parent.Increment" relativePoint="RIGHT"/>
+						</Anchors>
+						<NormalTexture file="Interface\Buttons\UI-MinusButton-Up"/>
+						<PushedTexture file="Interface\Buttons\UI-MinusButton-Down"/>
+						<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+						<Scripts>
+							<OnEnter>
+								GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+								GameTooltip:AddLine("|cFFFFFFFFУменьшить переменную|r");
+								GameTooltip:Show();
+							</OnEnter>
+						</Scripts>
+					</Button>
+				</Frames>
+			</Frame>
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				tinsert(UISpecialFrames, self:GetName());
+				self:RegisterForDrag("LeftButton");
+			</OnLoad>
+			<OnDragStart>
+				self:StartMoving();
+			</OnDragStart>
+			<OnDragStop>
+				self:StopMovingOrSizing();
+			</OnDragStop>
+		</Scripts>
 	</Frame>
 </Ui>
