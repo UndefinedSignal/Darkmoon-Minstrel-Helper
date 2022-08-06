@@ -88,10 +88,12 @@
         <Scripts>
             <OnLoad>
                 self:RegisterForClicks("LeftButtonUp", "RightButtonDown");
-                self.icon:SetTexture("Interface/ICONS/"..self.IconText);
+                --SetPortraitToTexture(self.icon, DMinstrelGOBSave[self:GetID()][3])
+                --self.icon:SetTexture("Interface/ICONS/"..self.IconText);
             </OnLoad>
             <OnShow>
                 self.Text:SetText(DMinstrelGOBSave[tonumber(self:GetID())][1]);
+                SetPortraitToTexture(self.icon, DMinstrelGOBSave[self:GetID()][3]);
             </OnShow>
             <OnClick>
                 DMinstrel.ActiveObjectButton = tonumber(self:GetID());
@@ -104,6 +106,9 @@
                         _G["DMinstrelObjectEditContentTextMacrosScrollText"]:SetText(DMinstrelGOBSave[DMinstrel.ActiveObjectButton][2]);
                     end
                     DMinstrel:ObjectWindow();
+                    DMinstrelObjectEditIconSelector.IconID = DMinstrelGOBSave[self:GetID()][3];
+                    DMinstrelObjectEditIconSelector:SetNormalTexture(DMinstrelObjectEditIconSelector.IconID);
+                    DMinstrelObjectEditIconSelector:SetHighlightTexture(DMinstrelObjectEditIconSelector.IconID);
                 else
                     if (DMinstrelGOBSave[DMinstrel.ActiveObjectButton][2] == "" or DMinstrelGOBSave[DMinstrel.ActiveObjectButton][2] == nil) then
                         DMinstrelGOBSave[DMinstrel.ActiveObjectButton][2] = " ";
@@ -539,8 +544,9 @@
 		</HighlightTexture>
     </Button>
 
-    <Frame name="ModelBounds" virtual="true">
+    <Frame name="MinNPCModelBounds" virtual="true">
         <KeyValues>
+            <keyValue key="position" value="" type="string"/>
             <KeyValue key="textString" value="" type="string"/>
             <KeyValue key="spawnID" value="" type="string"/>
             <KeyValue key="displayID" value="" type="string"/>
@@ -620,7 +626,7 @@
                         self:RegisterForClicks("LeftButtonUp", "RightButtonUp");
                     </OnLoad>
                     <OnClick>
-                        print(button)
+                        DMinstrel:AddRemoveFromFavourites(self:GetParent().spawnID, self:GetParent().position)
                     </OnClick>
                     <OnEnter>
                         GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
@@ -651,7 +657,7 @@
                     </OnClick>
                     <OnEnter>
                         GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
-                        GameTooltip:AddLine("НИП", 1,1,1, true);
+                        GameTooltip:AddLine("НИП "..self:GetParent().spawnID, 1,1,1, true);
                         GameTooltip:AddLine("ЛКМ: Спавн НИП", 1,0.5,0.25, true);
                         GameTooltip:AddLine("ПКМ: Морф НИП", 1,0.5,0.25, true);
                         GameTooltip:Show();

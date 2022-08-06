@@ -97,21 +97,48 @@
 				</Anchors>
 				<Frames>
 					<Frame name="$parentTextTitle" inherits="MIN_TextAreaMacros">
-						<Size x="120" y="70"/>
+						<Size x="120" y="35"/>
 						<Anchors>
-							<Anchor point="TOPLEFT"/>
+							<Anchor point="TOPLEFT" x="30"/>
 							<Anchor point="TOPRIGHT"/>
 						</Anchors>
 					</Frame>
 					<Frame name="$parentTextMacros" inherits="MIN_TextAreaMacros">
 						<Size x="120" y="70"/>
 						<Anchors>
-							<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentTextTitle"/>
+							<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" relativeTo="$parentTextTitle" x="-30"/>
 							<Anchor point="BOTTOMRIGHT" relativePoint="BOTTOMRIGHT"/>
 						</Anchors>
 					</Frame>
 				</Frames>
 			</Frame>
+			<Button name="$parentIconSelector">
+				<KeyValues>
+					<KeyValue key="IconID" value="" type="number"/>
+				</KeyValues>
+				<Size x="24" y="24"/>
+				<Anchors>
+					<Anchor point="TOPLEFT" x="15" y="-20"/>
+				</Anchors>
+				<NormalTexture atlas="GarrMission_ClassIcon-Technician"/>
+				<HighlightTexture atlas="GarrMission_ClassIcon-Technician" alphaMode="ADD"/>
+				<Scripts>
+					<OnShow>
+						DMinstrel.DataProvider.Icons.StylizingFrameTex = self;
+					</OnShow>
+					<OnClick>
+						DMinstrel:ShowIconSelector(self);
+					</OnClick>
+					<OnEnter>
+						GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+						GameTooltip:AddLine("ID иконки: "..self.IconID);
+						GameTooltip:Show();
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+				</Scripts>
+			</Button>
 			<Button parentKey="Apply" inherits="UIPanelButtonTemplate" text="Сохранить">
 				<Size x="100" y="24"/>
 				<Anchors>
@@ -1135,6 +1162,96 @@
 													<Anchor relativeTo="$parentbtn22" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
 												</Anchors>
 											</Button>
+											<Button name="$parentbtn25" inherits="DMinstrelButtonGObject" id="25">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Revendreth_DemonHunter"/>
+												</KeyValues>
+												<Anchors>
+													<Anchor relativeTo="$parentbtn23" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn23" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+											</Button>
+											<Button name="$parentbtn26" inherits="DMinstrelButtonGObject" id="26">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Revendreth_DemonHunter"/>
+												</KeyValues>
+												<Anchors>
+													<Anchor relativeTo="$parentbtn24" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn24" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+											</Button>
+											<Button name="$parentbtn27" inherits="DMinstrelButtonGObject" id="27">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Revendreth_DemonHunter"/>
+												</KeyValues>
+												<Anchors>
+													<Anchor relativeTo="$parentbtn25" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn25" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+											</Button>
+											<Button name="$parentbtn28" inherits="DMinstrelButtonGObject" id="28">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Revendreth_DemonHunter"/>
+												</KeyValues>
+												<Anchors>
+													<Anchor relativeTo="$parentbtn26" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn26" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+											</Button>
+											<Button name="$parentbtn29" inherits="DMinstrelButtonGObject" id="29">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Revendreth_DemonHunter"/>
+												</KeyValues>
+												<Anchors>
+													<Anchor relativeTo="$parentbtn27" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn27" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+											</Button>
+											<Button name="$parentbtn30" inherits="DMinstrelButtonGObject" id="30">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Revendreth_DemonHunter"/>
+												</KeyValues>
+												<Anchors>
+													<Anchor relativeTo="$parentbtn28" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn28" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+											</Button>
+											<Button name="$parentbtn31" inherits="DMinstrelButtonGObject" id="31">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Revendreth_DemonHunter"/>
+												</KeyValues>
+												<Anchors>
+													<Anchor relativeTo="$parentbtn29" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn29" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+											</Button>
+											<Button name="$parentbtn32" inherits="DMinstrelButtonGObject" id="32">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Revendreth_DemonHunter"/>
+												</KeyValues>
+												<Anchors>
+													<Anchor relativeTo="$parentbtn30" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn30" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+											</Button>
+											<Button name="$parentbtn33" inherits="DMinstrelButtonGObject" id="33">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Revendreth_DemonHunter"/>
+												</KeyValues>
+												<Anchors>
+													<Anchor relativeTo="$parentbtn31" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn31" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+											</Button>
+											<Button name="$parentbtn34" inherits="DMinstrelButtonGObject" id="34">
+												<KeyValues>
+													<KeyValue key="IconText" value="Ability_Revendreth_DemonHunter"/>
+												</KeyValues>
+												<Anchors>
+													<Anchor relativeTo="$parentbtn32" point="TOPLEFT" relativePoint="BOTTOMLEFT" x="0" y="-3"/>
+													<Anchor relativeTo="$parentbtn32" point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="0" y="-3"/>
+												</Anchors>
+											</Button>
 										</Frames>
 									</Frame>
 								</ScrollChild>
@@ -1933,6 +2050,17 @@
 					</Button>
 				</Frames>
 			</Frame>
+			<Button parentKey="Target" inherits="NPCViewButton" text="Таргет">
+				<Size x="120" y="24"/>
+				<Anchors>
+					<Anchor point="BOTTOM" y="6"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						DMinstrel:SendMinstrelMessage(".min gob tar")
+					</OnClick>
+				</Scripts>
+			</Button>
 		</Frames>
 		<Scripts>
 			<OnLoad>

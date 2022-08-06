@@ -101,6 +101,7 @@ function MangLinkifier_Link(orgtxt, id, type)
       table.insert(chunks, s);
     end
     link = orgtxt.. " - |cff" .. urlcolor .. "|Hmingobtarmmove:" .. chunks[1] .. "|h["..Locale["lfer_MMove"].."]|h|r "
+    link = link.. " - |cff" .. urlcolor .. "|Hmactgoguid" .. chunks[1] .. "|h["..Locale["lfer_Activate"].."]|h|r "
     link = link.. " - |cff" .. urlcolor .. "|Hmingobtarmspawn:" .. chunks[2] .. "|h["..Locale["lfer_MSpawn"].."]|h|r "
     link = link.. " - |cff" .. urlcolor .. "|Hmingobtarmdel:" .. chunks[1] .. "|h["..Locale["lfer_MDel"].."]|h|r "
   elseif (type == "minoritent") then
@@ -169,8 +170,11 @@ function MangLinkifier_SetItemRef(link, text, button)
   elseif ( strsub(link, 1, 7) == "addgoid" ) then
     DMinstrel:SendMinstrelMessage(".minstrel gobject add "..strsub(link, 9))
     return;
+  elseif ( strsub(link, 1, 10) == "mactgoguid" ) then
+    DMinstrel:SendMinstrelMessage(".min gob act "..strsub(link, 11))
+    return;
   elseif ( strsub(link, 1, 9) == "actgoguid" ) then
-    DMinstrel:SendMinstrelMessage(".minstrel gobject activate "..strsub(link, 11))
+    DMinstrel:SendMinstrelMessage(".min gob act "..strsub(link, 11))
     return;
   elseif ( strsub(link, 1, 11) == "lookupgoadd" ) then
     DMinstrel:SendMinstrelMessage(".minstrel gobject add "..strsub(link, 13), say, nil, nil)

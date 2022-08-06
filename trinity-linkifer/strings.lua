@@ -93,6 +93,11 @@ function ReturnStrings_ruRU()
     ["lfer_GOBTarGuid2"] = ".+GUID: (%d+) ID: (%d+)",
     ["lfer_GOBTarGuid3"] = "GUID: %1 ID: %2",
 
+    ----------====~~ GOB Near Command Match Text ~~====----------
+    ["lfer_GOBTarAct1"] = "GUID: (%d+) ID: (%d+)",
+    ["lfer_GOBTarAct2"] = ".+GUID: (%d+) ID: (%d+)",
+    ["lfer_GOBTarAct3"] = "GUID: %1 ID: %2",
+
     ["lfer_GOBTarOrientation1"] = "Orientation: (%d+%.%d+)",
     ["lfer_GOBTarOrientation2"] = "Orientation: %1",
     ----------====~~ Activate GO Command Match Text ~~====----------

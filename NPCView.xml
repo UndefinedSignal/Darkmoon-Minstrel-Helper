@@ -7,6 +7,13 @@
         </Anchors>
 
         <Layers>
+            <Layer level="OVERLAY">
+                <FontString parentKey="MainTitle" inherits="QuestFont_Enormous" text="Каталог НИП" justifyH="CENTER" justifyV="MIDDLE" wordwrap="true">
+                    <Anchors>
+                        <Anchor point="TOP" y="-2"/>
+                    </Anchors>
+                </FontString>
+            </Layer>
             <Layer level="BACKGROUND">
 				<Texture parentKey="bg" atlas="auctionhouse-background-index">
                     <Color r="1" g="1" b="1" a="0.8"/>
@@ -42,7 +49,18 @@
                     <Anchor point="BOTTOMRIGHT"/>
                 </Anchors>
             </Frame>
-             <Button parentKey="SwitchLeft" inherits="NPCViewButton" text="Предыдущая">
+            <Button parentKey="SwitchFavourites" inherits="NPCViewButton" text="Избранное">
+                <Size x="140" y="32"/>
+                <Anchors>
+                    <Anchor point="TOPLEFT" x="10" y="-5"/>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        DMinstrel:SwitchFavourites(self);
+                    </OnClick>
+                </Scripts>
+            </Button>
+            <Button parentKey="SwitchLeft" inherits="NPCViewButton" text="Предыдущая">
                 <Size x="180" y="32"/>
                 <Anchors>
                     <Anchor point="BOTTOM" x="-140" y="15"/>
@@ -149,6 +167,9 @@
 				tinsert(UISpecialFrames, self:GetName());
 				self:RegisterForDrag("LeftButton");
 			</OnLoad>
+            <OnShow>
+                DMinstrel:ModelScreenUpdate();
+            </OnShow>
             <OnDragStart>
 				self:StartMoving();
 			</OnDragStart>

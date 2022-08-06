@@ -34,6 +34,8 @@ DMinstrel.MyLevel = 0;
 DMinstrel.MinstrelText = "";
 DMinstrel.Timers = {};
 DMinstrel.ReEnableFrame = nil;
+DMinstrel.dataProvider = {}
+DMinstrel.dataProvider.selectedIconID = 0;
 
 DMinstrel.GOBInfo = { ["LastGuid"] = "",
 						["Orientation"] = "",
@@ -43,7 +45,6 @@ DMinstrel.GOBInfo = { ["LastGuid"] = "",
 						["StartX"] = "",
 						["StartY"] = "",
 						["StartZ"] = ""}
-
 
 C_ChatInfo.RegisterAddonMessagePrefix(DMinstrel.Prefix)
 DMinstrel.Commands = {};
@@ -92,30 +93,54 @@ DMinstrel.NPC[24] = {"Убрать НИП'а", ".min npc del"};
 
 if (DMinstrelGOBSave == nil or #DMinstrelGOBSave <= 0) then
 	DMinstrelGOBSave = {};
-	DMinstrelGOBSave[1] = {"Огонь", ".min gob add 726147"};
-	DMinstrelGOBSave[2] = {"Кровь", ".min gob add 739410"};
-	DMinstrelGOBSave[3] = {"Красная руна", ".min gob add 724851"};
-	DMinstrelGOBSave[4] = {"Синяя руна", ".min gob add 713694"};
-	DMinstrelGOBSave[5] = {"Таргет", ".min gob tar"};
-	DMinstrelGOBSave[6] = {"Ящик", ".min gob add 741496"};
-	DMinstrelGOBSave[7] = {"Красный кристалл", ".min gob add 709940"};
-	DMinstrelGOBSave[8] = {"Деревяная ограда", ".min gob add 718467"};
-	DMinstrelGOBSave[9] = {"Капкан", ".min gob add 714992"};
-	DMinstrelGOBSave[10] = {"Мусор", ".min gob add 718634"};
-	DMinstrelGOBSave[11] = {"Обычный стол", ".min gob add 728267"};
-	DMinstrelGOBSave[12] = {"Стог сена", ".min gob add 726959"};
-	DMinstrelGOBSave[13] = {"Кусты", ".min gob add 708487"};
-	DMinstrelGOBSave[14] = {"Удобное кресло", ".min gob add 738477"};
-	DMinstrelGOBSave[15] = {"Простой табурет", ".min gob add 728933"};
-	DMinstrelGOBSave[16] = {"Горшок зелени", ".min gob add 730574"};
-	DMinstrelGOBSave[17] = {"Сеть", ".min gob add 739159"};
-	DMinstrelGOBSave[18] = {"Бревно-скамья", ".min gob add 712354"};
-	DMinstrelGOBSave[19] = {"Костёр", ".min gob add 739396"};
-	DMinstrelGOBSave[20] = {"Палатка", ".min gob add 711377"};
-	DMinstrelGOBSave[21] = {"Спальный мешок", ".min gob add 723887"};
-	DMinstrelGOBSave[22] = {"Удобный диван", ".min gob add 738311"};
-	DMinstrelGOBSave[23] = {"Туман", ".min gob add 720522"};
-	DMinstrelGOBSave[24] = {"Удалить все свои объекты", ".min reset object"};
+	DMinstrelGOBSave[1] = {"Огонь", ".min gob add 726147", "132839"};
+	DMinstrelGOBSave[2] = {"Кровь", ".min gob add 739410", "136168"};
+	DMinstrelGOBSave[3] = {"Красная руна", ".min gob add 724851", "252270"};
+	DMinstrelGOBSave[4] = {"Синяя руна", ".min gob add 713694", "4005152"};
+	DMinstrelGOBSave[5] = {"Таргет", ".min gob tar", "236188"};
+	DMinstrelGOBSave[6] = {"Ящик", ".min gob add 741496", "132764"};
+	DMinstrelGOBSave[7] = {"Красный кристалл", ".min gob add 709940", "132787"};
+	DMinstrelGOBSave[8] = {"Деревяная ограда", ".min gob add 718467", "3192685"};
+	DMinstrelGOBSave[9] = {"Капкан", ".min gob add 714992", "3192685"};
+	DMinstrelGOBSave[10] = {"Мусор", ".min gob add 718634", "3192685"};
+	DMinstrelGOBSave[11] = {"Обычный стол", ".min gob add 728267", "3192685"};
+	DMinstrelGOBSave[12] = {"Стог сена", ".min gob add 726959", "3192685"};
+	DMinstrelGOBSave[13] = {"Кусты", ".min gob add 708487", "3192685"};
+	DMinstrelGOBSave[14] = {"Удобное кресло", ".min gob add 738477", "3192685"};
+	DMinstrelGOBSave[15] = {"Простой табурет", ".min gob add 728933", "3192685"};
+	DMinstrelGOBSave[16] = {"Горшок зелени", ".min gob add 730574", "3192685"};
+	DMinstrelGOBSave[17] = {"Сеть", ".min gob add 739159", "3192685"};
+	DMinstrelGOBSave[18] = {"Бревно-скамья", ".min gob add 712354", "3192685"};
+	DMinstrelGOBSave[19] = {"Костёр", ".min gob add 739396", "3192685"};
+	DMinstrelGOBSave[20] = {"Палатка", ".min gob add 711377", "3192685"};
+	DMinstrelGOBSave[21] = {"Спальный мешок", ".min gob add 723887", "3192685"};
+	DMinstrelGOBSave[22] = {"Удобный диван", ".min gob add 738311", "3192685"};
+	DMinstrelGOBSave[23] = {"Туман", ".min gob add 720522", "132331"};
+	DMinstrelGOBSave[24] = {"Удалить все свои объекты", ".min reset object", "3565717"};
+	DMinstrelGOBSave[25] = {"Пустой макрос", "Измени меня", "1029723"};
+	DMinstrelGOBSave[26] = {"Пустой макрос", "Измени меня", "1029723"};
+	DMinstrelGOBSave[27] = {"Пустой макрос", "Измени меня", "1029723"};
+	DMinstrelGOBSave[28] = {"Пустой макрос", "Измени меня", "1029723"};
+	DMinstrelGOBSave[29] = {"Пустой макрос", "Измени меня", "1029723"};
+	DMinstrelGOBSave[30] = {"Пустой макрос", "Измени меня", "1029723"};
+	DMinstrelGOBSave[31] = {"Пустой макрос", "Измени меня", "1029723"};
+	DMinstrelGOBSave[32] = {"Пустой макрос", "Измени меня", "1029723"};
+	DMinstrelGOBSave[33] = {"Пустой макрос", "Измени меня", "1029723"};
+	DMinstrelGOBSave[34] = {"Пустой макрос", "Измени меня", "1029723"};
+end
+
+function DMinstrel:DMinstrelGOBFix()
+	local fixnum = { "132839", "136168", "252270", "4005152", "236188", "132764", "132787", "3192685", "3192685", "3192685", "3192685", "3192685", "3192685", "3192685", "3192685", "3192685", "3192685", "3192685", "3192685", "3192685", "3192685", "3192685", "132331", "3565717"}
+	if(#DMinstrelGOBSave[1] == 2) then
+		for i = 1, #DMinstrelGOBSave do
+			DMinstrelGOBSave[i][3] = fixnum[i] or "1778229";
+		end
+	end
+	if(#DMinstrelGOBSave < 34)then
+		for i = 25, 34 do
+			DMinstrelGOBSave[i] = {"Пустой макрос", "Измени меня", "1029723"};
+		end
+	end
 end
 
 if (DMinstrelSave == nil or #DMinstrelSave <= 0) then
@@ -146,6 +171,16 @@ function DMinstrel:InitializeHooks()
 	end
 end
 
+function DMinstrel:ProcessIconBrowser(icon)
+	DMA_MacrosEditorFrame.dataProvider.selectedIconID = tonumber(DMA_MacrosEditorFrame.currentMacros.iconID) or 0;
+	RPSCoreFramework:ShowIconBrowser(icon, DMA.MacrosChangeIconCallback, {RPSCoreFramework.IconsMode.ICON_MODE, RPSCoreFramework.IconsMode.INSTANCE_MODE}, DMA_MacrosEditorFrame.dataProvider);
+end
+
+function DMinstrel:ShowIconSelector(frame)
+	DMinstrel.DataProvider.Icons.StylizingFrameTex = frame;
+	DMinstrel.DataProvider.Icons.Frame:Show();
+end
+
 function DMinstrel:BigButtonGameTooltipTextUpdate()
 	if (DMinstrel.MyLevel > 1) then
 		DMinstrel.MinstrelText = "Привет! Тебе доступен полный функционал менестреля.|nЕсли у тебя есть какие-то проблемы или вопросы то|nсмело заходи на дискорд-сервер проекта Darkmoon и пиши о них.";
@@ -170,6 +205,7 @@ DMinstrel.HOOK:SetScript("OnEvent", function(self, event, prefix, msg, channel, 
 			DMinstrel:InitializeHooks();
 		elseif(prefix == "DMinstrel") then
 			DMinstrel:AddMinimapIcon();
+			DMinstrel:DMinstrelGOBFix();
 		end
 	elseif(event == "CHAT_MSG_ADDON") then
 		if (sender == (GetUnitName("player").."-"..string.gsub(GetRealmName(), " ", ""))) then
@@ -302,7 +338,7 @@ function DMinstrel:ChangeContent(window)
 		--DMinstrelUI:Hide();
 		DMinstrelMacrosEdit:Hide();
 		DMinstrelObjectEdit:Hide();
-		DMinstrel:ProcessDMinstrelMorph();
+		DMinstrel:SwitchWindow();
 		return
 	end
 	DMinstrelUIContentCommands:Hide();
@@ -561,6 +597,7 @@ StaticPopupDialogs["DMinstrelObjectEdit"] = {
 	OnAccept = function (self, data)
 		DMinstrelGOBSave[DMinstrel.ActiveObjectButton][2] = data[1];
 		DMinstrelGOBSave[DMinstrel.ActiveObjectButton][1] = data[2];
+		DMinstrelGOBSave[DMinstrel.ActiveObjectButton][3] = tostring(DMinstrel.DataProvider.Icons.StylizingFrameTex.IconID);
 		DMinstrelUI:Hide(); -- Нужно чтобы обновить текст
 		DMinstrelUI:Show();
 		DMinstrelObjectEdit:Hide();
@@ -581,3 +618,8 @@ SlashCmdList["DMINSAY"] = function ()
 end
 SLASH_DMINSAY1 = '/msay'
 SLASH_DMINSAY2 = '/npcsay'
+
+SlashCmdList["DMINNPC"] = function ()
+    DMinstrel:switchNPCSayFrame();
+end
+SLASH_DMINNPC1 = '/mnpc'
