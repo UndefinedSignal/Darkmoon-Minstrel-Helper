@@ -23,7 +23,7 @@
 ##    ░░▓▓░░      ░░░░▒▒▒▒▒▒▒▒▓▓▓▓▓▓██████████▓▓▒▒▒▒░░░░░░░░      ▒▒▒▒▒▒▒▒        
 ##                                ░░░░░░░░░░░░░░░░░░                ░░▒▒▓▓▒▒░░▒▒░░      
 ## Title: Darkmoon Minstrel Helper
-## Author: TestUnit, ludwici, SeMGa!
+## Author: TestUnit, ludwici, -SeMGa!
 ## Version: 1.1 Lizard
 ## Notes: This addon was created for work with Darkmoon minstrel commands
 ## Name: Darkmoon Minstrel Helper
