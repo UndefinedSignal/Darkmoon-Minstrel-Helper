@@ -206,6 +206,9 @@ DMinstrel.HOOK:SetScript("OnEvent", function(self, event, prefix, msg, channel, 
 		elseif(prefix == "DMinstrel") then
 			DMinstrel:AddMinimapIcon();
 			DMinstrel:DMinstrelGOBFix();
+		elseif(prefix == "DMA") then
+			message("Аддоны DMA и DMinstrel не могут работать вместе. DMinstrel будет отключён.");
+			DisableAddOn("DMinstrel");
 		end
 	elseif(event == "CHAT_MSG_ADDON") then
 		if (sender == (GetUnitName("player").."-"..string.gsub(GetRealmName(), " ", ""))) then
@@ -524,29 +527,115 @@ function DMinstrel:UpdateGOBInterface()
 	DMinstrelGOBCoordZText:SetText(DMinstrel.GOBInfo["StartZ"]);
 end
 
-function DMinstrel:HandleGOBMove(button)
+function DMinstrel:HandleGOBMoveClear()
+	DMinstrelGOBGUIDText:SetText("");
+	DMinstrelGOBSizeText:SetText("1.0");
+	DMinstrelGOBCoordXText:SetText("");
+	DMinstrelGOBCoordYText:SetText("");
+	DMinstrelGOBCoordZText:SetText("");
+	DMinstrelGOBValueYawText:SetText("0");
+	DMinstrelGOBValuePitchText:SetText("0");
+	DMinstrelGOBValueRollText:SetText("0");
+end
+
+function DMinstrel:HandleGOBMoveDelete()
+	local GUID = DMinstrelGOBGUIDText:GetText();
+	local msg = ".min gob del "..GUID;
+	DMinstrel:SendMinstrelMessage(msg);
+	DMinstrel:HandleGOBMoveClear();
+end
+
+function DMinstrel:HandleGOBMoveEditFocusLost(frame)
+	local msg = "";
 	local GUID = DMinstrelGOBGUIDText:GetText();
 	local VALUE = DMinstrelGOBValueSizeText:GetText();
 	local SIZE = DMinstrelGOBSizeText:GetText();
 	local COORDX = DMinstrelGOBCoordXText:GetText();
 	local COORDY = DMinstrelGOBCoordYText:GetText();
 	local COORDZ = DMinstrelGOBCoordZText:GetText();
+	local YAW = DMinstrelGOBValueYawText:GetText();
+	local PITCH = DMinstrelGOBValuePitchText:GetText();
+	local ROLL = DMinstrelGOBValueRollText:GetText();
+
+	if(frame.set == "SIZE")then
+		msg = ".min gob set scale "..GUID.." "..SIZE;
+	elseif(frame.set == "COORDX" or frame.set == "COORDY" or frame.set == "COORDZ")then
+		msg = ".min gob move "..GUID.." "..COORDX.." "..COORDY.." "..COORDZ;
+	elseif(frame.set == "YAW" or frame.set == "PITCH" or frame.set == "ROLL")then
+		msg = ".min gob turn "..GUID.." "..math.rad(YAW).." "..math.rad(PITCH).." "..math.rad(ROLL);
+	end
+
+	DMinstrel:SendMinstrelMessage(msg);
+end
+
+function DMinstrel:HandleGOBMove(button)
+	local msg = ""
+	local isMove = false;
+	local isSpin = false;
+	local GUID = DMinstrelGOBGUIDText:GetText();
+	local VALUE = DMinstrelGOBValueSizeText:GetText();
+	local SIZE = DMinstrelGOBSizeText:GetText();
+	local COORDX = DMinstrelGOBCoordXText:GetText();
+	local COORDY = DMinstrelGOBCoordYText:GetText();
+	local COORDZ = DMinstrelGOBCoordZText:GetText();
+	local YAW = DMinstrelGOBValueYawText:GetText();
+	local PITCH = DMinstrelGOBValuePitchText:GetText();
+	local ROLL = DMinstrelGOBValueRollText:GetText();
 
 	if(button.operation == "Decr") then
 		VALUE = -VALUE;
 	end
-
 	if(button.set == "X")then
-		DMinstrelGOBCoordXText:SetText(tonumber(COORDX) + tonumber(VALUE))
+		DMinstrelGOBCoordXText:SetText(tonumber(COORDX) + tonumber(VALUE));
+		isMove = true;
 	elseif(button.set == "Y")then
-		DMinstrelGOBCoordYText:SetText(tonumber(COORDY) + tonumber(VALUE))
+		DMinstrelGOBCoordYText:SetText(tonumber(COORDY) + tonumber(VALUE));
+		isMove = true;
 	elseif(button.set == "Z")then
-		DMinstrelGOBCoordZText:SetText(tonumber(COORDZ) + tonumber(VALUE))
+		DMinstrelGOBCoordZText:SetText(tonumber(COORDZ) + tonumber(VALUE));
+		isMove = true;
 	elseif(button.set == "S")then
-		DMinstrelGOBSizeText:SetText(tonumber(SIZE) + tonumber(VALUE))
+		DMinstrelGOBSizeText:SetText(tonumber(SIZE) + tonumber(VALUE));
+		isMove = false;
+		isSpin = false;
+	elseif(button.set == "Yaw")then
+		DMinstrelGOBValueYawText:SetText(tonumber(YAW) + tonumber(VALUE));
+		isSpin = true;
+	elseif(button.set == "Pitch")then
+		DMinstrelGOBValuePitchText:SetText(tonumber(PITCH) + tonumber(VALUE));
+		isSpin = true;
+	elseif(button.set == "Roll")then
+		DMinstrelGOBValueRollText:SetText(tonumber(ROLL) + tonumber(VALUE));
+		isSpin = true;
 	end
-	
-	local msg = ".min gob move "..DMinstrelGOBGUIDText:GetText().." "..DMinstrelGOBCoordXText:GetText().." "..DMinstrelGOBCoordYText:GetText().." "..DMinstrelGOBCoordZText:GetText();
+	if(button.set == "Pitch")then
+		isSpin = true;
+	elseif(button.set == "Yaw")then
+		isSpin = true;
+	elseif(button.set == "Roll")then
+		isSpin = true;
+	end
+
+	GUID = DMinstrelGOBGUIDText:GetText();
+	VALUE = DMinstrelGOBValueSizeText:GetText();
+	SIZE = DMinstrelGOBSizeText:GetText();
+	COORDX = DMinstrelGOBCoordXText:GetText();
+	COORDY = DMinstrelGOBCoordYText:GetText();
+	COORDZ = DMinstrelGOBCoordZText:GetText();
+
+	YAW = DMinstrelGOBValueYawText:GetText();
+	PITCH = DMinstrelGOBValuePitchText:GetText();
+	ROLL = DMinstrelGOBValueRollText:GetText();
+
+	if(isMove)then
+		msg = ".min gob move "..GUID.." "..COORDX.." "..COORDY.." "..COORDZ;
+	end
+	if(isSpin)then
+		msg = ".min gob turn "..GUID.." "..math.rad(YAW).." "..math.rad(PITCH).." "..math.rad(ROLL);
+	end
+	if(not isSpin and not isMove)then
+		msg = ".min gob set scale "..GUID.." "..SIZE;
+	end
 	DMinstrel:SendMinstrelMessage(msg)
 end
 
@@ -613,13 +702,23 @@ StaticPopupDialogs["DMinstrelObjectEdit"] = {
 
 print("Аддон |cff008C80DMinstrel|r загружен!|nПриятного пользования.");
 
-SlashCmdList["DMINSAY"] = function ()
-    DMinstrel:switchNPCSayFrame();
+SlashCmdList["DMIN"] = function (arg)
+    if(arg == "npcsay")then
+		DMinstrel:switchNPCSayFrame();
+	elseif(arg == "say")then
+		DMinstrel:switchNPCSayFrame();
+	elseif(arg == "npcview")then
+		DMinstrel:SwitchWindow();
+	elseif(arg == "npc")then
+		DMinstrel:SwitchWindow();
+	elseif(arg == "view")then
+		DMinstrel:SwitchWindow();
+	elseif(arg == "obj")then
+		DMinstrel:switchGOBMoveFrame();
+	elseif(arg == "object")then
+		DMinstrel:switchGOBMoveFrame();
+	else
+		DMinstrel:switchMainFrame();
+	end
 end
-SLASH_DMINSAY1 = '/msay'
-SLASH_DMINSAY2 = '/npcsay'
-
-SlashCmdList["DMINNPC"] = function ()
-    DMinstrel:switchNPCSayFrame();
-end
-SLASH_DMINNPC1 = '/mnpc'
+SLASH_DMIN1 = '/dmin'

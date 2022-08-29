@@ -1718,13 +1718,14 @@
 		<Backdrop edgeFile="Interface\Tooltips\UI-Tooltip-Border">
 			<EdgeSize val="12"/>
 		</Backdrop>
-		<Size x="180" y="260"/>
+		<Size x="180" y="330"/>
 		<Anchors>
 			<Anchor point="CENTER"/>
 		</Anchors>
 		<Layers>
 			<Layer level="BACKGROUND">
 				<Texture parentKey="bg" atlas="auctionhouse-background-index">
+					<Color r="1" g="1" b="1" a="0.45"/>
 					<Anchors>
 						<Anchor point="TOPLEFT" realtiveTo="$parent" relativePoint="TOPLEFT" x="3" y="0"/>
 						<Anchor point="BOTTOMRIGHT" realtiveTo="$parent" relativePoint="BOTTOMRIGHT" x="0" y="3"/>
@@ -1745,6 +1746,9 @@
 				</Scripts>
 			</Button>
 			<Frame name="$parentGUID" inherits="DMIN_EditBOX">
+				<KeyValues>
+					<KeyValue key="set" value="GUID"/>
+				</KeyValues>
 				<Size x="150" y="28"/>
 				<Anchors>
 					<Anchor point="TOPLEFT" x="15" y="-20"/>
@@ -1772,6 +1776,9 @@
 				</Scripts>
 			</Frame>
 			<Frame name="$parentValueSize" inherits="DMIN_EditBOX" >
+				<KeyValues>
+					<KeyValue key="set" value="SIZE"/>
+				</KeyValues>
 				<Size x="55" y="28"/>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentGUID" relativePoint="BOTTOMLEFT"  x="0" y="-17"/>
@@ -1801,6 +1808,9 @@
 				</Scripts>
 			</Frame>
 			<Frame name="$parentSize" inherits="DMIN_EditBOX">
+				<KeyValues>
+					<KeyValue key="set" value="SIZE"/>
+				</KeyValues>
 				<Size x="65" y="28"/>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentValueSize" relativePoint="TOPRIGHT"  x="3" y="0"/>
@@ -1868,6 +1878,9 @@
 				</Scripts>
 			</Frame>
 			<Frame name="$parentCoordX" inherits="DMIN_EditBOX">
+				<KeyValues>
+					<KeyValue key="set" value="COORDX"/>
+				</KeyValues>
 				<Size x="125" y="28"/>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentValueSize" relativePoint="BOTTOMLEFT"  x="0" y="-17"/>
@@ -1929,6 +1942,9 @@
 				</Frames>
 			</Frame>
 			<Frame name="$parentCoordY" inherits="DMIN_EditBOX">
+				<KeyValues>
+					<KeyValue key="set" value="COORDY"/>
+				</KeyValues>
 				<Size x="125" y="28"/>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentCoordX" relativePoint="BOTTOMLEFT"  x="0" y="-17"/>
@@ -1990,6 +2006,9 @@
 				</Frames>
 			</Frame>
 			<Frame name="$parentCoordZ" inherits="DMIN_EditBOX">
+				<KeyValues>
+					<KeyValue key="set" value="COORDZ"/>
+				</KeyValues>
 				<Size x="125" y="28"/>
 				<Anchors>
 					<Anchor point="TOPLEFT" relativeTo="$parentCoordY" relativePoint="BOTTOMLEFT"  x="0" y="-17"/>
@@ -2050,14 +2069,241 @@
 					</Button>
 				</Frames>
 			</Frame>
-			<Button parentKey="Target" inherits="NPCViewButton" text="Таргет">
-				<Size x="120" y="24"/>
+			<Frame name="$parentValueYaw" inherits="DMIN_EditBOX" >
+				<KeyValues>
+					<KeyValue key="set" value="YAW"/>
+				</KeyValues>
+				<Size x="48" y="28"/>
 				<Anchors>
-					<Anchor point="BOTTOM" y="6"/>
+					<Anchor point="BOTTOMLEFT" x="15" y="56"/>
+				</Anchors>
+				<Layers>
+					<Layer>
+						<FontString parentKey="Title" inherits="QuestFont" text="Рыскание" justifyH="CENTER">
+							<Color r="1" g="1" b="1" a="1"/>
+							<FontHeight val="8"/>
+							<Anchors>
+								<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="0" />
+							</Anchors>
+							<Shadow>
+								<Offset x="1" y="1" />
+								<Color r="0" g="0" b="0"/>
+							</Shadow>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						local editFrame = _G[self:GetName().."Text"];
+						editFrame:SetNumeric();
+						editFrame:SetText("0");
+						editFrame:SetMaxLetters(3);
+					</OnLoad>
+				</Scripts>
+				<Frames>
+					<Button parentKey="Increment" inherits="CountControl">
+						<KeyValues>
+							<KeyValue key="set" value="Yaw"/>
+							<KeyValue key="operation" value="Incr"/>
+						</KeyValues>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" x="5" y="0"/>
+						</Anchors>
+						<NormalTexture file="Interface\Buttons\UI-PlusButton-Up"/>
+						<PushedTexture file="Interface\Buttons\UI-PlusButton-Down"/>
+						<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+						<Scripts>
+							<OnEnter>
+								GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+								GameTooltip:AddLine("|cFFFFFFFFУвеличить переменную|r");
+								GameTooltip:Show();
+							</OnEnter>
+						</Scripts>
+					</Button>
+					<Button parentKey="Decrement" inherits="CountControl">
+						<KeyValues>
+							<KeyValue key="set" value="Yaw"/>
+							<KeyValue key="operation" value="Decr"/>
+						</KeyValues>
+						<Anchors>
+							<Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="-5" y="0"/>
+						</Anchors>
+						<NormalTexture file="Interface\Buttons\UI-MinusButton-Up"/>
+						<PushedTexture file="Interface\Buttons\UI-MinusButton-Down"/>
+						<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+						<Scripts>
+							<OnEnter>
+								GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+								GameTooltip:AddLine("|cFFFFFFFFУменьшить переменную|r");
+								GameTooltip:Show();
+							</OnEnter>
+						</Scripts>
+					</Button>
+				</Frames>
+			</Frame>
+			<Frame name="$parentValuePitch" inherits="DMIN_EditBOX" >
+				<KeyValues>
+					<KeyValue key="set" value="PITCH"/>
+				</KeyValues>
+				<Size x="48" y="28"/>
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentValueYaw" relativePoint="RIGHT" x="5" y="0"/>
+				</Anchors>
+				<Layers>
+					<Layer>
+						<FontString parentKey="Title" inherits="QuestFont" text="Тангаж" justifyH="CENTER">
+							<Color r="1" g="1" b="1" a="1"/>
+							<FontHeight val="8"/>
+							<Anchors>
+								<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="0" />
+							</Anchors>
+							<Shadow>
+								<Offset x="1" y="1" />
+								<Color r="0" g="0" b="0"/>
+							</Shadow>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						local editFrame = _G[self:GetName().."Text"];
+						editFrame:SetNumeric();
+						editFrame:SetText("0");
+						editFrame:SetMaxLetters(3);
+					</OnLoad>
+				</Scripts>
+				<Frames>
+					<Button parentKey="Increment" inherits="CountControl">
+						<KeyValues>
+							<KeyValue key="set" value="Pitch"/>
+							<KeyValue key="operation" value="Incr"/>
+						</KeyValues>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" x="5" y="0"/>
+						</Anchors>
+						<NormalTexture file="Interface\Buttons\UI-PlusButton-Up"/>
+						<PushedTexture file="Interface\Buttons\UI-PlusButton-Down"/>
+						<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+						<Scripts>
+							<OnEnter>
+								GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+								GameTooltip:AddLine("|cFFFFFFFFУвеличить переменную|r");
+								GameTooltip:Show();
+							</OnEnter>
+						</Scripts>
+					</Button>
+					<Button parentKey="Decrement" inherits="CountControl">
+						<KeyValues>
+							<KeyValue key="set" value="Pitch"/>
+							<KeyValue key="operation" value="Decr"/>
+						</KeyValues>
+						<Anchors>
+							<Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="-5" y="0"/>
+						</Anchors>
+						<NormalTexture file="Interface\Buttons\UI-MinusButton-Up"/>
+						<PushedTexture file="Interface\Buttons\UI-MinusButton-Down"/>
+						<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+						<Scripts>
+							<OnEnter>
+								GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+								GameTooltip:AddLine("|cFFFFFFFFУменьшить переменную|r");
+								GameTooltip:Show();
+							</OnEnter>
+						</Scripts>
+					</Button>
+				</Frames>
+			</Frame>
+			<Frame name="$parentValueRoll" inherits="DMIN_EditBOX" >
+				<KeyValues>
+					<KeyValue key="set" value="ROLL"/>
+				</KeyValues>
+				<Size x="48" y="28"/>
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parentValuePitch" relativePoint="RIGHT" x="5" y="0"/>
+				</Anchors>
+				<Layers>
+					<Layer>
+						<FontString parentKey="Title" inherits="QuestFont" text="Крен" justifyH="CENTER">
+							<Color r="1" g="1" b="1" a="1"/>
+							<FontHeight val="8"/>
+							<Anchors>
+								<Anchor point="BOTTOM" relativePoint="TOP" x="0" y="0" />
+							</Anchors>
+							<Shadow>
+								<Offset x="1" y="1" />
+								<Color r="0" g="0" b="0"/>
+							</Shadow>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnLoad>
+						local editFrame = _G[self:GetName().."Text"];
+						editFrame:SetNumeric();
+						editFrame:SetText("0");
+						editFrame:SetMaxLetters(3);
+					</OnLoad>
+				</Scripts>
+				<Frames>
+					<Button parentKey="Increment" inherits="CountControl">
+						<KeyValues>
+							<KeyValue key="set" value="Roll"/>
+							<KeyValue key="operation" value="Incr"/>
+						</KeyValues>
+						<Anchors>
+							<Anchor point="TOPLEFT" relativePoint="BOTTOMLEFT" x="5" y="0"/>
+						</Anchors>
+						<NormalTexture file="Interface\Buttons\UI-PlusButton-Up"/>
+						<PushedTexture file="Interface\Buttons\UI-PlusButton-Down"/>
+						<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+						<Scripts>
+							<OnEnter>
+								GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+								GameTooltip:AddLine("|cFFFFFFFFУвеличить переменную|r");
+								GameTooltip:Show();
+							</OnEnter>
+						</Scripts>
+					</Button>
+					<Button parentKey="Decrement" inherits="CountControl">
+						<KeyValues>
+							<KeyValue key="set" value="Roll"/>
+							<KeyValue key="operation" value="Decr"/>
+						</KeyValues>
+						<Anchors>
+							<Anchor point="TOPRIGHT" relativePoint="BOTTOMRIGHT" x="-5" y="0"/>
+						</Anchors>
+						<NormalTexture file="Interface\Buttons\UI-MinusButton-Up"/>
+						<PushedTexture file="Interface\Buttons\UI-MinusButton-Down"/>
+						<HighlightTexture file="Interface\Buttons\UI-PlusButton-Hilight" alphaMode="ADD"/>
+						<Scripts>
+							<OnEnter>
+								GameTooltip:SetOwner(self, "ANCHOR_CURSOR");
+								GameTooltip:AddLine("|cFFFFFFFFУменьшить переменную|r");
+								GameTooltip:Show();
+							</OnEnter>
+						</Scripts>
+					</Button>
+				</Frames>
+			</Frame>
+			<Button parentKey="Target" inherits="NPCViewButton" text="Таргет">
+				<Size x="100" y="24"/>
+				<Anchors>
+					<Anchor point="BOTTOM" x="-30" y="6"/>
 				</Anchors>
 				<Scripts>
 					<OnClick>
 						DMinstrel:SendMinstrelMessage(".min gob tar")
+					</OnClick>
+				</Scripts>
+			</Button>
+			<Button parentKey="Delete" inherits="NPCViewButton" text="Удалить">
+				<Size x="54" y="24"/>
+				<Anchors>
+					<Anchor point="RIGHT" relativeKey="$parent.Target" relarivePoint="LEFT" x="55"/>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						DMinstrel:HandleGOBMoveDelete();
 					</OnClick>
 				</Scripts>
 			</Button>

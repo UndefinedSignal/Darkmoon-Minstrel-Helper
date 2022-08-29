@@ -277,6 +277,7 @@
                 <Scripts>
                     <OnEnterPressed>
                         if(not IsModifierKeyDown()) then
+                            DMinstrel:HandleGOBMoveEditFocusLost(self:GetParent());
                             self:ClearFocus();
                         end
                     </OnEnterPressed>

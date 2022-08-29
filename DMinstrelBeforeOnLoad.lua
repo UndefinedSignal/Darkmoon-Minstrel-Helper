@@ -1,3 +1,8 @@
+if(IsAddOnLoaded("DMA"))then
+	message("Аддоны DMA и DMinstrel не могут работать вместе. DMinstrel будет отключён.");
+	DisableAddOn("DMinstrel");
+end
+
 DMinstrel = LibStub("AceAddon-3.0"):NewAddon(CreateFrame("Frame"), "DMinstrel", "AceConsole-3.0", "AceEvent-3.0", "AceHook-3.0", "AceTimer-3.0");
 DMinstrel.DataProvider = {}
 DMinstrel.DataProvider.Icons = {}

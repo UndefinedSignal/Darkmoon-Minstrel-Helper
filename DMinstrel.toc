@@ -1,4 +1,4 @@
-## Interface: 90015
+## Interface: 90207
 ##                            ░░░░▒▒▒▒░░░░                                   «Это такой style~»   
 ##                    ░░░░▒▒▒▒░░                                ░░░░░░░░░░        
 ##                ░░░░░░░░                                  ░░▒▒▓▓▒▒▒▒▒▒░░        
@@ -24,7 +24,7 @@
 ##                                ░░░░░░░░░░░░░░░░░░                ░░▒▒▓▓▒▒░░▒▒░░      
 ## Title: Darkmoon Minstrel Helper
 ## Author: TestUnit, ludwici, -SeMGa!
-## Version: 1.1 Lizard
+## Version: 1.2 Lizard
 ## Notes: This addon was created for work with Darkmoon minstrel commands
 ## Name: Darkmoon Minstrel Helper
 ## X-Date: 31.07.22
